@@ -45,11 +45,11 @@ namespace XDeploy.Project
 
             if (profile.BackupLocation != null)
             {
-                var backupRootLocation = StorageLocation.Create(profile.BackupLocation.Uri, profile.BackupLocation.UserName, profile.BackupLocation.Password);
-                deployer.BackupLocation = backupRootLocation.GetLocation(new DefaultBackupFolderNameGenerator().Generate(backupRootLocation));
+                var backupRootDirectory = Directories.GetDirectory(profile.BackupLocation.Uri, profile.BackupLocation.UserName, profile.BackupLocation.Password);
+                deployer.BackupDirectory = backupRootDirectory.GetDirectory(new DefaultBackupFolderNameGenerator().Generate(backupRootDirectory));
             }
 
-            deployer.Deploy(StorageLocation.Create(profile.DeployLocation.Uri, profile.DeployLocation.UserName, profile.DeployLocation.Password));
+            deployer.Deploy(Directories.GetDirectory(profile.DeployLocation.Uri, profile.DeployLocation.UserName, profile.DeployLocation.Password));
 
             profile.LastDeployTimeUtc = DateTime.UtcNow;
         }

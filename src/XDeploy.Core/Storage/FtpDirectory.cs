@@ -9,7 +9,7 @@ using System.IO;
 
 namespace XDeploy.Storage
 {
-    public class FtpStorageLocation : IStorageLocation
+    public class FtpDirectory : IDirectory
     {
         private FtpClient _ftpClient;
 
@@ -49,12 +49,12 @@ namespace XDeploy.Storage
             }
         }
 
-        public FtpStorageLocation(string rootUri)
+        public FtpDirectory(string rootUri)
             : this(new Uri(rootUri))
         {
         }
 
-        public FtpStorageLocation(Uri rootUri)
+        public FtpDirectory(Uri rootUri)
         {
             Require.NotNull(rootUri, "rootUri");
 
@@ -63,9 +63,9 @@ namespace XDeploy.Storage
             RootPath = rootUri.AbsolutePath;
         }
 
-        public IStorageLocation GetLocation(string virtualPath)
+        public IDirectory GetDirectory(string virtualPath)
         {
-            var location = new FtpStorageLocation(VirtualPathUtil.Combine(FullName, virtualPath))
+            var location = new FtpDirectory(VirtualPathUtil.Combine(FullName, virtualPath))
             {
                 Credentials = Credentials
             };

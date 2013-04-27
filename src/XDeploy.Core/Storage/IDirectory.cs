@@ -7,7 +7,7 @@ using System.Text;
 
 namespace XDeploy.Storage
 {
-    public interface IStorageLocation : IDisposable
+    public interface IDirectory : IDisposable
     {
         string FullName { get; }
 
@@ -27,6 +27,6 @@ namespace XDeploy.Storage
 
         void StoreFile(FileInfo file, string fileVirtualPath, bool overwrite);
 
-        IStorageLocation GetLocation(string virtualPath);
+        IDirectory GetDirectory(string virtualPath);
     }
 }

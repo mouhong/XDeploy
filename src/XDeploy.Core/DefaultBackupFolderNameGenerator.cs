@@ -11,13 +11,13 @@ namespace XDeploy
     {
         public Func<DateTime> Today = () => DateTime.Today;
 
-        public string Generate(IStorageLocation storageLocation)
+        public string Generate(IDirectory containingDirectory)
         {
             var baseFolderName = Today().ToString("yyyy-MM-dd");
             var folderName = baseFolderName;
             var number = 1;
 
-            while(storageLocation.DirectoryExists(folderName))
+            while(containingDirectory.DirectoryExists(folderName))
             {
                 folderName = baseFolderName + "-" + number.ToString("00");
                 number++;

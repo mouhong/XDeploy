@@ -9,20 +9,20 @@ namespace XDeploy
 {
     public class FileBackuper
     {
-        public void Backup(DeploymentManifest manifest, IStorageLocation deployLocation, IStorageLocation backupLocation)
+        public void Backup(DeploymentManifest manifest, IDirectory deployDirectory, IDirectory backupDirectory)
         {
             Require.NotNull(manifest, "manifest");
-            Require.NotNull(deployLocation, "deployLocation");
-            Require.NotNull(backupLocation, "backupLocation");
+            Require.NotNull(deployDirectory, "deployDirectory");
+            Require.NotNull(backupDirectory, "backupDirectory");
 
             foreach (var file in manifest.FilesToDeploy)
             {
                 var virtualPath = VirtualPathUtil.GetVirtualPath(file, manifest.SourceDirectory);
 
-                if (!deployLocation.FileExists(virtualPath)) continue;
+                if (!deployDirectory.FileExists(virtualPath)) continue;
 
-                using (var fromStream = deployLocation.OpenRead(virtualPath))
-                using (var toStream = backupLocation.OpenWrite(virtualPath))
+                using (var fromStream = deployDirectory.OpenRead(virtualPath))
+                using (var toStream = backupDirectory.OpenWrite(virtualPath))
                 {
                     var count = 0;
                     var buffer = new byte[2048];

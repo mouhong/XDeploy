@@ -8,6 +8,6 @@ namespace XDeploy
 {
     public interface IBackupFolderNameGenerator
     {
-        string Generate(IStorageLocation storageLocation);
+        string Generate(IDirectory containingDirectory);
     }
 }

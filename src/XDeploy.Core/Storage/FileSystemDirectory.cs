@@ -7,7 +7,7 @@ using System.Text;
 
 namespace XDeploy.Storage
 {
-    public class FileSystemStorageLocation : IStorageLocation
+    public class FileSystemDirectory : IDirectory
     {
         public ICredentials Credentials { get; set; }
 
@@ -21,20 +21,20 @@ namespace XDeploy.Storage
             }
         }
 
-        public FileSystemStorageLocation(string rootDirectory)
+        public FileSystemDirectory(string rootDirectory)
             : this(new DirectoryInfo(rootDirectory))
         {
         }
 
-        public FileSystemStorageLocation(DirectoryInfo rootDirectory)
+        public FileSystemDirectory(DirectoryInfo rootDirectory)
         {
             Require.NotNull(rootDirectory, "rootDirectory");
             RootDirectory = rootDirectory;
         }
 
-        public IStorageLocation GetLocation(string virtualPath)
+        public IDirectory GetDirectory(string virtualPath)
         {
-            return new FileSystemStorageLocation(GetPhysicalPath(virtualPath))
+            return new FileSystemDirectory(GetPhysicalPath(virtualPath))
             {
                 Credentials = Credentials
             };

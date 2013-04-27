@@ -57,11 +57,11 @@
     <Compile Include="Project\DeploymentProfile.cs" />
     <Compile Include="Project\DeploymentProject.cs" />
     <Compile Include="Project\Location.cs" />
-    <Compile Include="Storage\StorageLocation.cs" />
-    <Compile Include="Storage\FtpStorageLocation.cs" />
-    <Compile Include="Storage\IStorageLocation.cs" />
+    <Compile Include="Storage\Directories.cs" />
+    <Compile Include="Storage\FtpDirectory.cs" />
+    <Compile Include="Storage\IDirectory.cs" />
     <Compile Include="AbstractIgnorantRule.cs" />
-    <Compile Include="Storage\FileSystemStorageLocation.cs" />
+    <Compile Include="Storage\FileSystemDirectory.cs" />
     <Compile Include="Require.cs" />
     <Compile Include="Utils\VirtualPathUtil.cs" />
   </ItemGroup>

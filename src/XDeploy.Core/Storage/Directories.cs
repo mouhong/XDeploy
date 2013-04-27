@@ -7,14 +7,14 @@ using System.Text;
 
 namespace XDeploy.Storage
 {
-    public static class StorageLocation
+    public static class Directories
     {
-        public static IStorageLocation Create(string uri)
+        public static IDirectory GetDirectory(string uri)
         {
-            return Create(uri, null);
+            return GetDirectory(uri, null);
         }
 
-        public static IStorageLocation Create(string uri, string userName, string password)
+        public static IDirectory GetDirectory(string uri, string userName, string password)
         {
             ICredentials credentials = null;
 
@@ -23,22 +23,22 @@ namespace XDeploy.Storage
                 credentials = new NetworkCredential(userName, password);
             }
 
-            return Create(uri, credentials);
+            return GetDirectory(uri, credentials);
         }
 
-        public static IStorageLocation Create(string uri, ICredentials credentials)
+        public static IDirectory GetDirectory(string uri, ICredentials credentials)
         {
             Require.NotNullOrEmpty(uri, "uri");
 
-            IStorageLocation location = null;
+            IDirectory location = null;
 
             if (uri.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase))
             {
-                location = new FtpStorageLocation(uri);
+                location = new FtpDirectory(uri);
             }
             else
             {
-                location = new FileSystemStorageLocation(new DirectoryInfo(uri));
+                location = new FileSystemDirectory(new DirectoryInfo(uri));
             }
 
             location.Credentials = credentials;

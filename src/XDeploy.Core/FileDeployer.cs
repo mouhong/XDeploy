@@ -12,7 +12,7 @@ namespace XDeploy
     public class FileDeployer
     {
         private DirectoryInfo _sourceDirectory;
-        private IStorageLocation _backupLocation;
+        private IDirectory _backupDirectory;
         private DeploymentSettings _settings = new DeploymentSettings();
 
         public DeploymentSettings Settings
@@ -23,15 +23,15 @@ namespace XDeploy
             }
         }
 
-        public IStorageLocation BackupLocation
+        public IDirectory BackupDirectory
         {
             get
             {
-                return _backupLocation;
+                return _backupDirectory;
             }
             set
             {
-                _backupLocation = value;
+                _backupDirectory = value;
             }
         }
 
@@ -46,27 +46,27 @@ namespace XDeploy
             }
         }
 
-        public void Deploy(IStorageLocation deployLocation)
+        public void Deploy(IDirectory deployDirectory)
         {
-            Require.NotNull(deployLocation, "deployLocation");
+            Require.NotNull(deployDirectory, "deployDirectory");
 
-            if (_backupLocation != null)
+            if (_backupDirectory != null)
             {
-                if (deployLocation.FullName.Equals(_backupLocation.FullName, StringComparison.OrdinalIgnoreCase))
-                    throw new InvalidOperationException("Backup storage cannot be same as target storage.");
+                if (deployDirectory.FullName.Equals(_backupDirectory.FullName, StringComparison.OrdinalIgnoreCase))
+                    throw new InvalidOperationException("Backup directory cannot be same as deploy directory.");
             }
             
             var mainifest = new DeploymentManifestBuilder().BuildManifest(_sourceDirectory, _settings);
 
-            if (_backupLocation != null && mainifest.FilesToDeploy.Count > 0)
+            if (_backupDirectory != null && mainifest.FilesToDeploy.Count > 0)
             {
-                new FileBackuper().Backup(mainifest, deployLocation, _backupLocation);
+                new FileBackuper().Backup(mainifest, deployDirectory, _backupDirectory);
             }
 
-            Deploy(mainifest, deployLocation);
+            Deploy(mainifest, deployDirectory);
         }
 
-        private void Deploy(DeploymentManifest manifest, IStorageLocation targetStorage)
+        private void Deploy(DeploymentManifest manifest, IDirectory deployDirectory)
         {
             if (manifest.FilesToDeploy.Count == 0)
             {
@@ -78,8 +78,8 @@ namespace XDeploy
                 var fileVirtualPath = VirtualPathUtil.GetVirtualPath(file, manifest.SourceDirectory);
                 var directoryVirtualPath = VirtualPathUtil.GetDirectory(fileVirtualPath);
 
-                targetStorage.EnsureDirectoryCreated(directoryVirtualPath);
-                targetStorage.StoreFile(file, fileVirtualPath, true);
+                deployDirectory.EnsureDirectoryCreated(directoryVirtualPath);
+                deployDirectory.StoreFile(file, fileVirtualPath, true);
             }
         }
     }

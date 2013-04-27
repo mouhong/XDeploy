@@ -8,19 +8,15 @@ namespace XDeploy
 {
     public class DeploymentManifest
     {
-        public DeploymentSettings DeploymentSettings { get; private set; }
-
         public DirectoryInfo SourceDirectory { get; private set; }
 
         public IList<FileInfo> FilesToDeploy { get; set; }
 
-        public DeploymentManifest(DirectoryInfo sourceDirectory, DeploymentSettings deploymentSettings)
+        public DeploymentManifest(DirectoryInfo sourceDirectory)
         {
             Require.NotNull(sourceDirectory, "sourceDirectory");
-            Require.NotNull(deploymentSettings, "deploymentSettings");
 
             SourceDirectory = sourceDirectory;
-            DeploymentSettings = deploymentSettings;
             FilesToDeploy = new List<FileInfo>();
         }
     }

@@ -10,7 +10,7 @@ namespace XDeploy
     {
         public DeploymentManifest BuildManifest(DirectoryInfo sourceDirectory, DeploymentSettings settings)
         {
-            var manifest = new DeploymentManifest(sourceDirectory, settings)
+            var manifest = new DeploymentManifest(sourceDirectory)
             {
                 FilesToDeploy = CollectDeployableFiles(sourceDirectory, sourceDirectory, settings)
             };
@@ -26,12 +26,20 @@ namespace XDeploy
             {
                 var ignore = false;
 
-                foreach (var rule in settings.IgnorantRules)
+                if (settings.DeployItemsModifiedSinceUtc != null && entry.LastWriteTimeUtc < settings.DeployItemsModifiedSinceUtc.Value)
                 {
-                    if (rule.ShouldIgnore(entry, rootDirectory))
+                    ignore = true;
+                }
+
+                if (!ignore && settings.IgnorantRules != null)
+                {
+                    foreach (var rule in settings.IgnorantRules)
                     {
-                        ignore = true;
-                        break;
+                        if (rule.ShouldIgnore(entry, rootDirectory))
+                        {
+                            ignore = true;
+                            break;
+                        }
                     }
                 }
 

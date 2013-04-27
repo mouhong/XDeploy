@@ -6,15 +6,19 @@ using System.Text;
 
 namespace XDeploy
 {
-    public class PathIgnorantRule : IIgnorantRule
+    public class PathIgnorantRule : AbstractIgnorantRule
     {
         private List<string> _ignoredPaths = new List<string>();
 
-        public IEnumerable<string> IgnoredPaths
+        public List<string> IgnoredPaths
         {
             get
             {
                 return _ignoredPaths;
+            }
+            set
+            {
+                _ignoredPaths = value;
             }
         }
 
@@ -46,7 +50,7 @@ namespace XDeploy
             }
         }
 
-        public bool ShouldIgnore(FileSystemInfo info, DirectoryInfo rootDirectory)
+        public override bool ShouldIgnore(FileSystemInfo info, DirectoryInfo rootDirectory)
         {
             foreach (var path in IgnoredPaths)
             {

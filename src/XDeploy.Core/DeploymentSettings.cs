@@ -7,13 +7,13 @@ namespace XDeploy
 {
     public class DeploymentSettings
     {
-        public bool DeleteExistingFiles { get; set; }
+        public DateTime? DeployItemsModifiedSinceUtc { get; set; }
 
-        public List<IIgnorantRule> IgnorantRules { get; set; }
+        public List<AbstractIgnorantRule> IgnorantRules { get; set; }
 
         public DeploymentSettings()
         {
-            IgnorantRules = new List<IIgnorantRule>();
+            IgnorantRules = new List<AbstractIgnorantRule>();
         }
     }
 }

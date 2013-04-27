@@ -16,7 +16,14 @@ namespace XDeploy.Storage
 
         public static IStorageLocation Create(string uri, string userName, string password)
         {
-            return Create(uri, new NetworkCredential(userName, password));
+            ICredentials credentials = null;
+
+            if (!String.IsNullOrEmpty(userName) && !String.IsNullOrEmpty(password))
+            {
+                credentials = new NetworkCredential(userName, password);
+            }
+
+            return Create(uri, credentials);
         }
 
         public static IStorageLocation Create(string uri, ICredentials credentials)

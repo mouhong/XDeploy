@@ -44,18 +44,23 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DefaultBackupFolderNameGenerator.cs" />
     <Compile Include="Extensions\DeploymentSettingsExtensions.cs" />
     <Compile Include="FileBackuper.cs" />
-    <Compile Include="LastWriteTimeIgnorantRule.cs" />
+    <Compile Include="IBackupFolderNameGenerator.cs" />
+    <Compile Include="IgnorantRuleFactory.cs" />
     <Compile Include="PathIgnorantRule.cs" />
     <Compile Include="FileDeployer.cs" />
     <Compile Include="DeploymentManifest.cs" />
     <Compile Include="DeploymentManifestBuilder.cs" />
     <Compile Include="DeploymentSettings.cs" />
+    <Compile Include="Project\DeploymentProfile.cs" />
+    <Compile Include="Project\DeploymentProject.cs" />
+    <Compile Include="Project\Location.cs" />
     <Compile Include="Storage\StorageLocation.cs" />
     <Compile Include="Storage\FtpStorageLocation.cs" />
     <Compile Include="Storage\IStorageLocation.cs" />
-    <Compile Include="IIgnorantRule.cs" />
+    <Compile Include="AbstractIgnorantRule.cs" />
     <Compile Include="Storage\FileSystemStorageLocation.cs" />
     <Compile Include="Require.cs" />
     <Compile Include="Utils\VirtualPathUtil.cs" />

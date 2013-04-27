@@ -26,5 +26,7 @@ namespace XDeploy.Storage
         Stream OpenWrite(string virtualPath);
 
         void StoreFile(FileInfo file, string fileVirtualPath, bool overwrite);
+
+        IStorageLocation GetLocation(string virtualPath);
     }
 }

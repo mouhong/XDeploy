@@ -55,7 +55,7 @@ namespace XDeploy
                 if (deployLocation.FullName.Equals(_backupLocation.FullName, StringComparison.OrdinalIgnoreCase))
                     throw new InvalidOperationException("Backup storage cannot be same as target storage.");
             }
-
+            
             var mainifest = new DeploymentManifestBuilder().BuildManifest(_sourceDirectory, _settings);
 
             if (_backupLocation != null && mainifest.FilesToDeploy.Count > 0)
@@ -71,11 +71,6 @@ namespace XDeploy
             if (manifest.FilesToDeploy.Count == 0)
             {
                 return;
-            }
-
-            if (manifest.DeploymentSettings.DeleteExistingFiles)
-            {
-                targetStorage.ClearDirectory("/");
             }
 
             foreach (var file in manifest.FilesToDeploy)

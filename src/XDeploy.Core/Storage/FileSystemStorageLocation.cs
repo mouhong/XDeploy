@@ -32,6 +32,14 @@ namespace XDeploy.Storage
             RootDirectory = rootDirectory;
         }
 
+        public IStorageLocation GetLocation(string virtualPath)
+        {
+            return new FileSystemStorageLocation(GetPhysicalPath(virtualPath))
+            {
+                Credentials = Credentials
+            };
+        }
+
         public bool FileExists(string virtualPath)
         {
             Require.NotNullOrEmpty(virtualPath, "virtualPath");

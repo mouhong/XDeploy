@@ -63,6 +63,17 @@ namespace XDeploy.Storage
             RootPath = rootUri.AbsolutePath;
         }
 
+        public IStorageLocation GetLocation(string virtualPath)
+        {
+            var location = new FtpStorageLocation(VirtualPathUtil.Combine(FullName, virtualPath))
+            {
+                Credentials = Credentials
+            };
+            location._ftpClient = _ftpClient;
+
+            return location;
+        }
+
         public bool FileExists(string virtualPath)
         {
             Require.NotNullOrEmpty(virtualPath, "virtualPath");

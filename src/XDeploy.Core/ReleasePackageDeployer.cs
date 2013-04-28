@@ -39,21 +39,24 @@ namespace XDeploy
 
         private void DeployFiles(ReleasePackage package, IDirectory deployDirectory)
         {
-            var filesDirectory = new DirectoryInfo(package.FilesDirectoryPath);
+            var sourceRoot = new DirectoryInfo(package.FilesDirectoryPath);
 
-            if (!filesDirectory.Exists) return;
+            if (!sourceRoot.Exists) return;
 
-            foreach (var file in filesDirectory.EnumerateFiles("*", SearchOption.AllDirectories))
+            foreach (var sourceFile in sourceRoot.EnumerateFiles("*", SearchOption.AllDirectories))
             {
-                OnFileDeploying(new FileDeploymentEventArgs(file));
+                OnFileDeploying(new FileDeploymentEventArgs(sourceFile));
 
-                var fileVirtualPath = VirtualPathUtil.GetVirtualPath(file, filesDirectory);
-                var directoryVirtualPath = VirtualPathUtil.GetDirectory(fileVirtualPath);
+                var fileVirtualPath = VirtualPathUtil.GetVirtualPath(sourceFile, sourceRoot);
 
-                deployDirectory.EnsureDirectoryCreated(directoryVirtualPath);
-                deployDirectory.StoreFile(file, fileVirtualPath, true);
+                var liveFile = deployDirectory.GetFile(fileVirtualPath);
 
-                OnFileDeployed(new FileDeploymentEventArgs(file));
+                using (var stream = sourceFile.OpenRead())
+                {
+                    liveFile.OverwriteWith(stream);
+                }
+
+                OnFileDeployed(new FileDeploymentEventArgs(sourceFile));
             }
         }
 

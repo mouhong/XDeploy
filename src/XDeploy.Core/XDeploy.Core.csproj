@@ -45,6 +45,7 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Extensions\DeploymentSettingsExtensions.cs" />
+    <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="IIgnorantRulesTemplate.cs" />
     <Compile Include="ReleaseBackuper.cs" />
     <Compile Include="IgnorantRuleFactory.cs" />
@@ -59,11 +60,15 @@
     <Compile Include="ReleasePackageManifest.cs" />
     <Compile Include="ReleasePackager.cs" />
     <Compile Include="Storage\Directories.cs" />
-    <Compile Include="Storage\FtpDirectory.cs" />
+    <Compile Include="Storage\Local\LocalFile.cs" />
+    <Compile Include="Storage\Ftp\FtpDirectory.cs" />
+    <Compile Include="Storage\Ftp\FtpFile.cs" />
     <Compile Include="Storage\IDirectory.cs" />
     <Compile Include="AbstractIgnorantRule.cs" />
-    <Compile Include="Storage\FileSystemDirectory.cs" />
+    <Compile Include="Storage\Local\LocalDirectory.cs" />
     <Compile Include="Require.cs" />
+    <Compile Include="Storage\IFile.cs" />
+    <Compile Include="Storage\Ftp\LazyFtpClient.cs" />
     <Compile Include="Utils\VirtualPathUtil.cs" />
   </ItemGroup>
   <ItemGroup />

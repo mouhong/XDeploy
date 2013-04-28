@@ -7,7 +7,7 @@ using System.Text;
 
 namespace XDeploy.Storage
 {
-    public interface IDirectory : IDisposable
+    public interface IFile
     {
         string Uri { get; }
 
@@ -15,12 +15,18 @@ namespace XDeploy.Storage
 
         bool Exists { get; }
 
-        bool IsRoot { get; }
+        void Delete();
 
-        void Create();
+        IDirectory GetDirectory();
 
-        IFile GetFile(string relativeVirtualPath);
+        IDirectory CreateDirectory();
 
-        IDirectory GetDirectory(string relativeVirtualPath);
+        Stream OpenRead();
+
+        Stream OpenWrite();
+
+        void OverwriteWith(Stream stream);
+
+        void OverwriteWith(IFile file);
     }
 }

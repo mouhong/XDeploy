@@ -31,31 +31,14 @@ namespace XDeploy
 
         private void TryBackupFile(FileInfo file, DirectoryInfo rootDirectory, IDirectory deployDirectory, IDirectory backupDirectory)
         {
-            var virtualPath = VirtualPathUtil.GetVirtualPath(file, rootDirectory);
+            var fileVirtualPath = VirtualPathUtil.GetVirtualPath(file, rootDirectory);
 
-            if (!deployDirectory.FileExists(virtualPath)) return;
+            var liveFile = deployDirectory.GetFile(fileVirtualPath);
 
-            using (var fromStream = deployDirectory.OpenRead(virtualPath))
-            using (var toStream = backupDirectory.OpenWrite(virtualPath))
-            {
-                var count = 0;
-                var buffer = new byte[2048];
+            if (!liveFile.Exists) return;
 
-                while (true)
-                {
-                    count = fromStream.Read(buffer, 0, buffer.Length);
-                    if (count > 0)
-                    {
-                        toStream.Write(buffer, 0, count);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-
-                toStream.Flush();
-            }
+            var backupFile = backupDirectory.GetFile(fileVirtualPath);
+            backupFile.OverwriteWith(liveFile);
         }
     }
 }

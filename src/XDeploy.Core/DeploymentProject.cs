@@ -77,6 +77,7 @@ namespace XDeploy
             return ReleasePackage.LoadFrom(System.IO.Path.Combine(ProjectDirectory, ReleasesFolderName, name));
         }
 
+        // TODO: Need to introduce Deploy Target
         public void DeployReleasePackage(string name, IDirectory deployDirectory, bool backup = true)
         {
             if (backup && BackupRootLocation == null)
@@ -94,18 +95,18 @@ namespace XDeploy
             var deployer = new ReleasePackageDeployer();
             deployer.Deploy(package, deployDirectory, backupDirectory);
 
-            var log = new PackageDeployLog
-            {
-                DeployLocation = new Location(deployDirectory.FullName, deployDirectory.Credential)
-            };
+            //var log = new PackageDeployLog
+            //{
+            //    DeployLocation = new Location(deployDirectory.Uri, deployDirectory.Credential)
+            //};
 
-            if (backupDirectory != null)
-            {
-                log.BackupLocation = new Location(backupDirectory.FullName, backupDirectory.Credential);
-            }
+            //if (backupDirectory != null)
+            //{
+            //    log.BackupLocation = new Location(backupDirectory.Uri, backupDirectory.Credential);
+            //}
 
-            package.Manifest.DeployLogs.Add(log);
-            package.Manifest.Save(package.ManifestFilePath);
+            //package.Manifest.DeployLogs.Add(log);
+            //package.Manifest.Save(package.ManifestFilePath);
         }
 
         public static DeploymentProject LoadFrom(string path)

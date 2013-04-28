@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using XDeploy.Storage.Ftp;
+using XDeploy.Storage.Local;
 
 namespace XDeploy.Storage
 {
@@ -30,20 +32,18 @@ namespace XDeploy.Storage
         {
             Require.NotNullOrEmpty(uri, "uri");
 
-            IDirectory location = null;
+            IDirectory directory = null;
 
             if (uri.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase))
             {
-                location = new FtpDirectory(uri);
+                directory = new FtpDirectory("/", new Uri(uri), credential);
             }
             else
             {
-                location = new FileSystemDirectory(new DirectoryInfo(uri));
+                directory = new LocalDirectory("/", new DirectoryInfo(uri));
             }
 
-            location.Credential = credential;
-
-            return location;
+            return directory;
         }
     }
 }

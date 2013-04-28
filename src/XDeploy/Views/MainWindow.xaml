@@ -1,0 +1,33 @@
+﻿<Window x:Class="XDeploy.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:m="clr-namespace:XDeploy.Models"
+        xmlns:uc="clr-namespace:XDeploy.Views"
+        Title="MainWindow" Height="350" Width="525" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type m:HomePageViewModel}">
+            <StackPanel>
+                <uc:CreateOrOpenProjectView DataContext="{Binding CreateOrOpenProjectViewModel}" />
+                <uc:ProjectSummaryView DataContext="{Binding ProjectSummaryViewModel}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type m:ReleasePackagesViewModel}">
+            <uc:ReleasePackagesView />
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <TabControl IsSynchronizedWithCurrentItem="True" 
+                    ItemsSource="{Binding Pages}">
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="TabItem">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                </Style>
+            </TabControl.ItemContainerStyle>
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Title}" />
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+        </TabControl>
+    </Grid>
+</Window>

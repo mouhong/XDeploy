@@ -6,7 +6,7 @@ using System.Text;
 
 namespace XDeploy
 {
-    public class ReleasePackager
+    public class ReleasePackageCreator
     {
         private DirectoryInfo _sourceDirectory;
         private DeploymentSettings _settings = new DeploymentSettings();
@@ -19,7 +19,7 @@ namespace XDeploy
             }
         }
 
-        public ReleasePackager(string sourceDirectory, DeploymentSettings settings)
+        public ReleasePackageCreator(string sourceDirectory, DeploymentSettings settings)
         {
             Require.NotNullOrEmpty(sourceDirectory, "sourceDirectory");
 
@@ -31,11 +31,11 @@ namespace XDeploy
             }
         }
 
-        public ReleasePackage CreateReleasePackage(string packageName, string releaseNotes, string containingDirectory)
+        public ReleasePackage CreateRelease(string releaseName, string releaseNotes, string containingDirectory)
         {
             Require.NotNullOrEmpty(containingDirectory, "containingDirectory");
 
-            var package = new ReleasePackage(packageName, Path.Combine(containingDirectory, packageName));
+            var package = new ReleasePackage(releaseName, Path.Combine(containingDirectory, releaseName));
 
             var mainifest = new DeploymentManifestBuilder().BuildManifest(_sourceDirectory, _settings);
 
@@ -44,7 +44,7 @@ namespace XDeploy
                 Directory.CreateDirectory(package.Path);
             }
 
-            var filesDirectory = new DirectoryInfo(package.FilesDirectoryPath);
+            var filesDirectory = new DirectoryInfo(package.FilesDirectory);
 
             CopyFiles(mainifest, filesDirectory);
 

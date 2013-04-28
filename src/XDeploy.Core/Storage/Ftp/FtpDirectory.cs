@@ -11,11 +11,27 @@ namespace XDeploy.Storage.Ftp
 {
     public class FtpDirectory : IDirectory
     {
+        private FtpDirectoryCache _cache;
+
+        private FtpDirectoryCache Cache
+        {
+            get
+            {
+                if (_cache == null)
+                {
+                    Refresh();
+                }
+                return _cache;
+            }
+        }
+
         public LazyFtpClient FtpClient { get; private set; }
 
         public string VirtualPath { get; private set; }
 
         public string Uri { get; private set; }
+
+        public string AbsolutePathInFtp { get; private set; }
 
         public bool IsRoot
         {
@@ -29,7 +45,7 @@ namespace XDeploy.Storage.Ftp
         {
             get
             {
-                return FtpClient.DirectoryExists(VirtualPath);
+                return Cache.Exists;
             }
         }
 
@@ -41,7 +57,8 @@ namespace XDeploy.Storage.Ftp
         public FtpDirectory(string virtualPath, Uri uri, LazyFtpClient ftpClient)
         {
             VirtualPath = virtualPath;
-            Uri = uri.OriginalString;
+            Uri = uri.ToString();
+            AbsolutePathInFtp = uri.AbsolutePath;
             FtpClient = ftpClient;
         }
 
@@ -59,8 +76,21 @@ namespace XDeploy.Storage.Ftp
 
         public void Create()
         {
+            if (!Exists)
+            {
+                EnsureConnected();
+                FtpClient.CreateDirectory(AbsolutePathInFtp, true);
+            }
+        }
+
+        public void Refresh()
+        {
             EnsureConnected();
-            FtpClient.CreateDirectory(Uri, true);
+
+            var cache = new FtpDirectoryCache();
+            cache.Exists = FtpClient.DirectoryExists(AbsolutePathInFtp);
+
+            _cache = cache;
         }
 
         private void EnsureConnected()
@@ -74,6 +104,11 @@ namespace XDeploy.Storage.Ftp
         public void Dispose()
         {
             FtpClient.Dispose();
+        }
+
+        class FtpDirectoryCache
+        {
+            public bool Exists = false;
         }
     }
 }

@@ -58,6 +58,11 @@ namespace XDeploy.Storage.Local
             }
         }
 
+        public void Refresh()
+        {
+            WrappedDirectory.Refresh();
+        }
+
         private string GetPhysicalPath(string virtualPath)
         {
             var path = virtualPath.Replace('/', '\\').TrimStart('\\');

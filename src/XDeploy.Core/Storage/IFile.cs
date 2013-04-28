@@ -17,6 +17,8 @@ namespace XDeploy.Storage
 
         void Delete();
 
+        void Refresh();
+
         IDirectory GetDirectory();
 
         IDirectory CreateDirectory();

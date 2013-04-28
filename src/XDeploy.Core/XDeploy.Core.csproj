@@ -44,6 +44,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DeployTarget.cs" />
     <Compile Include="Extensions\DeploymentSettingsExtensions.cs" />
     <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="IIgnorantRulesTemplate.cs" />
@@ -58,7 +59,7 @@
     <Compile Include="Location.cs" />
     <Compile Include="ReleasePackage.cs" />
     <Compile Include="ReleasePackageManifest.cs" />
-    <Compile Include="ReleasePackager.cs" />
+    <Compile Include="ReleasePackageCreator.cs" />
     <Compile Include="Storage\Directories.cs" />
     <Compile Include="Storage\Local\LocalFile.cs" />
     <Compile Include="Storage\Ftp\FtpDirectory.cs" />

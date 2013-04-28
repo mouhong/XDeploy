@@ -32,9 +32,9 @@ namespace XDeploy
 
         public string ReleasesFolderName { get; set; }
 
-        public Location BackupRootLocation { get; set; }
-
         public DateTime? LastReleaseCreationTimeUtc { get; set; }
+
+        public List<DeployTarget> DeployTargets { get; set; }
 
         [XmlArrayItem("IgnorantRule")]
         public List<AbstractIgnorantRule> IgnorantRules { get; set; }
@@ -42,6 +42,7 @@ namespace XDeploy
         public DeploymentProject()
         {
             ReleasesFolderName = "Releases";
+            DeployTargets = new List<DeployTarget>();
             IgnorantRules = new List<AbstractIgnorantRule>();
         }
 
@@ -61,9 +62,9 @@ namespace XDeploy
                 };
             }
 
-            var packager = new ReleasePackager(SourceDirectory, deploymentSettings);
+            var packager = new ReleasePackageCreator(SourceDirectory, deploymentSettings);
 
-            var package = packager.CreateReleasePackage(name, releaseNotes, System.IO.Path.Combine(ProjectDirectory, ReleasesFolderName));
+            var package = packager.CreateRelease(name, releaseNotes, System.IO.Path.Combine(ProjectDirectory, ReleasesFolderName));
 
             LastReleaseCreationTimeUtc = DateTime.UtcNow;
 
@@ -77,17 +78,26 @@ namespace XDeploy
             return ReleasePackage.LoadFrom(System.IO.Path.Combine(ProjectDirectory, ReleasesFolderName, name));
         }
 
-        // TODO: Need to introduce Deploy Target
-        public void DeployReleasePackage(string name, IDirectory deployDirectory, bool backup = true)
+        public void DeployReleasePackage(string name, string target)
         {
-            if (backup && BackupRootLocation == null)
-                throw new InvalidOperationException("Backup root location is not specified.");
+            DeployReleasePackage(name, DeployTargets.FirstOrDefault(x => x.Name == target));
+        }
+
+        public void DeployReleasePackage(string name, DeployTarget target)
+        {
+            Require.NotNullOrEmpty(name, "name");
+            Require.NotNull(target, "target");
+            Require.NotNull(target.DeployLocation, "target.DeployLocation");
+
+            var deployDirectory = Directories.GetDirectory(
+                target.DeployLocation.Uri, target.DeployLocation.UserName, target.DeployLocation.Password);
 
             IDirectory backupDirectory = null;
 
-            if (backup)
+            if (target.BackupLocation != null)
             {
-                var backupRoot = Directories.GetDirectory(BackupRootLocation.Uri, BackupRootLocation.UserName, BackupRootLocation.Password);
+                var backupRoot = Directories.GetDirectory(
+                    target.BackupLocation.Uri, target.BackupLocation.UserName, target.BackupLocation.Password);
                 backupDirectory = backupRoot.GetDirectory("Backup-Before-" + name);
             }
 
@@ -95,18 +105,22 @@ namespace XDeploy
             var deployer = new ReleasePackageDeployer();
             deployer.Deploy(package, deployDirectory, backupDirectory);
 
-            //var log = new PackageDeployLog
-            //{
-            //    DeployLocation = new Location(deployDirectory.Uri, deployDirectory.Credential)
-            //};
+            var log = new ReleasePackageDeployLog
+            {
+                DeployTargetName = target.Name
+            };
 
-            //if (backupDirectory != null)
-            //{
-            //    log.BackupLocation = new Location(backupDirectory.Uri, backupDirectory.Credential);
-            //}
+            package.Manifest.DeployLogs.Add(log);
+            package.Manifest.Save(package.ManifestFilePath);
 
-            //package.Manifest.DeployLogs.Add(log);
-            //package.Manifest.Save(package.ManifestFilePath);
+            target.LastDeployTimeUtc = DateTime.UtcNow;
+
+            if (backupDirectory != null)
+            {
+                target.LastBackupTimeUtc = DateTime.UtcNow;
+            }
+
+            Save();
         }
 
         public static DeploymentProject LoadFrom(string path)
@@ -156,11 +170,6 @@ namespace XDeploy
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
-            }
-
-            if (BackupRootLocation == null)
-            {
-                BackupRootLocation = new Location(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(path), "Backups"));
             }
 
             using (var writer = new StreamWriter(path, false, Encoding.UTF8))

@@ -14,7 +14,7 @@ namespace XDeploy
 
         public ReleasePackageManifest Manifest { get; private set; }
 
-        public string FilesDirectoryPath
+        public string FilesDirectory
         {
             get
             {

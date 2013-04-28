@@ -10,9 +10,26 @@ namespace XDeploy.Storage.Ftp
 {
     public class FtpFile : IFile
     {
+        private FtpFileCache _cache;
+
+        private FtpFileCache Cache
+        {
+            get
+            {
+                if (_cache == null)
+                {
+                    Refresh();
+                }
+
+                return _cache;
+            }
+        }
+
         public string Uri { get; private set; }
 
         public string VirtualPath { get; private set; }
+
+        public string AbsolutePathInFtp { get; private set; }
 
         public LazyFtpClient FtpClient { get; private set; }
 
@@ -20,7 +37,7 @@ namespace XDeploy.Storage.Ftp
         {
             get
             {
-                return FtpClient.FileExists(Uri);
+                return Cache.Exists;
             }
         }
 
@@ -32,7 +49,8 @@ namespace XDeploy.Storage.Ftp
         public FtpFile(string virtualPath, Uri uri, LazyFtpClient ftpClient)
         {
             VirtualPath = virtualPath;
-            Uri = uri.OriginalString;
+            Uri = uri.ToString();
+            AbsolutePathInFtp = uri.AbsolutePath;
             FtpClient = ftpClient;
         }
 
@@ -50,17 +68,23 @@ namespace XDeploy.Storage.Ftp
 
         public void Delete()
         {
-            FtpClient.DeleteFile(Uri);
+            if (Exists)
+            {
+                EnsureConnected();
+                FtpClient.DeleteFile(AbsolutePathInFtp);
+            }
         }
 
         public Stream OpenRead()
         {
-            return FtpClient.OpenRead(Uri);
+            EnsureConnected();
+            return FtpClient.OpenRead(AbsolutePathInFtp);
         }
 
         public Stream OpenWrite()
         {
-            return FtpClient.OpenWrite(Uri);
+            EnsureConnected();
+            return FtpClient.OpenWrite(AbsolutePathInFtp);
         }
 
         public void OverwriteWith(Stream stream)
@@ -80,6 +104,29 @@ namespace XDeploy.Storage.Ftp
             {
                 OverwriteWith(stream);
             }
+        }
+
+        public void Refresh()
+        {
+            EnsureConnected();
+
+            var cache = new FtpFileCache();
+            cache.Exists = FtpClient.FileExists(AbsolutePathInFtp);
+
+            _cache = cache;
+        }
+
+        private void EnsureConnected()
+        {
+            if (!FtpClient.IsConnected)
+            {
+                FtpClient.Connect();
+            }
+        }
+
+        class FtpFileCache
+        {
+            public bool Exists = false;
         }
     }
 }

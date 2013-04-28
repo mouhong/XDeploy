@@ -17,6 +17,8 @@ namespace XDeploy.Storage
 
         bool IsRoot { get; }
 
+        void Refresh();
+
         void Create();
 
         IFile GetFile(string relativeVirtualPath);

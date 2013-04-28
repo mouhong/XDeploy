@@ -39,7 +39,7 @@ namespace XDeploy
 
         private void DeployFiles(ReleasePackage package, IDirectory deployDirectory)
         {
-            var sourceRoot = new DirectoryInfo(package.FilesDirectoryPath);
+            var sourceRoot = new DirectoryInfo(package.FilesDirectory);
 
             if (!sourceRoot.Exists) return;
 

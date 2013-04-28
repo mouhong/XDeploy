@@ -52,6 +52,11 @@ namespace XDeploy.Storage.Local
             WrappedFile.Delete();
         }
 
+        public void Refresh()
+        {
+            WrappedFile.Refresh();
+        }
+
         public Stream OpenRead()
         {
             return WrappedFile.OpenRead();

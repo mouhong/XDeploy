@@ -14,12 +14,12 @@ namespace XDeploy
 
         public DateTime CreatedTimeUtc { get; set; }
 
-        public List<PackageDeployLog> DeployLogs { get; set; }
+        public List<ReleasePackageDeployLog> DeployLogs { get; set; }
 
         public ReleasePackageManifest()
         {
             CreatedTimeUtc = DateTime.UtcNow;
-            DeployLogs = new List<PackageDeployLog>();
+            DeployLogs = new List<ReleasePackageDeployLog>();
         }
 
         public static ReleasePackageManifest LoadFrom(string path)
@@ -52,15 +52,13 @@ namespace XDeploy
         }
     }
 
-    public class PackageDeployLog
+    public class ReleasePackageDeployLog
     {
-        public Location DeployLocation { get; set; }
-
-        public Location BackupLocation { get; set; }
+        public string DeployTargetName { get; set; }
 
         public DateTime DeployTimeUtc { get; set; }
 
-        public PackageDeployLog()
+        public ReleasePackageDeployLog()
         {
             DeployTimeUtc = DateTime.UtcNow;
         }

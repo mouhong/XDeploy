@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 
-namespace XDeploy.Project
+namespace XDeploy
 {
     public class Location
     {
@@ -29,6 +30,19 @@ namespace XDeploy.Project
             Uri = uri;
             UserName = userName;
             Password = password;
+        }
+
+        public Location(string uri, NetworkCredential credential)
+        {
+            Require.NotNullOrEmpty(uri, "uri");
+
+            Uri = uri;
+
+            if (credential != null)
+            {
+                UserName = credential.UserName;
+                Password = credential.Password;
+            }
         }
     }
 }

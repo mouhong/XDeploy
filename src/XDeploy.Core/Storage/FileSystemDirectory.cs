@@ -9,7 +9,7 @@ namespace XDeploy.Storage
 {
     public class FileSystemDirectory : IDirectory
     {
-        public ICredentials Credentials { get; set; }
+        public NetworkCredential Credential { get; set; }
 
         public DirectoryInfo RootDirectory { get; private set; }
 
@@ -36,7 +36,7 @@ namespace XDeploy.Storage
         {
             return new FileSystemDirectory(GetPhysicalPath(virtualPath))
             {
-                Credentials = Credentials
+                Credential = Credential
             };
         }
 

@@ -11,7 +11,7 @@ namespace XDeploy.Storage
     {
         string FullName { get; }
 
-        ICredentials Credentials { get; set; }
+        NetworkCredential Credential { get; set; }
 
         void ClearDirectory(string virtualPath);
 

@@ -7,7 +7,7 @@ using System.IO;
 
 namespace XDeploy.Utils
 {
-    public class VirtualPathUtil
+    static class VirtualPathUtil
     {
         public static string Combine(params string[] paths)
         {

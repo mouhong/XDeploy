@@ -16,17 +16,17 @@ namespace XDeploy.Storage
 
         public static IDirectory GetDirectory(string uri, string userName, string password)
         {
-            ICredentials credentials = null;
+            NetworkCredential credential = null;
 
             if (!String.IsNullOrEmpty(userName) && !String.IsNullOrEmpty(password))
             {
-                credentials = new NetworkCredential(userName, password);
+                credential = new NetworkCredential(userName, password);
             }
 
-            return GetDirectory(uri, credentials);
+            return GetDirectory(uri, credential);
         }
 
-        public static IDirectory GetDirectory(string uri, ICredentials credentials)
+        public static IDirectory GetDirectory(string uri, NetworkCredential credential)
         {
             Require.NotNullOrEmpty(uri, "uri");
 
@@ -41,7 +41,7 @@ namespace XDeploy.Storage
                 location = new FileSystemDirectory(new DirectoryInfo(uri));
             }
 
-            location.Credentials = credentials;
+            location.Credential = credential;
 
             return location;
         }

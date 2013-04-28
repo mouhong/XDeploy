@@ -21,7 +21,7 @@ namespace XDeploy.Storage
                 {
                     var client = new FtpClient
                     {
-                        Credentials = (NetworkCredential)Credentials,
+                        Credentials = Credential,
                         Host = Host,
                         Port = Port
                     };
@@ -33,7 +33,7 @@ namespace XDeploy.Storage
             }
         }
 
-        public ICredentials Credentials { get; set; }
+        public NetworkCredential Credential { get; set; }
 
         public string Host { get; private set; }
 
@@ -67,7 +67,7 @@ namespace XDeploy.Storage
         {
             var location = new FtpDirectory(VirtualPathUtil.Combine(FullName, virtualPath))
             {
-                Credentials = Credentials
+                Credential = Credential
             };
             location._ftpClient = _ftpClient;
 

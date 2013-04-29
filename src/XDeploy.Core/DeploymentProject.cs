@@ -10,6 +10,7 @@ namespace XDeploy
 {
     public class DeploymentProject
     {
+        [XmlIgnore]
         public string Name { get; set; }
 
         [XmlIgnore]
@@ -31,6 +32,8 @@ namespace XDeploy
         public string SourceDirectory { get; set; }
 
         public string ReleasesFolderName { get; set; }
+
+        public int TotalReleases { get; set; }
 
         public DateTime? LastReleaseCreationTimeUtc { get; set; }
 
@@ -63,10 +66,10 @@ namespace XDeploy
             }
 
             var packager = new ReleasePackageCreator(SourceDirectory, deploymentSettings);
-
             var package = packager.CreateRelease(name, releaseNotes, System.IO.Path.Combine(ProjectDirectory, ReleasesFolderName));
 
             LastReleaseCreationTimeUtc = DateTime.UtcNow;
+            TotalReleases++;
 
             Save();
 

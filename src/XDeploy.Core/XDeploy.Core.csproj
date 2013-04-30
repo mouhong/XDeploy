@@ -31,8 +31,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\packages\System.Data.SQLite.1.0.85.0\lib\net40\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq">
+      <HintPath>..\packages\System.Data.SQLite.1.0.85.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.FtpClient">
       <HintPath>..\lib\System.Net.FtpClient.dll</HintPath>
     </Reference>
@@ -44,22 +59,36 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Data\Mapping\ByCodeMappingLoader.cs" />
+    <Compile Include="Data\Mapping\DeploymentLogMap.cs" />
+    <Compile Include="Data\Mapping\DeployTargetMap.cs" />
+    <Compile Include="Data\Mapping\ReleaseMap.cs" />
+    <Compile Include="Data\Mapping\UserTypes\Blobbed.cs" />
+    <Compile Include="Data\Database.cs" />
+    <Compile Include="Data\Mapping\Extensions\IClassAttributesMapperExtensions.cs" />
+    <Compile Include="DeploymentLog.cs" />
     <Compile Include="DeployTarget.cs" />
     <Compile Include="Extensions\DeploymentSettingsExtensions.cs" />
+    <Compile Include="Extensions\ISessionExtensions.cs" />
+    <Compile Include="Extensions\QueryableExtensions.cs" />
     <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="IIgnorantRulesTemplate.cs" />
+    <Compile Include="PagedQueryable.cs" />
+    <Compile Include="Paths.cs" />
+    <Compile Include="ProjectLoader.cs" />
+    <Compile Include="Release.cs" />
     <Compile Include="ReleaseBackuper.cs" />
     <Compile Include="IgnorantRuleFactory.cs" />
     <Compile Include="PathIgnorantRule.cs" />
-    <Compile Include="ReleasePackageDeployer.cs" />
+    <Compile Include="ReleaseDeployedTarget.cs" />
+    <Compile Include="ReleaseDeployer.cs" />
     <Compile Include="DeploymentManifest.cs" />
     <Compile Include="DeploymentManifestBuilder.cs" />
     <Compile Include="DeploymentSettings.cs" />
     <Compile Include="DeploymentProject.cs" />
     <Compile Include="Location.cs" />
-    <Compile Include="ReleasePackage.cs" />
-    <Compile Include="ReleasePackageManifest.cs" />
-    <Compile Include="ReleasePackageCreator.cs" />
+    <Compile Include="ReleasePackageBuilder.cs" />
+    <Compile Include="ReleaseCreator.cs" />
     <Compile Include="Storage\Directories.cs" />
     <Compile Include="Storage\Local\LocalFile.cs" />
     <Compile Include="Storage\Ftp\FtpDirectory.cs" />
@@ -71,8 +100,20 @@
     <Compile Include="Storage\IFile.cs" />
     <Compile Include="Storage\Ftp\LazyFtpClient.cs" />
     <Compile Include="Utils\VirtualPathUtil.cs" />
+    <Compile Include="WorkContext.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Data\tables.sql" />
+    <Content Include="x64\SQLite.Interop.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\SQLite.Interop.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

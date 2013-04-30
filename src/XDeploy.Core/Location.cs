@@ -14,6 +14,8 @@ namespace XDeploy
 
         public string Password { get; set; }
 
+        public string Domain { get; set; }
+
         public Location()
         {
         }
@@ -23,13 +25,14 @@ namespace XDeploy
         {
         }
 
-        public Location(string uri, string userName, string password)
+        public Location(string uri, string userName, string password, string domain = null)
         {
             Require.NotNullOrEmpty(uri, "uri");
 
             Uri = uri;
             UserName = userName;
             Password = password;
+            Domain = domain;
         }
 
         public Location(string uri, NetworkCredential credential)
@@ -42,6 +45,7 @@ namespace XDeploy
             {
                 UserName = credential.UserName;
                 Password = credential.Password;
+                Domain = credential.Domain;
             }
         }
     }

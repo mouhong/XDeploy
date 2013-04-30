@@ -7,15 +7,17 @@ namespace XDeploy
 {
     public class DeployTarget
     {
-        public string Name { get; set; }
+        public virtual int Id { get; set; }
 
-        public Location DeployLocation { get; set; }
+        public virtual string Name { get; set; }
 
-        public Location BackupLocation { get; set; }
+        public virtual Location DeployLocation { get; set; }
 
-        public DateTime? LastDeployTimeUtc { get; set; }
+        public virtual Location BackupLocation { get; set; }
 
-        public DateTime? LastBackupTimeUtc { get; set; }
+        public virtual DateTime? LastDeployedAtUtc { get; set; }
+
+        public virtual DateTime? LastBackuppedAtUtc { get; set; }
 
         public DeployTarget()
         {
@@ -25,6 +27,11 @@ namespace XDeploy
         {
             Name = name;
             DeployLocation = deployLocation;
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

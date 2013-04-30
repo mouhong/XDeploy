@@ -9,38 +9,25 @@ using XDeploy.Events;
 namespace XDeploy.ViewModels
 {
     [Export(typeof(ShellViewModel))]
-    public class ShellViewModel : PropertyChangedBase, IHandle<CurrentProjectChanged>
+    public class ShellViewModel : Conductor<IScreen>
     {
-        private IEventAggregator _events;
-        private PropertyChangedBase _workspace;
+        private IScreen _initialView;
 
-        public PropertyChangedBase Workspace
+        public ShellViewModel()
         {
-            get
-            {
-                return _workspace;
-            }
-            set
-            {
-                if (_workspace != null)
-                {
-                    _workspace = value;
-                    NotifyOfPropertyChange(() => Workspace);
-                }
-            }
+            DisplayName = "XDeploy";
+            _initialView = new WelcomeScreenViewModel(this);
         }
 
-        [ImportingConstructor]
-        public ShellViewModel(IEventAggregator events)
+        protected override void OnInitialize()
         {
-            _events = events;
-            _events.Subscribe(this);
-            _workspace = new WelcomeScreenViewModel(events);
+            ActivateItem(_initialView);
+            base.OnInitialize();
         }
 
-        public void Handle(CurrentProjectChanged message)
+        public void OnProjectLoaded(DeploymentProjectViewModel project, WorkContext context)
         {
-            Workspace = new ProjectWorkspaceViewModel(message.NewProject);
+            ChangeActiveItem(new ProjectWorkspaceViewModel(project, context), true);
         }
     }
 }

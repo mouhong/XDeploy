@@ -10,12 +10,16 @@ namespace XDeploy.ViewModels
     {
         public DeploymentProjectViewModel Project { get; private set; }
 
-        public ProjectWorkspaceViewModel(DeploymentProjectViewModel project)
+        public WorkContext WorkContext { get; private set; }
+
+        public ProjectWorkspaceViewModel(DeploymentProjectViewModel project, WorkContext workContext)
         {
             Project = project;
+            WorkContext = workContext;
+
             ActivateItem(new ProjectSummaryViewModel(project));
             Items.Add(new ProjectReleasesViewModel());
-            Items.Add(new ProjectDeployTargetsViewModel());
+            Items.Add(new ProjectDeployTargetsViewModel(project, workContext));
         }
     }
 }

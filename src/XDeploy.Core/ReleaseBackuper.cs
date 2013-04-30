@@ -10,9 +10,9 @@ namespace XDeploy
 {
     public class ReleaseBackuper
     {
-        public void Backup(ReleasePackage release, IDirectory deployDirectory, IDirectory backupDirectory)
+        public void Backup(string releasePath, IDirectory deployDirectory, IDirectory backupDirectory)
         {
-            var filesDirectory = new DirectoryInfo(release.FilesDirectory);
+            var filesDirectory = new DirectoryInfo(Path.Combine(releasePath, "Files"));
             TryBackupDirectory(filesDirectory, filesDirectory, deployDirectory, backupDirectory);
         }
 

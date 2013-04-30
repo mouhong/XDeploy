@@ -39,6 +39,14 @@
     <Reference Include="Caliburn.Micro">
       <HintPath>..\packages\Caliburn.Micro.1.5.1\lib\net40\Caliburn.Micro.dll</HintPath>
     </Reference>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationUI, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="ReachFramework" />
     <Reference Include="System" />
@@ -60,19 +68,38 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.DataGrid">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.1.9.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.1.9.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Events\CurrentProjectChanged.cs" />
+    <Compile Include="ActionContext.cs" />
+    <Compile Include="ActionResult.cs" />
+    <Compile Include="AsyncActionResult.cs" />
+    <Compile Include="Events\WorkContextChanged.cs" />
+    <Compile Include="Loader.cs" />
+    <Compile Include="ViewModels\CreateDeployTargetViewModel.cs" />
+    <Compile Include="ViewModels\DeployTargetListViewModel.cs" />
+    <Compile Include="ViewModels\NoDeployTargetViewModel.cs" />
     <Compile Include="ViewModels\ProjectDeployTargetsViewModel.cs" />
     <Compile Include="ViewModels\ProjectReleasesViewModel.cs" />
     <Compile Include="ViewModels\ProjectWorkspaceViewModel.cs" />
     <Compile Include="ViewModels\ProjectSummaryViewModel.cs" />
     <Compile Include="ViewModels\WelcomeScreenViewModel.cs" />
     <Compile Include="ViewModels\DeploymentProjectViewModel.cs" />
+    <Compile Include="Views\CreateDeployTargetView.xaml.cs">
+      <DependentUpon>CreateDeployTargetView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NoDeployTargetView.xaml.cs">
+      <DependentUpon>NoDeployTargetView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ProjectDeployTargetsView.xaml.cs">
       <DependentUpon>ProjectDeployTargetsView.xaml</DependentUpon>
     </Compile>
@@ -97,6 +124,14 @@
     <Compile Include="Views\WelcomeScreenView.xaml.cs">
       <DependentUpon>WelcomeScreenView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\CreateDeployTargetView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NoDeployTargetView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ProjectDeployTargetsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

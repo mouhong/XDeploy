@@ -11,14 +11,14 @@ namespace XDeploy.ViewModels
 {
     public class WelcomeScreenViewModel : Screen
     {
-        private IEventAggregator _events;
+        public ShellViewModel Shell { get; private set; }
 
-        public WelcomeScreenViewModel(IEventAggregator events)
+        public WelcomeScreenViewModel(ShellViewModel shell)
         {
-            _events = events;
+            Shell = shell;
         }
 
-        public void OpenProject()
+        public IEnumerable<IResult> OpenProject()
         {
             var dialog = new OpenFileDialog();
             dialog.Filter = "XDeploy Project|*.xdproj";
@@ -26,11 +26,29 @@ namespace XDeploy.ViewModels
 
             if (dialog.ShowDialog() == true)
             {
-                var path = dialog.FileName;
-                var project = DeploymentProject.LoadFrom(path);
-                var projectModel = new DeploymentProjectViewModel(project);
+                WorkContext workContext = null;
+                DeploymentProjectViewModel projectViewModel = null;
 
-                _events.Publish(new CurrentProjectChanged(projectModel));
+                yield return Loader.Show("Loading project...");
+
+                var path = dialog.FileName;
+
+                yield return new AsyncActionResult(context =>
+                {
+                    var project = new ProjectLoader().LoadFrom(path);
+                    workContext = new WorkContext(project);
+                    projectViewModel = DeploymentProjectViewModel.Create(workContext);
+                    WorkContext.SetCurrent(workContext);
+                })
+                .OnSuccess(context => Loader.Hide().Execute(context.ExecutionContext))
+                .OnError(context => Loader.Hide().Execute(context.ExecutionContext));
+
+                yield return Loader.Hide();
+
+                yield return new ActionResult(context =>
+                {
+                    Shell.OnProjectLoaded(projectViewModel, workContext);
+                });
             }
         }
     }

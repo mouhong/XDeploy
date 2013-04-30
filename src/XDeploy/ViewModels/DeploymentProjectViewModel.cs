@@ -1,4 +1,6 @@
 ﻿using Caliburn.Micro;
+using NHibernate;
+using NHibernate.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,17 +100,24 @@ namespace XDeploy.ViewModels
         {
         }
 
-        public DeploymentProjectViewModel(DeploymentProject project)
+        public static DeploymentProjectViewModel Create(WorkContext workContext)
         {
-            UpdateFrom(project);
-        }
+            var project = workContext.Project;
 
-        public void UpdateFrom(DeploymentProject project)
-        {
-            Name = project.Name;
-            SourceDirectory = project.SourceDirectory;
-            LastReleaseCreationTime = project.LastReleaseCreationTimeUtc == null ? null : (DateTime?)project.LastReleaseCreationTimeUtc.Value.ToLocalTime();
-            TotalDeployTargets = project.DeployTargets.Count;
+            var model = new DeploymentProjectViewModel
+            {
+                Name = project.Name,
+                SourceDirectory = project.SourceDirectory
+            };
+
+            using (var session = workContext.Database.OpenSession())
+            {
+                var lastRelease = session.Query<Release>().OrderByDescending(x => x.Id).FirstOrDefault();
+                model.LastReleaseCreationTime = lastRelease == null ? null : (DateTime?)lastRelease.CreatedAtUtc.ToLocalTime();
+                model.TotalDeployTargets = session.Query<DeployTarget>().Count();
+            }
+
+            return model;
         }
     }
 }

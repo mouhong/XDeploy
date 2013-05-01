@@ -12,7 +12,7 @@ namespace XDeploy.ViewModels
     {
         private string _name;
         private string _sourceDirectory;
-        private DateTime? _lastReleaseCreationTime;
+        private DateTime? _lastReleaseCreatedAt;
         private int _totalDeployTargets;
         private int _totalReleases;
 
@@ -48,18 +48,26 @@ namespace XDeploy.ViewModels
             }
         }
 
-        public DateTime? LastReleaseCreationTime
+        public bool HasRelease
         {
             get
             {
-                return _lastReleaseCreationTime;
+                return TotalReleases > 0;
+            }
+        }
+
+        public DateTime? LastReleaseCreatedAt
+        {
+            get
+            {
+                return _lastReleaseCreatedAt;
             }
             set
             {
-                if (_lastReleaseCreationTime != value)
+                if (_lastReleaseCreatedAt != value)
                 {
-                    _lastReleaseCreationTime = value;
-                    NotifyOfPropertyChange(() => LastReleaseCreationTime);
+                    _lastReleaseCreatedAt = value;
+                    NotifyOfPropertyChange(() => LastReleaseCreatedAt);
                 }
             }
         }
@@ -92,6 +100,7 @@ namespace XDeploy.ViewModels
                 {
                     _totalReleases = value;
                     NotifyOfPropertyChange(() => TotalReleases);
+                    NotifyOfPropertyChange(() => HasRelease);
                 }
             }
         }
@@ -100,24 +109,18 @@ namespace XDeploy.ViewModels
         {
         }
 
-        public static DeploymentProjectViewModel Create(WorkContext workContext)
+        public DeploymentProjectViewModel(DeploymentProject project)
         {
-            var project = workContext.Project;
+            UpdateFrom(project);
+        }
 
-            var model = new DeploymentProjectViewModel
-            {
-                Name = project.Name,
-                SourceDirectory = project.SourceDirectory
-            };
-
-            using (var session = workContext.Database.OpenSession())
-            {
-                var lastRelease = session.Query<Release>().OrderByDescending(x => x.Id).FirstOrDefault();
-                model.LastReleaseCreationTime = lastRelease == null ? null : (DateTime?)lastRelease.CreatedAtUtc.ToLocalTime();
-                model.TotalDeployTargets = session.Query<DeployTarget>().Count();
-            }
-
-            return model;
+        public void UpdateFrom(DeploymentProject project)
+        {
+            Name = project.Name;
+            SourceDirectory = project.SourceDirectory;
+            TotalReleases = project.TotalReleases;
+            LastReleaseCreatedAt = project.LastReleaseCreatedAtUtc;
+            TotalDeployTargets = project.TotalDeployTargets;
         }
     }
 }

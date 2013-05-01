@@ -47,6 +47,11 @@ namespace XDeploy
 
                 session.Save(release);
                 session.Commit();
+
+                project.LastReleaseCreatedAtUtc = release.CreatedAtUtc;
+                project.TotalReleases++;
+
+                project.Save();
             }
         }
     }

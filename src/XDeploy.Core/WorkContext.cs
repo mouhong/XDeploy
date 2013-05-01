@@ -38,7 +38,6 @@ namespace XDeploy
 
         public static void SetCurrent(WorkContext workContext)
         {
-            Require.NotNull(workContext, "workContext");
             _current = workContext;
         }
     }

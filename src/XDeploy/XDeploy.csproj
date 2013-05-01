@@ -84,7 +84,7 @@
     <Compile Include="ActionResult.cs" />
     <Compile Include="AsyncActionResult.cs" />
     <Compile Include="Events\WorkContextChanged.cs" />
-    <Compile Include="Loader.cs" />
+    <Compile Include="ViewModels\BusyIndicatorViewModel.cs" />
     <Compile Include="ViewModels\CreateDeployTargetViewModel.cs" />
     <Compile Include="ViewModels\DeployTargetListViewModel.cs" />
     <Compile Include="ViewModels\NoDeployTargetViewModel.cs" />

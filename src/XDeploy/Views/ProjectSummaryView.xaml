@@ -22,9 +22,11 @@
             <TextBlock Height="25" Text="{Binding Project.TotalDeployTargets}" />
             <TextBlock Height="25">
                 <Run Text="{Binding Project.TotalReleases}" />
-                <Run Text="( Last release: " />
-                <Run Text="{Binding Project.LastReleaseCreationTime}" />
-                <Run Text=" )" />
+                <TextBlock Visibility="{Binding Project.HasRelease, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Run Text="( Last release: " />
+                    <Run Text="{Binding Project.LastReleaseCreationTime}" />
+                    <Run Text=" )" />
+                </TextBlock>
             </TextBlock>
         </StackPanel>
     </Grid>

@@ -7,7 +7,23 @@
              mc:Ignorable="d" 
              Width="600" Height="400"
              d:DesignHeight="300" d:DesignWidth="300">
-    <xctk:BusyIndicator x:Name="BusyIndicator">
-        <ContentControl x:Name="ActiveItem" />
-    </xctk:BusyIndicator>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New" />
+                <MenuItem x:Name="OpenProject" Header="_Open" />
+                <Separator />
+                <MenuItem x:Name="CloseProject" Header="_Close Project" />
+                <Separator />
+                <MenuItem x:Name="Exit" Header="_Exit" />
+            </MenuItem>
+        </Menu>
+        <xctk:BusyIndicator Grid.Row="1" IsBusy="{Binding Busy.IsBusy}" BusyContent="{Binding Busy.Message}">
+            <ContentControl x:Name="ActiveItem" />
+        </xctk:BusyIndicator>
+    </Grid>
 </UserControl>

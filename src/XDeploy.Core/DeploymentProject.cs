@@ -27,6 +27,12 @@ namespace XDeploy
             }
         }
 
+        public DateTime? LastReleaseCreatedAtUtc { get; set; }
+
+        public int TotalReleases { get; set; }
+
+        public int TotalDeployTargets { get; set; }
+
         [XmlArrayItem("IgnorantRule")]
         public List<AbstractIgnorantRule> IgnorantRules { get; set; }
 

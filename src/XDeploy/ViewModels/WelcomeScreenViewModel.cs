@@ -20,36 +20,7 @@ namespace XDeploy.ViewModels
 
         public IEnumerable<IResult> OpenProject()
         {
-            var dialog = new OpenFileDialog();
-            dialog.Filter = "XDeploy Project|*.xdproj";
-            dialog.Multiselect = false;
-
-            if (dialog.ShowDialog() == true)
-            {
-                WorkContext workContext = null;
-                DeploymentProjectViewModel projectViewModel = null;
-
-                yield return Loader.Show("Loading project...");
-
-                var path = dialog.FileName;
-
-                yield return new AsyncActionResult(context =>
-                {
-                    var project = new ProjectLoader().LoadFrom(path);
-                    workContext = new WorkContext(project);
-                    projectViewModel = DeploymentProjectViewModel.Create(workContext);
-                    WorkContext.SetCurrent(workContext);
-                })
-                .OnSuccess(context => Loader.Hide().Execute(context.ExecutionContext))
-                .OnError(context => Loader.Hide().Execute(context.ExecutionContext));
-
-                yield return Loader.Hide();
-
-                yield return new ActionResult(context =>
-                {
-                    Shell.OnProjectLoaded(projectViewModel, workContext);
-                });
-            }
+            return Shell.OpenProject();
         }
     }
 }

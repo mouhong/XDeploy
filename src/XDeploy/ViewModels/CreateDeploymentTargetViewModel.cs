@@ -6,7 +6,7 @@ using System.Text;
 
 namespace XDeploy.ViewModels
 {
-    public class CreateDeployTargetViewModel : Screen
+    public class CreateDeploymentTargetViewModel : Screen
     {
     }
 }

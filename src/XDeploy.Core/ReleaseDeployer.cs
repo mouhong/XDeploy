@@ -38,7 +38,7 @@ namespace XDeploy
             var session = _workContext.Database.OpenSession();
 
             var release = session.Get<Release>(releaseId);
-            var target = session.Get<DeployTarget>(targetId);
+            var target = session.Get<DeploymentTarget>(targetId);
 
             var log = new DeploymentLog
             {

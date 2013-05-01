@@ -22,7 +22,7 @@ namespace XDeploy.ViewModels
 
             ActivateItem(new ProjectSummaryViewModel(project));
             Items.Add(new ProjectReleasesViewModel());
-            Items.Add(new ProjectDeployTargetsViewModel(shell, project, workContext));
+            Items.Add(new ProjectDeploymentTargetsViewModel(shell, project, workContext));
         }
     }
 }

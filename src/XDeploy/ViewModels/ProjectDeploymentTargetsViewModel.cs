@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace XDeploy.ViewModels
 {
-    public class ProjectDeployTargetsViewModel : Conductor<IScreen>
+    public class ProjectDeploymentTargetsViewModel : Conductor<IScreen>
     {
         public ShellViewModel Shell { get; private set; }
 
@@ -17,22 +17,22 @@ namespace XDeploy.ViewModels
 
         public WorkContext WorkContext { get; private set; }
 
-        public ProjectDeployTargetsViewModel(ShellViewModel shell, DeploymentProjectViewModel project, WorkContext workContext)
+        public ProjectDeploymentTargetsViewModel(ShellViewModel shell, DeploymentProjectViewModel project, WorkContext workContext)
         {
-            DisplayName = "Deploy Targets";
+            DisplayName = "Deployment Targets";
             Shell = shell;
             Project = project;
             WorkContext = workContext;
         }
 
-        public void CreateNewDeployTarget()
+        public void CreateDeploymentTarget()
         {
-            ChangeActiveItem(new CreateDeployTargetViewModel(), true);
+            ChangeActiveItem(new CreateDeploymentTargetViewModel(), true);
         }
 
         protected override void OnViewLoaded(object view)
         {
-            ActivateItem(new CreateDeployTargetViewModel());
+            ActivateItem(new CreateDeploymentTargetViewModel());
             //Caliburn.Micro.Action.Invoke(this, "LoadDeployTargets", (DependencyObject)view);
         }
 
@@ -40,13 +40,13 @@ namespace XDeploy.ViewModels
         {
             Shell.Busy.Show("Loading...");
 
-            List<DeployTarget> targets = null;
+            List<DeploymentTarget> targets = null;
 
             yield return new AsyncActionResult(context =>
             {
                 using (var session = WorkContext.Database.OpenSession())
                 {
-                    targets = session.Query<DeployTarget>().OrderBy(x => x.Name).ToList();
+                    targets = session.Query<DeploymentTarget>().OrderBy(x => x.Name).ToList();
                 }
             });
 
@@ -58,11 +58,11 @@ namespace XDeploy.ViewModels
             {
                 if (targets.Count == 0)
                 {
-                    ActivateItem(new NoDeployTargetViewModel(this));
+                    ActivateItem(new NoDeploymentTargetViewModel(this));
                 }
                 else
                 {
-                    ActivateItem(new DeployTargetListViewModel());
+                    ActivateItem(new DeploymentTargetListViewModel());
                 }
             });
         }

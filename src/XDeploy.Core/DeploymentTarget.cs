@@ -5,7 +5,7 @@ using System.Text;
 
 namespace XDeploy
 {
-    public class DeployTarget
+    public class DeploymentTarget
     {
         public virtual int Id { get; set; }
 
@@ -19,11 +19,11 @@ namespace XDeploy
 
         public virtual DateTime? LastBackuppedAtUtc { get; set; }
 
-        public DeployTarget()
+        public DeploymentTarget()
         {
         }
 
-        public DeployTarget(string name, Location deployLocation)
+        public DeploymentTarget(string name, Location deployLocation)
         {
             Name = name;
             DeployLocation = deployLocation;

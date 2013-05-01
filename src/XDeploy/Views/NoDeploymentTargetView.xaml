@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="XDeploy.Views.NoDeployTargetView"
+﻿<UserControl x:Class="XDeploy.Views.NoDeploymentTargetView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -11,6 +11,6 @@
                 There' no deploy target right now.
             </TextBlock>
         </Border>
-        <Button x:Name="CreateNewDeployTarget" Content="Create New Target" Style="{StaticResource ButtonLarge}" />
+        <Button x:Name="CreateNewTarget" Content="Create New Target" Style="{StaticResource ButtonLarge}" />
     </StackPanel>
 </UserControl>

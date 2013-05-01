@@ -85,23 +85,23 @@
     <Compile Include="AsyncActionResult.cs" />
     <Compile Include="Events\WorkContextChanged.cs" />
     <Compile Include="ViewModels\BusyIndicatorViewModel.cs" />
-    <Compile Include="ViewModels\CreateDeployTargetViewModel.cs" />
-    <Compile Include="ViewModels\DeployTargetListViewModel.cs" />
-    <Compile Include="ViewModels\NoDeployTargetViewModel.cs" />
-    <Compile Include="ViewModels\ProjectDeployTargetsViewModel.cs" />
+    <Compile Include="ViewModels\CreateDeploymentTargetViewModel.cs" />
+    <Compile Include="ViewModels\DeploymentTargetListViewModel.cs" />
+    <Compile Include="ViewModels\NoDeploymentTargetViewModel.cs" />
+    <Compile Include="ViewModels\ProjectDeploymentTargetsViewModel.cs" />
     <Compile Include="ViewModels\ProjectReleasesViewModel.cs" />
     <Compile Include="ViewModels\ProjectWorkspaceViewModel.cs" />
     <Compile Include="ViewModels\ProjectSummaryViewModel.cs" />
     <Compile Include="ViewModels\WelcomeScreenViewModel.cs" />
     <Compile Include="ViewModels\DeploymentProjectViewModel.cs" />
-    <Compile Include="Views\CreateDeployTargetView.xaml.cs">
-      <DependentUpon>CreateDeployTargetView.xaml</DependentUpon>
+    <Compile Include="Views\CreateDeploymentTargetView.xaml.cs">
+      <DependentUpon>CreateDeploymentTargetView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NoDeployTargetView.xaml.cs">
-      <DependentUpon>NoDeployTargetView.xaml</DependentUpon>
+    <Compile Include="Views\NoDeploymentTargetView.xaml.cs">
+      <DependentUpon>NoDeploymentTargetView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ProjectDeployTargetsView.xaml.cs">
-      <DependentUpon>ProjectDeployTargetsView.xaml</DependentUpon>
+    <Compile Include="Views\ProjectDeploymentTargetsView.xaml.cs">
+      <DependentUpon>ProjectDeploymentTargetsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProjectReleasesView.xaml.cs">
       <DependentUpon>ProjectReleasesView.xaml</DependentUpon>
@@ -128,15 +128,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CreateDeployTargetView.xaml">
+    <Page Include="Views\CreateDeploymentTargetView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NoDeployTargetView.xaml">
+    <Page Include="Views\NoDeploymentTargetView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ProjectDeployTargetsView.xaml">
+    <Page Include="Views\ProjectDeploymentTargetsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

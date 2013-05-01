@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="XDeploy.Views.CreateDeployTargetView"
+﻿<UserControl x:Class="XDeploy.Views.CreateDeploymentTargetView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,7 +7,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
         <Border Style="{StaticResource PageTitle}">
-            <TextBlock>Create New Deploy Target</TextBlock>
+            <TextBlock>Create New Deployment Target</TextBlock>
         </Border>
         <StackPanel Style="{StaticResource FormField}">
             <Label Content="Name:" />

@@ -6,7 +6,7 @@
 	constraint PK_HiValue primary key (TableName)
 );
 
-create table DeployTarget
+create table DeploymentTarget
 (
 	Id int not null,
 	Name nvarchar(50) not null,
@@ -21,7 +21,7 @@ create table DeployTarget
 	LastDeployedAtUtc datetime null,
 	LastBackuppedAtUtc datetime null,
 
-	constraint PK_DeployTarget primary key (Id)
+	constraint PK_DeploymentTarget primary key (Id)
 );
 
 create table Release
@@ -55,6 +55,6 @@ create table DeploymentLog
 	constraint FK_DeployLog_ReleaseId foreign key (ReleaseId) references Release(Id) on delete cascade
 );
 
-insert into HiValue values ('DeployTarget', 0);
+insert into HiValue values ('DeploymentTarget', 0);
 insert into HiValue values ('Release', 0);
 insert into HiValue values ('DeploymentLog', 0);

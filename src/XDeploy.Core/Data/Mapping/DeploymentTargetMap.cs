@@ -6,9 +6,9 @@ using System.Text;
 
 namespace XDeploy.Data.Mapping
 {
-    class DeployTargetMap : ClassMapping<DeployTarget>
+    class DeploymentTargetMap : ClassMapping<DeploymentTarget>
     {
-        public DeployTargetMap()
+        public DeploymentTargetMap()
         {
             this.HighLowId(c => c.Id);
 

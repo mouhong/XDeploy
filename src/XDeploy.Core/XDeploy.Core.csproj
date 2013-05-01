@@ -61,13 +61,13 @@
     </Compile>
     <Compile Include="Data\Mapping\ByCodeMappingLoader.cs" />
     <Compile Include="Data\Mapping\DeploymentLogMap.cs" />
-    <Compile Include="Data\Mapping\DeployTargetMap.cs" />
+    <Compile Include="Data\Mapping\DeploymentTargetMap.cs" />
     <Compile Include="Data\Mapping\ReleaseMap.cs" />
     <Compile Include="Data\Mapping\UserTypes\Blobbed.cs" />
     <Compile Include="Data\Database.cs" />
     <Compile Include="Data\Mapping\Extensions\IClassAttributesMapperExtensions.cs" />
     <Compile Include="DeploymentLog.cs" />
-    <Compile Include="DeployTarget.cs" />
+    <Compile Include="DeploymentTarget.cs" />
     <Compile Include="Extensions\DeploymentSettingsExtensions.cs" />
     <Compile Include="Extensions\ISessionExtensions.cs" />
     <Compile Include="Extensions\QueryableExtensions.cs" />

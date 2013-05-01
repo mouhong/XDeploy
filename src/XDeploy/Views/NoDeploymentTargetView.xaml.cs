@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace XDeploy.Views
 {
     /// <summary>
-    /// Interaction logic for CreateDeployTargetView.xaml
+    /// Interaction logic for NoDeployTargetView.xaml
     /// </summary>
-    public partial class CreateDeployTargetView : UserControl
+    public partial class NoDeploymentTargetView : UserControl
     {
-        public CreateDeployTargetView()
+        public NoDeploymentTargetView()
         {
             InitializeComponent();
         }

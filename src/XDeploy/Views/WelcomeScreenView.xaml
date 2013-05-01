@@ -7,8 +7,8 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel VerticalAlignment="Center">
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <Button Content="New Project" FontSize="18" Width="180" Height="60" Margin="5" />
-            <Button x:Name="OpenProject" Content="Open Project" FontSize="18" Width="180" Height="60" Margin="5" />
+            <Button x:Name="CreateProject" Content="New Project" Width="180" Style="{StaticResource ButtonLarge}" />
+            <Button x:Name="OpenProject" Content="Open Project" Width="180" Style="{StaticResource ButtonLarge}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

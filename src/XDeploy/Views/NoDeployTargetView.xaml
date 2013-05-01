@@ -5,10 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-        <TextBlock Height="35" FontSize="20">
-            There's no deploy target now.
-        </TextBlock>
-        <Button x:Name="CreateNewDeployTarget" Height="50" FontSize="24" Content="Create New Target" />
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-120,0,0">
+        <Border Style="{StaticResource MessageInfo}">
+            <TextBlock>
+                There' no deploy target right now.
+            </TextBlock>
+        </Border>
+        <Button x:Name="CreateNewDeployTarget" Content="Create New Target" Style="{StaticResource ButtonLarge}" />
     </StackPanel>
 </UserControl>

@@ -32,7 +32,8 @@ namespace XDeploy.ViewModels
 
         protected override void OnViewLoaded(object view)
         {
-            Caliburn.Micro.Action.Invoke(this, "LoadDeployTargets", (DependencyObject)view);
+            ActivateItem(new CreateDeployTargetViewModel());
+            //Caliburn.Micro.Action.Invoke(this, "LoadDeployTargets", (DependencyObject)view);
         }
 
         public IEnumerable<IResult> LoadDeployTargets()

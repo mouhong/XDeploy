@@ -5,7 +5,40 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <TextBlock>Create Deploy Target Form</TextBlock> 
-    </Grid>
+    <StackPanel>
+        <Border Style="{StaticResource PageTitle}">
+            <TextBlock>Create New Deploy Target</TextBlock>
+        </Border>
+        <StackPanel Style="{StaticResource FormField}">
+            <Label Content="Name:" />
+            <TextBox />
+        </StackPanel>
+        <Border Style="{StaticResource FormSectionTitle}">
+            <TextBlock>Deployment Location</TextBlock>
+        </Border>
+        <StackPanel>
+            <StackPanel Style="{StaticResource FormField}">
+                <Label Content="Uri:" />
+                <TextBox />
+            </StackPanel>
+            <StackPanel Style="{StaticResource FormField}">
+                <Label Content="Domain:" />
+                <TextBox />
+            </StackPanel>
+            <StackPanel Style="{StaticResource FormField}">
+                <Label Content="Username:" />
+                <TextBox />
+            </StackPanel>
+            <StackPanel Style="{StaticResource FormField}">
+                <Label Content="Password:" />
+                <PasswordBox />
+            </StackPanel>
+        </StackPanel>
+        <Border Style="{StaticResource FormActions}">
+            <StackPanel>
+                <Button Content="Save" Style="{StaticResource ActionButtonPrimary}" />
+                <Button Content="Cancel" />
+            </StackPanel>
+        </Border>
+    </StackPanel>
 </UserControl>

@@ -80,6 +80,8 @@ namespace XDeploy.Data
                 config.AddMapping(ByCodeMappingLoader.LoadMappingFrom(typeof(Database).Assembly));
 
                 _sessionFactory = config.BuildSessionFactory();
+
+                IsInitialized = true;
             }
         }
 

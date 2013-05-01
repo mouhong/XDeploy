@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using XDeploy.Events;
 
@@ -54,6 +55,11 @@ namespace XDeploy.ViewModels
                 {
                     ChangeActiveItem(new ProjectWorkspaceViewModel(this, projectViewModel, workContext), true);
                     NotifyOfPropertyChange(() => CanCloseProject);
+                });
+
+                Task.Factory.StartNew(() =>
+                {
+                    workContext.Database.Initialize();
                 });
             }
         }

@@ -16,6 +16,7 @@ create table DeploymentTarget
 	BackupLocation_Uri nvarchar(255) null,
 	BackupLocation_UserName nvarchar(50) null,
 	BackupLocation_Password nvarchar(50) null,
+	CreatedAtUtc datetime not null,
 	LastDeployedAtUtc datetime null,
 	LastBackuppedAtUtc datetime null,
 

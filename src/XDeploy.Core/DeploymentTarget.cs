@@ -15,12 +15,15 @@ namespace XDeploy
 
         public virtual Location BackupLocation { get; set; }
 
+        public virtual DateTime CreatedAtUtc { get; protected set; }
+
         public virtual DateTime? LastDeployedAtUtc { get; set; }
 
         public virtual DateTime? LastBackuppedAtUtc { get; set; }
 
         public DeploymentTarget()
         {
+            CreatedAtUtc = DateTime.UtcNow;
             DeployLocation = new Location();
             BackupLocation = new Location();
         }
@@ -28,6 +31,7 @@ namespace XDeploy
         public DeploymentTarget(string name, Location deployLocation)
         {
             Name = name;
+            CreatedAtUtc = DateTime.UtcNow;
             DeployLocation = deployLocation;
             BackupLocation = new Location();
         }

@@ -56,9 +56,9 @@ namespace XDeploy.ViewModels
                 Shell.Busy.Hide();
             });
 
-            Shell.Busy.Hide();
-
             Host.OnFormSaved(Form, FormMode.Add);
+
+            Shell.Busy.Hide();
         }
     }
 }

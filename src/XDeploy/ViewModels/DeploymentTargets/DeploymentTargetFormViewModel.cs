@@ -8,6 +8,8 @@ namespace XDeploy.ViewModels
 {
     public class DeploymentTargetFormViewModel : PropertyChangedBase
     {
+        public int Id { get; set; }
+
         private string _name;
 
         public string Name
@@ -66,6 +68,14 @@ namespace XDeploy.ViewModels
         {
             _deployLocation = new LocationFormViewModel();
             _backupLocation = new LocationFormViewModel();
+        }
+
+        public void UpdateFrom(DeploymentTarget target)
+        {
+            Id = target.Id;
+            Name = target.Name;
+            DeployLocation.UpdateFrom(target.DeployLocation);
+            BackupLocation.UpdateFrom(target.BackupLocation);
         }
 
         public void UpdateTo(DeploymentTarget target)

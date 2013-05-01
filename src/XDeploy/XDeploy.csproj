@@ -85,14 +85,16 @@
     <Compile Include="AsyncActionResult.cs" />
     <Compile Include="Events\WorkContextChanged.cs" />
     <Compile Include="ViewModels\BusyIndicatorViewModel.cs" />
-    <Compile Include="ViewModels\CreateDeploymentTargetViewModel.cs" />
-    <Compile Include="ViewModels\DeploymentTargetFormViewModel.cs" />
-    <Compile Include="ViewModels\DeploymentTargetListViewModel.cs" />
+    <Compile Include="ViewModels\DeploymentTargets\CreateDeploymentTargetViewModel.cs" />
+    <Compile Include="ViewModels\DeploymentTargets\DeploymentTargetFormViewModel.cs" />
+    <Compile Include="ViewModels\DeploymentTargets\DeploymentTargetListItemViewModel.cs" />
+    <Compile Include="ViewModels\DeploymentTargets\DeploymentTargetListViewModel.cs" />
+    <Compile Include="ViewModels\DeploymentTargets\EditDeploymentTargetViewModel.cs" />
     <Compile Include="ViewModels\FormMode.cs" />
-    <Compile Include="ViewModels\IDeploymentTargetFormActionAware.cs" />
+    <Compile Include="ViewModels\DeploymentTargets\IDeploymentTargetFormActionAware.cs" />
     <Compile Include="ViewModels\LocationFormViewModel.cs" />
-    <Compile Include="ViewModels\NoDeploymentTargetViewModel.cs" />
-    <Compile Include="ViewModels\ProjectDeploymentTargetsViewModel.cs" />
+    <Compile Include="ViewModels\DeploymentTargets\NoDeploymentTargetViewModel.cs" />
+    <Compile Include="ViewModels\DeploymentTargets\ProjectDeploymentTargetsViewModel.cs" />
     <Compile Include="ViewModels\ProjectReleasesViewModel.cs" />
     <Compile Include="ViewModels\ProjectWorkspaceViewModel.cs" />
     <Compile Include="ViewModels\ProjectSummaryViewModel.cs" />
@@ -103,6 +105,12 @@
     </Compile>
     <Compile Include="Views\DeploymentTargetFormView.xaml.cs">
       <DependentUpon>DeploymentTargetFormView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DeploymentTargetListView.xaml.cs">
+      <DependentUpon>DeploymentTargetListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditDeploymentTargetView.xaml.cs">
+      <DependentUpon>EditDeploymentTargetView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LocationFormView.xaml.cs">
       <DependentUpon>LocationFormView.xaml</DependentUpon>
@@ -143,6 +151,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DeploymentTargetFormView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DeploymentTargetListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditDeploymentTargetView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

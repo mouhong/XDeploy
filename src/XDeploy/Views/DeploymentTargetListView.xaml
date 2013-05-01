@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="XDeploy.Views.DeploymentTargetListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel>
+        <ToolBar>
+            <Button x:Name="CreateNewTarget" Content="Create New Target" />
+        </ToolBar>
+        <ListView ItemsSource="{Binding Targets}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" />
+                        <TextBlock>
+                            <Run>Created At:</Run>
+                            <Run Text="{Binding CreatedAt}" />
+                            <Run>|</Run>
+                            <Run>Last Deployed At:</Run>
+                            <Run Text="{Binding LastDeployedAt}" />
+                            <Run>|</Run>
+                            <Run>Last Backupped At:</Run>
+                            <Run Text="{Binding LastBackuppedAt}" />
+                        </TextBlock>
+                        <Button Content="Edit" cal:Message.Attach="EditTarget($dataContext)" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackPanel>
+</UserControl>

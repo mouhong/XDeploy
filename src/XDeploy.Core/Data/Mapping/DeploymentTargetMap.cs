@@ -13,6 +13,7 @@ namespace XDeploy.Data.Mapping
             this.HighLowId(c => c.Id);
 
             Property(c => c.Name);
+            Property(c => c.CreatedAtUtc);
             Property(c => c.LastDeployedAtUtc);
             Property(c => c.LastBackuppedAtUtc);
 

@@ -70,6 +70,13 @@ namespace XDeploy.ViewModels
             }
         }
 
+        public void UpdateFrom(Location location)
+        {
+            Uri = location.Uri;
+            UserName = location.UserName;
+            Password = location.Password;
+        }
+
         public void UpdateTo(Location location)
         {
             location.Uri = Uri.TrimIfNotNull();

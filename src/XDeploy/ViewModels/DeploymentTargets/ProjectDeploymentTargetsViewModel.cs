@@ -19,6 +19,8 @@ namespace XDeploy.ViewModels
 
         public CreateDeploymentTargetViewModel CreationScreen { get; private set; }
 
+        public EditDeploymentTargetViewModel EditingScreen { get; private set; }
+
         public NoDeploymentTargetViewModel NoTargetScreen { get; private set; }
 
         public DeploymentTargetListViewModel ListScreen { get; private set; }
@@ -31,10 +33,12 @@ namespace XDeploy.ViewModels
             WorkContext = workContext;
 
             CreationScreen = new CreateDeploymentTargetViewModel(shell, this);
+            EditingScreen = new EditDeploymentTargetViewModel(shell, this);
             NoTargetScreen = new NoDeploymentTargetViewModel(this);
-            ListScreen = new DeploymentTargetListViewModel();
+            ListScreen = new DeploymentTargetListViewModel(this);
 
             Items.Add(CreationScreen);
+            Items.Add(EditingScreen);
             Items.Add(NoTargetScreen);
             Items.Add(ListScreen);
         }
@@ -43,6 +47,26 @@ namespace XDeploy.ViewModels
         {
             CreationScreen.Reset();
             ActivateItem(CreationScreen);
+        }
+
+        public IEnumerable<IResult> EditDeploymentTarget(int targetId)
+        {
+            Shell.Busy.Loading();
+
+            DeploymentTarget target = null;
+
+            yield return new AsyncActionResult(context =>
+            {
+                using (var session = Shell.WorkContext.OpenSession())
+                {
+                    target = session.Get<DeploymentTarget>(targetId);
+                }
+            });
+
+            EditingScreen.UpdateFrom(target);
+            ActivateItem(EditingScreen);
+
+            Shell.Busy.Hide();
         }
 
         protected override void OnViewLoaded(object view)
@@ -76,6 +100,7 @@ namespace XDeploy.ViewModels
                 }
                 else
                 {
+                    ListScreen.UpdateTargets(targets.Select(x => new DeploymentTargetListItemViewModel(x)));
                     ActivateItem(ListScreen);
                 }
             });
@@ -83,7 +108,7 @@ namespace XDeploy.ViewModels
 
         public void OnFormCanceled(DeploymentTargetFormViewModel viewModel, FormMode mode)
         {
-            if (ListScreen.TotalTargets > 0)
+            if (ListScreen.Targets.Count > 0)
             {
                 ActivateItem(ListScreen);
             }

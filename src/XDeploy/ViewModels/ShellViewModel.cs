@@ -18,6 +18,8 @@ namespace XDeploy.ViewModels
 
         public BusyIndicatorViewModel Busy { get; private set; }
 
+        public WorkContext WorkContext { get; private set; }
+
         public ShellViewModel()
         {
             DisplayName = "XDeploy";
@@ -33,19 +35,17 @@ namespace XDeploy.ViewModels
 
             if (dialog.ShowDialog() == true)
             {
-                WorkContext workContext = null;
                 DeploymentProjectViewModel projectViewModel = null;
 
-                Busy.Show("Loading project...");
+                Busy.Loading();
 
                 var path = dialog.FileName;
 
                 yield return new AsyncActionResult(context =>
                 {
                     var project = new ProjectLoader().LoadFrom(path);
-                    workContext = new WorkContext(project);
-                    projectViewModel = new DeploymentProjectViewModel(workContext.Project);
-                    WorkContext.SetCurrent(workContext);
+                    WorkContext = new WorkContext(project);
+                    projectViewModel = new DeploymentProjectViewModel(WorkContext.Project);
                 })
                 .OnError(context => Busy.Hide());
 
@@ -53,13 +53,13 @@ namespace XDeploy.ViewModels
 
                 yield return new ActionResult(context =>
                 {
-                    ChangeActiveItem(new ProjectWorkspaceViewModel(this, projectViewModel, workContext), true);
+                    ChangeActiveItem(new ProjectWorkspaceViewModel(this, projectViewModel, WorkContext), true);
                     NotifyOfPropertyChange(() => CanCloseProject);
                 });
 
                 Task.Factory.StartNew(() =>
                 {
-                    workContext.Database.Initialize();
+                    WorkContext.Database.Initialize();
                 });
             }
         }
@@ -68,18 +68,16 @@ namespace XDeploy.ViewModels
         {
             get
             {
-                return WorkContext.Current != null;
+                return WorkContext != null;
             }
         }
 
         public void CloseProject()
         {
-            var workContext = WorkContext.Current;
-
-            if (workContext != null)
+            if (WorkContext != null)
             {
-                WorkContext.Current.Dispose();
-                WorkContext.SetCurrent(null);
+                WorkContext.Dispose();
+                WorkContext = null;
 
                 ChangeActiveItem(new WelcomeScreenViewModel(this), true);
             }

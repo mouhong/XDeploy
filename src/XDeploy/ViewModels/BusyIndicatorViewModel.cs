@@ -50,6 +50,16 @@ namespace XDeploy.ViewModels
             IsBusy = true;
         }
 
+        public void Processing()
+        {
+            Show("Processing...");
+        }
+
+        public void Loading()
+        {
+            Show("Loading...");
+        }
+
         public void Hide()
         {
             IsBusy = false;

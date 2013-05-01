@@ -86,7 +86,11 @@
     <Compile Include="Events\WorkContextChanged.cs" />
     <Compile Include="ViewModels\BusyIndicatorViewModel.cs" />
     <Compile Include="ViewModels\CreateDeploymentTargetViewModel.cs" />
+    <Compile Include="ViewModels\DeploymentTargetFormViewModel.cs" />
     <Compile Include="ViewModels\DeploymentTargetListViewModel.cs" />
+    <Compile Include="ViewModels\FormMode.cs" />
+    <Compile Include="ViewModels\IDeploymentTargetFormActionAware.cs" />
+    <Compile Include="ViewModels\LocationFormViewModel.cs" />
     <Compile Include="ViewModels\NoDeploymentTargetViewModel.cs" />
     <Compile Include="ViewModels\ProjectDeploymentTargetsViewModel.cs" />
     <Compile Include="ViewModels\ProjectReleasesViewModel.cs" />
@@ -96,6 +100,12 @@
     <Compile Include="ViewModels\DeploymentProjectViewModel.cs" />
     <Compile Include="Views\CreateDeploymentTargetView.xaml.cs">
       <DependentUpon>CreateDeploymentTargetView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DeploymentTargetFormView.xaml.cs">
+      <DependentUpon>DeploymentTargetFormView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LocationFormView.xaml.cs">
+      <DependentUpon>LocationFormView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NoDeploymentTargetView.xaml.cs">
       <DependentUpon>NoDeploymentTargetView.xaml</DependentUpon>
@@ -129,6 +139,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CreateDeploymentTargetView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DeploymentTargetFormView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LocationFormView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

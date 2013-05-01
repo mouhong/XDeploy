@@ -8,5 +8,6 @@ namespace XDeploy.ViewModels
 {
     public class DeploymentTargetListViewModel : Screen
     {
+        public int TotalTargets { get; private set; }
     }
 }

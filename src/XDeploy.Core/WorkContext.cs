@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NHibernate;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,24 +22,14 @@ namespace XDeploy
             Database = new Database(Path.Combine(project.ProjectDirectory, "Data\\Data.sqlite"));
         }
 
+        public ISession OpenSession()
+        {
+            return Database.OpenSession();
+        }
+
         public void Dispose()
         {
             Database.Dispose();
-        }
-
-        public static WorkContext _current;
-
-        public static WorkContext Current
-        {
-            get
-            {
-                return _current;
-            }
-        }
-
-        public static void SetCurrent(WorkContext workContext)
-        {
-            _current = workContext;
         }
     }
 }

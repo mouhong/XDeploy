@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="XDeploy.Views.DeploymentTargetFormView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel>
+        <StackPanel Style="{StaticResource FormField}">
+            <Label Content="Name:" />
+            <TextBox x:Name="Name" />
+        </StackPanel>
+        <Border Style="{StaticResource FormSectionTitle}">
+            <TextBlock>Deployment Location</TextBlock>
+        </Border>
+        <ContentControl x:Name="DeployLocation" />
+        <Border Style="{StaticResource FormSectionTitle}">
+            <TextBlock>Backup Location</TextBlock>
+        </Border>
+        <ContentControl x:Name="BackupLocation" />
+    </StackPanel>
+</UserControl>

@@ -9,35 +9,11 @@
         <Border Style="{StaticResource PageTitle}">
             <TextBlock>Create New Deployment Target</TextBlock>
         </Border>
-        <StackPanel Style="{StaticResource FormField}">
-            <Label Content="Name:" />
-            <TextBox />
-        </StackPanel>
-        <Border Style="{StaticResource FormSectionTitle}">
-            <TextBlock>Deployment Location</TextBlock>
-        </Border>
-        <StackPanel>
-            <StackPanel Style="{StaticResource FormField}">
-                <Label Content="Uri:" />
-                <TextBox />
-            </StackPanel>
-            <StackPanel Style="{StaticResource FormField}">
-                <Label Content="Domain:" />
-                <TextBox />
-            </StackPanel>
-            <StackPanel Style="{StaticResource FormField}">
-                <Label Content="Username:" />
-                <TextBox />
-            </StackPanel>
-            <StackPanel Style="{StaticResource FormField}">
-                <Label Content="Password:" />
-                <PasswordBox />
-            </StackPanel>
-        </StackPanel>
+        <ContentControl x:Name="Form" />
         <Border Style="{StaticResource FormActions}">
             <StackPanel>
-                <Button Content="Save" Style="{StaticResource ActionButtonPrimary}" />
-                <Button Content="Cancel" />
+                <Button x:Name="Save" Content="Save" Style="{StaticResource ActionButtonPrimary}" />
+                <Button x:Name="Cancel" Content="Cancel" />
             </StackPanel>
         </Border>
     </StackPanel>

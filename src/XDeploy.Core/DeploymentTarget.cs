@@ -21,12 +21,15 @@ namespace XDeploy
 
         public DeploymentTarget()
         {
+            DeployLocation = new Location();
+            BackupLocation = new Location();
         }
 
         public DeploymentTarget(string name, Location deployLocation)
         {
             Name = name;
             DeployLocation = deployLocation;
+            BackupLocation = new Location();
         }
 
         public override string ToString()

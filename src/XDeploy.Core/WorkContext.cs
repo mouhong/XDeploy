@@ -27,6 +27,11 @@ namespace XDeploy
             return Database.OpenSession();
         }
 
+        public IStatelessSession OpenStatelessSession()
+        {
+            return Database.OpenStatelessSession();
+        }
+
         public void Dispose()
         {
             Database.Dispose();

@@ -39,6 +39,12 @@ namespace XDeploy.Data
             return _sessionFactory.OpenSession();
         }
 
+        public IStatelessSession OpenStatelessSession()
+        {
+            EnsureInitialized();
+            return _sessionFactory.OpenStatelessSession();
+        }
+
         public void Initialize()
         {
             EnsureInitialized();

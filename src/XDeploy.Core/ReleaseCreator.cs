@@ -17,7 +17,7 @@ namespace XDeploy
             _workContext = context;
         }
 
-        public void CreateRelease(string name, string releaseNotes, DeploymentSettings deploymentSettings)
+        public void CreateRelease(string name, string releaseNotes, DeploymentSettings deploymentSettings = null)
         {
             Require.NotNullOrEmpty(name, "name");
 
@@ -25,14 +25,12 @@ namespace XDeploy
 
             using (var session = _workContext.Database.OpenSession())
             {
-                var lastRelease = session.Query<Release>().OrderByDescending(x => x.Id).FirstOrDefault();
-
                 if (deploymentSettings == null)
                 {
                     deploymentSettings = new DeploymentSettings
                     {
                         IgnorantRules = project.IgnorantRules,
-                        DeployItemsModifiedSinceUtc = lastRelease == null ? null : (DateTime?)lastRelease.CreatedAtUtc
+                        DeployItemsModifiedSinceUtc = project.LastReleaseCreatedAtUtc
                     };
                 }
 

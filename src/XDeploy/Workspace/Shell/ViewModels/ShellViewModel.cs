@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using XDeploy.Workspace.Home.ViewModels;
+using NHibernate.Linq;
 
 namespace XDeploy.Workspace.Shell.ViewModels
 {
@@ -18,12 +19,17 @@ namespace XDeploy.Workspace.Shell.ViewModels
 
         public BusyIndicatorViewModel Busy { get; private set; }
 
+        public IMessageBox MessageBox { get; private set; }
+
         public WorkContext WorkContext { get; private set; }
+
+        public DeploymentProjectViewModel Project { get; private set; }
 
         public ShellViewModel()
         {
             DisplayName = "XDeploy";
             Busy = new BusyIndicatorViewModel();
+            MessageBox = new DefaultMessageBox();
             _initialView = new WelcomeScreenViewModel(this);
         }
 
@@ -35,8 +41,6 @@ namespace XDeploy.Workspace.Shell.ViewModels
 
             if (dialog.ShowDialog() == true)
             {
-                DeploymentProjectViewModel projectViewModel = null;
-
                 Busy.Loading();
 
                 var path = dialog.FileName;
@@ -45,17 +49,14 @@ namespace XDeploy.Workspace.Shell.ViewModels
                 {
                     var project = new ProjectLoader().LoadFrom(path);
                     WorkContext = new WorkContext(project);
-                    projectViewModel = new DeploymentProjectViewModel(WorkContext.Project);
+                    Project = new DeploymentProjectViewModel(WorkContext.Project);
                 })
                 .OnError(context => Busy.Hide());
 
                 Busy.Hide();
 
-                yield return new ActionResult(context =>
-                {
-                    ChangeActiveItem(new ProjectWorkspaceViewModel(this, projectViewModel, WorkContext), true);
-                    NotifyOfPropertyChange(() => CanCloseProject);
-                });
+                ChangeActiveItem(new ProjectWorkspaceViewModel(this), true);
+                NotifyOfPropertyChange(() => CanCloseProject);
 
                 Task.Factory.StartNew(() =>
                 {

@@ -56,14 +56,20 @@
                 <Setter Property="HorizontalContentAlignment" Value="Right" />
                 <Setter Property="Margin" Value="0,0,5,5" />
             </Style>
+            <Style TargetType="TextBlock">
+                <Setter Property="Margin" Value="0,0,0,5" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
             <Style TargetType="TextBox">
                 <Setter Property="Width" Value="200" />
                 <Setter Property="Margin" Value="0,0,0,5" />
+                <Setter Property="Padding" Value="0,2" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
             </Style>
             <Style TargetType="PasswordBox">
                 <Setter Property="Width" Value="200" />
                 <Setter Property="Margin" Value="0,0,0,5" />
+                <Setter Property="Padding" Value="0,2" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
             </Style>
         </Style.Resources>

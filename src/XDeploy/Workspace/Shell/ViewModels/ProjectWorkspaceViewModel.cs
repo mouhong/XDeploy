@@ -13,19 +13,31 @@ namespace XDeploy.Workspace.Shell.ViewModels
     {
         public ShellViewModel Shell { get; private set; }
 
-        public DeploymentProjectViewModel Project { get; private set; }
-
-        public WorkContext WorkContext { get; private set; }
-
-        public ProjectWorkspaceViewModel(ShellViewModel shell, DeploymentProjectViewModel project, WorkContext workContext)
+        public WorkContext WorkContext
         {
-            Shell = shell;
-            Project = project;
-            WorkContext = workContext;
+            get
+            {
+                return Shell.WorkContext;
+            }
+        }
 
-            ActivateItem(new ProjectSummaryViewModel(project));
-            Items.Add(new ProjectReleasesViewModel());
-            Items.Add(new ProjectDeploymentTargetsViewModel(shell, project, workContext));
+        public DeploymentProjectViewModel Project
+        {
+            get
+            {
+                return Shell.Project;
+            }
+        }
+
+        public ProjectWorkspaceViewModel(ShellViewModel shell)
+        {
+            Require.NotNull(shell, "shell");
+
+            Shell = shell;
+
+            ActivateItem(new ProjectSummaryViewModel(Project));
+            Items.Add(new ProjectReleasesViewModel(shell));
+            Items.Add(new ProjectDeploymentTargetsViewModel(shell));
         }
     }
 }

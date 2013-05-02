@@ -14,9 +14,21 @@ namespace XDeploy.Workspace.DeploymentTargets.ViewModels
     {
         public ShellViewModel Shell { get; private set; }
 
-        public DeploymentProjectViewModel Project { get; private set; }
+        public DeploymentProjectViewModel Project
+        {
+            get
+            {
+                return Shell.Project;
+            }
+        }
 
-        public WorkContext WorkContext { get; private set; }
+        public WorkContext WorkContext
+        {
+            get
+            {
+                return Shell.WorkContext;
+            }
+        }
 
         public CreateDeploymentTargetViewModel CreationScreen { get; private set; }
 
@@ -26,12 +38,10 @@ namespace XDeploy.Workspace.DeploymentTargets.ViewModels
 
         public DeploymentTargetListViewModel ListScreen { get; private set; }
 
-        public ProjectDeploymentTargetsViewModel(ShellViewModel shell, DeploymentProjectViewModel project, WorkContext workContext)
+        public ProjectDeploymentTargetsViewModel(ShellViewModel shell)
         {
             DisplayName = "Deployment Targets";
             Shell = shell;
-            Project = project;
-            WorkContext = workContext;
 
             CreationScreen = new CreateDeploymentTargetViewModel(shell, this);
             EditingScreen = new EditDeploymentTargetViewModel(shell, this);

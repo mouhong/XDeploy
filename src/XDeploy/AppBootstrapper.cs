@@ -6,7 +6,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 using System.Text;
-using XDeploy.ViewModels;
+using XDeploy.Workspace.Shell.ViewModels;
 
 namespace XDeploy
 {

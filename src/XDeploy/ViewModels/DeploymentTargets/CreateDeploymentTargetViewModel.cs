@@ -50,10 +50,6 @@ namespace XDeploy.ViewModels
                     Shell.WorkContext.Project.TotalDeployTargets = session.Query<DeploymentTarget>().Count();
                     Shell.WorkContext.Project.Save();
                 }
-            })
-            .OnError(context =>
-            {
-                Shell.Busy.Hide();
             });
 
             Host.OnFormSaved(Form, FormMode.Add);

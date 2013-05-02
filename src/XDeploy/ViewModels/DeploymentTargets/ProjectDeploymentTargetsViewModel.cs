@@ -63,7 +63,7 @@ namespace XDeploy.ViewModels
                 }
             });
 
-            EditingScreen.UpdateFrom(target);
+            EditingScreen.Update(target);
             ActivateItem(EditingScreen);
 
             Shell.Busy.Hide();

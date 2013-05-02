@@ -25,7 +25,14 @@ namespace XDeploy
                 }
                 catch (Exception ex)
                 {
-                    Caliburn.Micro.Execute.OnUIThread(() => OnExecutionError(context, ex));
+                    Caliburn.Micro.Execute.OnUIThread(() =>
+                    {
+                        var actionContext = OnExecutionError(context, ex);
+                        if (actionContext == null || !actionContext.IsExceptionHandled)
+                        {
+                            throw ex;
+                        }
+                    });
                 }
             });
         }

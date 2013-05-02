@@ -14,6 +14,8 @@ namespace XDeploy
 
         public Exception Exception { get; private set; }
 
+        public bool IsExceptionHandled { get; set; }
+
         public ActionContext(ActionResult result, ActionExecutionContext executionContext, Exception ex = null)
         {
             Result = result;

@@ -40,25 +40,35 @@ namespace XDeploy
             }
             catch (Exception ex)
             {
-                OnExecutionError(context, ex);
+                var actionContext = OnExecutionError(context, ex);
+                if (actionContext == null || !actionContext.IsExceptionHandled)
+                {
+                    throw;
+                }
             }
         }
 
-        protected virtual void OnExecutionSuccess(ActionExecutionContext context)
+        protected virtual ActionContext OnExecutionSuccess(ActionExecutionContext context)
         {
+            var actionContext = new ActionContext(this, context);
+
             if (SuccessAction != null)
             {
-                SuccessAction(new ActionContext(this, context));
+                SuccessAction(actionContext);
             }
 
             Completed(this, new ResultCompletionEventArgs());
+
+            return actionContext;
         }
 
-        protected virtual void OnExecutionError(ActionExecutionContext context, Exception error)
+        protected virtual ActionContext OnExecutionError(ActionExecutionContext context, Exception error)
         {
+            var actionContext = new ActionContext(this, context, error);
+
             if (ErrorAction != null)
             {
-                ErrorAction(new ActionContext(this, context, error));
+                ErrorAction(actionContext);
             }
 
             Completed(this, new ResultCompletionEventArgs
@@ -66,6 +76,8 @@ namespace XDeploy
                 Error = error,
                 WasCancelled = false
             });
+
+            return actionContext;
         }
     }
 }

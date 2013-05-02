@@ -11,8 +11,6 @@ namespace XDeploy.ViewModels
     {
         public ShellViewModel Shell { get; private set; }
 
-        public int TargetId { get; set; }
-
         public DeploymentTargetFormViewModel Form { get; private set; }
 
         public IDeploymentTargetFormActionAware Host { get; private set; }
@@ -24,9 +22,33 @@ namespace XDeploy.ViewModels
             Form = new DeploymentTargetFormViewModel();
         }
 
-        public void UpdateFrom(DeploymentTarget target)
+        public void Update(DeploymentTarget target)
         {
             Form.UpdateFrom(target);
+        }
+
+        public void Cancel()
+        {
+            Host.OnFormCanceled(Form, FormMode.Edit);
+        }
+
+        public IEnumerable<IResult> Save()
+        {
+            Shell.Busy.Processing();
+
+            yield return new AsyncActionResult(context =>
+            {
+                using (var session = Shell.WorkContext.OpenSession())
+                {
+                    var target = session.Get<DeploymentTarget>(Form.Id);
+                    Form.UpdateTo(target);
+                    session.Commit();
+                }
+            });
+
+            Host.OnFormSaved(Form, FormMode.Edit);
+
+            Shell.Busy.Hide();
         }
     }
 }

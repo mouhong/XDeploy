@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
             <MenuItem Header="_File">
-                <MenuItem Header="_New" />
+                <MenuItem x:Name="CreateProject" Header="_New" />
                 <MenuItem x:Name="OpenProject" Header="_Open" />
                 <Separator />
                 <MenuItem x:Name="CloseProject" Header="_Close Project" />

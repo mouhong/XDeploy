@@ -16,7 +16,10 @@ namespace XDeploy
         {
             return new List<AbstractIgnorantRule>
             {
-                new PathIgnorantRule(new[] { "obj", ".user", ".csproj", ".cs", ".suo" })
+                new PathIgnorantRule
+                {
+                   IgnoredPaths = "obj,.user,.csproj,.cs,.suo" 
+                }
             };
         }
     }
@@ -27,7 +30,10 @@ namespace XDeploy
         {
             return new List<AbstractIgnorantRule>
             {
-                new PathIgnorantRule(new[] { "obj", ".user", ".csproj", ".suo" })
+                new PathIgnorantRule 
+                {
+                    IgnoredPaths = "obj,.user,.csproj,.suo"
+                }
             };
         }
     }

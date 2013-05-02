@@ -18,6 +18,11 @@ namespace XDeploy.Workspace.Home.ViewModels
             Shell = shell;
         }
 
+        public void CreateProject()
+        {
+            Shell.CreateProject();
+        }
+
         public IEnumerable<IResult> OpenProject()
         {
             return Shell.OpenProject();

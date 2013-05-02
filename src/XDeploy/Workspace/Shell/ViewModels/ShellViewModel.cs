@@ -33,6 +33,16 @@ namespace XDeploy.Workspace.Shell.ViewModels
             _initialView = new WelcomeScreenViewModel(this);
         }
 
+        public void CreateProject()
+        {
+            ChangeActiveItem(new CreateProjectViewModel(this), true);
+        }
+
+        public void ShowWelcomeScreen()
+        {
+            ChangeActiveItem(new WelcomeScreenViewModel(this), true);
+        }
+
         public IEnumerable<IResult> OpenProject()
         {
             var dialog = new OpenFileDialog();
@@ -41,28 +51,36 @@ namespace XDeploy.Workspace.Shell.ViewModels
 
             if (dialog.ShowDialog() == true)
             {
-                Busy.Loading();
-
-                var path = dialog.FileName;
-
-                yield return new AsyncActionResult(context =>
-                {
-                    var project = new ProjectLoader().LoadFrom(path);
-                    WorkContext = new WorkContext(project);
-                    Project = new DeploymentProjectViewModel(WorkContext.Project);
-                })
-                .OnError(context => Busy.Hide());
-
-                Busy.Hide();
-
-                ChangeActiveItem(new ProjectWorkspaceViewModel(this), true);
-                NotifyOfPropertyChange(() => CanCloseProject);
-
-                Task.Factory.StartNew(() =>
-                {
-                    WorkContext.Database.Initialize();
-                });
+                return OpenProject(dialog.FileName);
             }
+
+            return Enumerable.Empty<IResult>();
+        }
+
+        public IEnumerable<IResult> OpenProject(string path)
+        {
+            Busy.Loading();
+            
+            yield return new AsyncActionResult(context =>
+            {
+                var project = new ProjectLoader().LoadFrom(path);
+
+                WorkContext = new WorkContext(project);
+                Project = new DeploymentProjectViewModel(WorkContext.Project);
+
+                NotifyOfPropertyChange(() => Project);
+            })
+            .OnError(context => Busy.Hide());
+
+            Busy.Hide();
+
+            ChangeActiveItem(new ProjectWorkspaceViewModel(this), true);
+            NotifyOfPropertyChange(() => CanCloseProject);
+
+            Task.Factory.StartNew(() =>
+            {
+                WorkContext.Database.Initialize();
+            });
         }
 
         public bool CanCloseProject
@@ -79,6 +97,7 @@ namespace XDeploy.Workspace.Shell.ViewModels
             {
                 WorkContext.Dispose();
                 WorkContext = null;
+                Project = null;
 
                 ChangeActiveItem(new WelcomeScreenViewModel(this), true);
             }

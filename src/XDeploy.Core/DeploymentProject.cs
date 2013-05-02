@@ -46,7 +46,7 @@ namespace XDeploy
             Save(Path);
         }
 
-        private void Save(string path)
+        public void Save(string path)
         {
             Require.NotNullOrEmpty(path, "path");
 

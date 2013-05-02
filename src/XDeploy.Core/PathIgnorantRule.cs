@@ -8,9 +8,10 @@ namespace XDeploy
 {
     public class PathIgnorantRule : AbstractIgnorantRule
     {
-        private List<string> _ignoredPaths = new List<string>();
+        private string _ignoredPaths;
+        private List<string> _ignoredPathList;
 
-        public List<string> IgnoredPaths
+        public string IgnoredPaths
         {
             get
             {
@@ -18,7 +19,14 @@ namespace XDeploy
             }
             set
             {
-                _ignoredPaths = value;
+                if (_ignoredPaths != value)
+                {
+                    _ignoredPaths = value;
+                    _ignoredPathList = (_ignoredPaths ?? String.Empty).Split(',')
+                                            .Select(x => x.Trim())
+                                            .Distinct()
+                                            .ToList();
+                }
             }
         }
 
@@ -26,33 +34,14 @@ namespace XDeploy
         {
         }
 
-        public PathIgnorantRule(IEnumerable<string> ignoredPaths)
-        {
-            Require.NotNull(ignoredPaths, "ignoredPaths");
-            _ignoredPaths = new List<string>(ignoredPaths);
-        }
-
-        public void IgnorePaths(IEnumerable<string> paths)
-        {
-            foreach (var path in paths)
-            {
-                IgnorePath(path);
-            }
-        }
-
-        public void IgnorePath(string path)
-        {
-            Require.NotNullOrEmpty(path, "path");
-
-            if (!_ignoredPaths.Any(x => x.Equals(path, StringComparison.OrdinalIgnoreCase)))
-            {
-                _ignoredPaths.Add(path);
-            }
-        }
-
         public override bool ShouldIgnore(FileSystemInfo info, DirectoryInfo rootDirectory)
         {
-            foreach (var path in IgnoredPaths)
+            if (_ignoredPathList == null || _ignoredPathList.Count == 0)
+            {
+                return false;
+            }
+
+            foreach (var path in _ignoredPathList)
             {
                 if (path.StartsWith("."))
                 {

@@ -68,7 +68,6 @@
     <Compile Include="Data\Mapping\Extensions\IClassAttributesMapperExtensions.cs" />
     <Compile Include="DeploymentLog.cs" />
     <Compile Include="DeploymentTarget.cs" />
-    <Compile Include="Extensions\DeploymentSettingsExtensions.cs" />
     <Compile Include="Extensions\ISessionExtensions.cs" />
     <Compile Include="Extensions\QueryableExtensions.cs" />
     <Compile Include="Extensions\StreamExtensions.cs" />

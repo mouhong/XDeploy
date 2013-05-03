@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Reflection;
 
-namespace Caliburn.Micro.Validation
+namespace XDeploy.Validation
 {
     public static class Validator
     {
@@ -35,19 +36,6 @@ namespace Caliburn.Micro.Validation
             }
 
             return new List<string>();
-        }
-
-        public static bool IsPropertyValid<TProperty>(object model, Expression<Func<TProperty>> property)
-        {
-            var name = property.GetMemberInfo().Name;
-            var meta = ModelValidationMetaCache.Get(model.GetType());
-            if (meta.ValidatedProperties.Any(x => x.Name == name))
-            {
-                var value = meta.GetPropertyValue(model, name);
-                return meta.GetPropertyValidationAttributes(name).All(v => v.IsValid(value));
-            }
-
-            return true;
         }
     }
 }

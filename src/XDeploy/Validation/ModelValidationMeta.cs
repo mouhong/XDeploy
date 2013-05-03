@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-namespace Caliburn.Micro.Validation
+namespace XDeploy.Validation
 {
     public class ModelValidationMeta
     {
@@ -46,8 +46,8 @@ namespace Caliburn.Micro.Validation
 
             foreach (var prop in modelType.GetProperties())
             {
-                var validationAttributes = prop.GetAttributes<ValidationAttribute>(true);
-                if (validationAttributes.Any())
+                var validationAttributes = prop.GetCustomAttributes(true).OfType<ValidationAttribute>().ToList();
+                if (validationAttributes.Count > 0)
                 {
                     meta._validatedProperties.Add(prop);
                     meta._propertyValidationAttributes.Add(prop.Name, validationAttributes.ToArray());

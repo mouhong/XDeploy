@@ -1,10 +1,10 @@
 ﻿using Caliburn.Micro;
-using Caliburn.Micro.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using XDeploy.Validation;
 using XDeploy.Workspace.Shared.ViewModels;
 
 namespace XDeploy.Workspace.DeploymentTargets.ViewModels

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Caliburn.Micro;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace Caliburn.Micro.Validation
+namespace XDeploy.Validation
 {
     public abstract class ValidatablePropertyChangedBase : PropertyChangedBase, IDataErrorInfo
     {

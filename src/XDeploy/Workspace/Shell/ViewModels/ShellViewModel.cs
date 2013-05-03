@@ -25,11 +25,12 @@ namespace XDeploy.Workspace.Shell.ViewModels
 
         public DeploymentProjectViewModel Project { get; private set; }
 
-        public ShellViewModel()
+        [ImportingConstructor]
+        public ShellViewModel(IMessageBox messageBox, BusyIndicatorViewModel busy)
         {
             DisplayName = "XDeploy";
-            Busy = new BusyIndicatorViewModel();
-            MessageBox = new DefaultMessageBox();
+            Busy = busy;
+            MessageBox = messageBox;
             _initialView = new WelcomeScreenViewModel(this);
         }
 

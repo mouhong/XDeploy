@@ -76,14 +76,35 @@ namespace XDeploy.Workspace.DeploymentTargets.ViewModels
             Id = target.Id;
             Name = target.Name;
             DeployLocation.UpdateFrom(target.DeployLocation);
-            BackupLocation.UpdateFrom(target.BackupLocation);
+
+            if (target.BackupLocation != null)
+            {
+                BackupLocation.UpdateFrom(target.BackupLocation);
+            }
+            else
+            {
+                BackupLocation.Reset();
+            }
         }
 
         public void UpdateTo(DeploymentTarget target)
         {
             target.Name = Name.Trim();
             DeployLocation.UpdateTo(target.DeployLocation);
-            BackupLocation.UpdateTo(target.BackupLocation);
+
+            if (BackupLocation != null)
+            {
+                if (target.BackupLocation == null)
+                {
+                    target.BackupLocation = new Location();
+                }
+
+                BackupLocation.UpdateTo(target.BackupLocation);
+            }
+            else
+            {
+                target.BackupLocation = null;
+            }
         }
     }
 }

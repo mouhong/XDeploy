@@ -81,8 +81,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ActionContext.cs" />
-    <Compile Include="ActionResult.cs" />
+    <Compile Include="AsyncActionContext.cs" />
     <Compile Include="AsyncActionResult.cs" />
     <Compile Include="Behaviors\UpdateSourceOnTextChangedBehavior.cs" />
     <Compile Include="Workspace\BusyIndicatorViewModel.cs" />
@@ -99,8 +98,10 @@
     </Compile>
     <Compile Include="Workspace\IMessageBox.cs" />
     <Compile Include="Workspace\Releases\ViewModels\CreateReleaseViewModel.cs" />
+    <Compile Include="Workspace\Releases\ViewModels\TargetDeploymentInfoViewModel.cs" />
     <Compile Include="Workspace\Releases\ViewModels\IReleaseCreationFormHost.cs" />
     <Compile Include="Workspace\Releases\ViewModels\NoReleaseViewModel.cs" />
+    <Compile Include="Workspace\Releases\ViewModels\ReleaseDetailViewModel.cs" />
     <Compile Include="Workspace\Releases\ViewModels\ReleaseListItemViewModel.cs" />
     <Compile Include="Workspace\Releases\ViewModels\ReleaseListViewModel.cs" />
     <Compile Include="Workspace\Releases\Views\CreateReleaseView.xaml.cs">
@@ -108,6 +109,9 @@
     </Compile>
     <Compile Include="Workspace\Releases\Views\NoReleaseView.xaml.cs">
       <DependentUpon>NoReleaseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Workspace\Releases\Views\ReleaseDetailView.xaml.cs">
+      <DependentUpon>ReleaseDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workspace\Releases\Views\ReleaseListView.xaml.cs">
       <DependentUpon>ReleaseListView.xaml</DependentUpon>
@@ -196,6 +200,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Workspace\Releases\Views\NoReleaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Workspace\Releases\Views\ReleaseDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

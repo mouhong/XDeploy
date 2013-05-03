@@ -111,7 +111,7 @@ namespace XDeploy.Workspace.DeploymentTargets.ViewModels
             Id = target.Id;
             Name = target.Name;
             DeployLocationUri = target.DeployLocation.Uri;
-            BackupLocationUri = target.BackupLocation.Uri;
+            BackupLocationUri = target.BackupLocation == null ? null : target.BackupLocation.Uri;
             LastDeployedAt = target.LastDeployedAtUtc == null ? null : (DateTime?)target.LastDeployedAtUtc.Value.ToLocalTime();
             LastBackuppedAt = target.LastBackuppedAtUtc == null ? null : (DateTime?)target.LastBackuppedAtUtc.Value.ToLocalTime();
             CreatedAt = target.CreatedAtUtc.ToLocalTime();

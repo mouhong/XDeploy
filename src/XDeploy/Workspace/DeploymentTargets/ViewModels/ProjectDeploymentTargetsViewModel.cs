@@ -103,18 +103,15 @@ namespace XDeploy.Workspace.DeploymentTargets.ViewModels
 
             if (targets == null) yield break;
 
-            yield return new ActionResult(context =>
+            if (targets.Count == 0)
             {
-                if (targets.Count == 0)
-                {
-                    ActivateItem(NoTargetScreen);
-                }
-                else
-                {
-                    ListScreen.UpdateTargets(targets.Select(x => new DeploymentTargetListItemViewModel(x)));
-                    ActivateItem(ListScreen);
-                }
-            });
+                ActivateItem(NoTargetScreen);
+            }
+            else
+            {
+                ListScreen.UpdateTargets(targets.Select(x => new DeploymentTargetListItemViewModel(x)));
+                ActivateItem(ListScreen);
+            }
         }
 
         public void OnFormCanceled(DeploymentTargetFormViewModel viewModel, FormMode mode)

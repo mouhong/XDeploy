@@ -23,7 +23,7 @@ namespace XDeploy.Data
         {
             get
             {
-                return "Data Source=" + DbFilePath + ";Version=3;";
+                return GetConnectionString(DbFilePath);
             }
         }
 
@@ -59,6 +59,11 @@ namespace XDeploy.Data
             }
         }
 
+        public static string GetConnectionString(string dbFilePath)
+        {
+            return "Data Source=" + dbFilePath + ";Version=3;";
+        }
+
         private void EnsureInitialized()
         {
             if (IsInitialized)
@@ -73,7 +78,7 @@ namespace XDeploy.Data
                     return;
                 }
 
-                EnsureDatabaseCreated();
+                InitializeDatabase(DbFilePath);
 
                 var config = new Configuration();
                 config.DataBaseIntegration(x =>
@@ -91,26 +96,26 @@ namespace XDeploy.Data
             }
         }
 
-        private void EnsureDatabaseCreated()
+        public static void InitializeDatabase(string dbFilePath)
         {
-            if (File.Exists(DbFilePath))
+            if (File.Exists(dbFilePath))
             {
                 return;
             }
 
-            var directory = Path.GetDirectoryName(DbFilePath);
+            var directory = Path.GetDirectoryName(dbFilePath);
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
 
-            SQLiteConnection.CreateFile(DbFilePath);
+            SQLiteConnection.CreateFile(dbFilePath);
 
             using (var stream = new StreamReader(typeof(Database).Assembly.GetManifestResourceStream("XDeploy.Data.tables.sql")))
             {
                 var sql = stream.ReadToEnd();
 
-                using (var conn = new SQLiteConnection(ConnectionString))
+                using (var conn = new SQLiteConnection(GetConnectionString(dbFilePath)))
                 {
                     conn.Open();
 

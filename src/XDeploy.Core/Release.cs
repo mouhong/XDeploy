@@ -17,12 +17,12 @@ namespace XDeploy
 
         public virtual DateTime? LastDeployedAtUtc { get; set; }
 
-        public virtual IList<ReleaseDeployedTarget> DeployedTargets { get; protected set; }
+        public virtual IList<ReleaseDeploymentInfo> DeploymentInfos { get; protected set; }
 
         public Release()
         {
             CreatedAtUtc = DateTime.UtcNow;
-            DeployedTargets = new List<ReleaseDeployedTarget>();
+            DeploymentInfos = new List<ReleaseDeploymentInfo>();
         }
     }
 }

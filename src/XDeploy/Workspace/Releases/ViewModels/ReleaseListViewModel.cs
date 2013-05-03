@@ -60,5 +60,10 @@ namespace XDeploy.Workspace.Releases.ViewModels
         {
             return Host.LoadReleases(pageIndex);
         }
+
+        public IEnumerable<IResult> ShowDetail(ReleaseListItemViewModel item)
+        {
+            return Host.ShowDetail(item.Id);
+        }
     }
 }

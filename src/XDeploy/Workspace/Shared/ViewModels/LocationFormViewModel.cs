@@ -70,6 +70,13 @@ namespace XDeploy.Workspace.Shared.ViewModels
             }
         }
 
+        public void Reset()
+        {
+            Uri = null;
+            UserName = null;
+            Password = null;
+        }
+
         public void UpdateFrom(Location location)
         {
             Uri = location.Uri;

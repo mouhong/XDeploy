@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using XDeploy.Storage;
 
 namespace XDeploy
 {
@@ -43,6 +44,18 @@ namespace XDeploy
                 UserName = credential.UserName;
                 Password = credential.Password;
             }
+        }
+
+        public virtual bool IsEmpty()
+        {
+            return String.IsNullOrWhiteSpace(Uri)
+                && String.IsNullOrWhiteSpace(UserName)
+                && String.IsNullOrWhiteSpace(Password);
+        }
+
+        public virtual IDirectory GetDirectory()
+        {
+            return Directories.GetDirectory(Uri, UserName, Password);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 using System.Text;
+using XDeploy.Workspace;
 using XDeploy.Workspace.Shell.ViewModels;
 
 namespace XDeploy
@@ -23,6 +24,7 @@ namespace XDeploy
 
             batch.AddExportedValue<IWindowManager>(new WindowManager());
             batch.AddExportedValue<IEventAggregator>(new EventAggregator());
+            batch.AddExportedValue<IMessageBox>(new DefaultMessageBox());
             batch.AddExportedValue(container);
 
             container.Compose(batch);
@@ -39,6 +41,13 @@ namespace XDeploy
             }
 
             throw new Exception(string.Format("Could not locate any instances of contract {0}.", contract));
+        }
+
+        protected override void OnUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            var messageBox =container.GetExportedValue<IMessageBox>();
+            messageBox.Error(e.Exception.Message + Environment.NewLine + e.Exception.StackTrace, null);
+            e.Handled = true;
         }
     }
 }

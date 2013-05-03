@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using XDeploy.Data;
 using XDeploy.Workspace.Shell.ViewModels;
 
 namespace XDeploy.Workspace.Home.ViewModels
@@ -22,8 +23,16 @@ namespace XDeploy.Workspace.Home.ViewModels
             }
             set
             {
-                _projectName = value;
-                NotifyOfPropertyChange(() => ProjectName);
+                if (value != null)
+                {
+                    value = value.Trim();
+                }
+
+                if (_projectName != value)
+                {
+                    _projectName = value;
+                    NotifyOfPropertyChange(() => ProjectName);
+                }
             }
         }
 
@@ -37,10 +46,38 @@ namespace XDeploy.Workspace.Home.ViewModels
             }
             set
             {
+                if (value != null)
+                {
+                    value = value.Trim();
+                }
+
                 if (_sourceDirectory != value)
                 {
                     _sourceDirectory = value;
                     NotifyOfPropertyChange(() => SourceDirectory);
+                }
+            }
+        }
+
+        private string _savingDirectory;
+
+        public string SavingDirectory
+        {
+            get
+            {
+                return _savingDirectory;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    value = value.Trim();
+                }
+
+                if (_savingDirectory != value)
+                {
+                    _savingDirectory = value;
+                    NotifyOfPropertyChange(() => SavingDirectory);
                 }
             }
         }
@@ -55,6 +92,11 @@ namespace XDeploy.Workspace.Home.ViewModels
             }
             set
             {
+                if (value != null)
+                {
+                    value = value.Trim();
+                }
+
                 if (_ignoredPaths != value)
                 {
                     _ignoredPaths = value;
@@ -70,14 +112,7 @@ namespace XDeploy.Workspace.Home.ViewModels
 
         public IEnumerable<IResult> Create()
         {
-            var savingDirectory = AskForProjectSavingDirectory();
-
-            if (String.IsNullOrWhiteSpace(savingDirectory))
-            {
-                yield break;
-            }
-
-            var projectFilePath = Path.Combine(savingDirectory, ProjectName.Trim() + ".xdproj");
+            var projectFilePath = Path.Combine(SavingDirectory, ProjectName.Trim() + ".xdproj");
 
             Shell.Busy.Show("Creating project...");
 
@@ -98,6 +133,8 @@ namespace XDeploy.Workspace.Home.ViewModels
                 }
 
                 project.Save(projectFilePath);
+
+                Database.InitializeDatabase(Paths.DbFile(SavingDirectory));
             });
 
             foreach (var result in Shell.OpenProject(projectFilePath))
@@ -124,13 +161,16 @@ namespace XDeploy.Workspace.Home.ViewModels
             }
         }
 
-        public string AskForProjectSavingDirectory()
+        public void BrowseSavingDirectory()
         {
             using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
-            {
-                dialog.Description = "Choose saving path for this XDeploy project:";
-                
-                var defaultPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Projects", ProjectName.Trim());
+            {               
+                var defaultPath = Path.Combine(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory), "Projects");
+
+                if (!String.IsNullOrWhiteSpace(ProjectName))
+                {
+                    defaultPath = Path.Combine(defaultPath, ProjectName.Trim());
+                }
 
                 if (!Directory.Exists(defaultPath))
                 {
@@ -152,7 +192,8 @@ namespace XDeploy.Workspace.Home.ViewModels
 
                     if (!Directory.EnumerateFileSystemEntries(path).Any())
                     {
-                        return path;
+                        SavingDirectory = path;
+                        break;
                     }
                     else
                     {
@@ -160,8 +201,6 @@ namespace XDeploy.Workspace.Home.ViewModels
                     }
                 };
             }
-
-            return null;
         }
     }
 }

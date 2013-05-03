@@ -19,7 +19,7 @@ namespace XDeploy
             Require.NotNull(project, "project");
 
             Project = project;
-            Database = new Database(Path.Combine(project.ProjectDirectory, "Data\\Data.sqlite"));
+            Database = new Database(Paths.DbFile(project.ProjectDirectory));
         }
 
         public ISession OpenSession()

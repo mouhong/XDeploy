@@ -17,7 +17,7 @@ namespace XDeploy.Data.Mapping
             Property(c => c.ReleaseNotes);
             Property(c => c.CreatedAtUtc);
             Property(c => c.LastDeployedAtUtc);
-            Property(c => c.DeployedTargets, m => m.Type<Blobbed<IList<ReleaseDeployedTarget>>>());
+            Property(c => c.DeploymentInfos, m => m.Type<Blobbed<IList<ReleaseDeploymentInfo>>>());
         }
     }
 }

@@ -30,7 +30,7 @@ create table Release
 	ReleaseNotes text null,
 	CreatedAtUtc datetime not null,
 	LastDeployedAtUtc datetime null,
-	DeployedTargets text null,
+	DeploymentInfos text null,
 
 	constraint PK_Release primary key (Id)
 );

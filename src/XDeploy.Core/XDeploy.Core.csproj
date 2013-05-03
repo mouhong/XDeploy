@@ -80,7 +80,7 @@
     <Compile Include="ReleaseBackuper.cs" />
     <Compile Include="IgnorantRuleFactory.cs" />
     <Compile Include="PathIgnorantRule.cs" />
-    <Compile Include="ReleaseDeployedTarget.cs" />
+    <Compile Include="ReleaseDeploymentInfo.cs" />
     <Compile Include="ReleaseDeployer.cs" />
     <Compile Include="DeploymentManifest.cs" />
     <Compile Include="DeploymentManifestBuilder.cs" />

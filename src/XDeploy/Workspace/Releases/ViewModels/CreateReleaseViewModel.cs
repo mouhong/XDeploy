@@ -104,16 +104,10 @@ namespace XDeploy.Workspace.Releases.ViewModels
                 {
                     var creator = new ReleaseCreator(Shell.WorkContext);
                     creator.CreateRelease(Name, ReleaseNotes);
-                })
-                .OnError(context =>
-                {
-                    Shell.Busy.Hide();
-                    Shell.MessageBox.Error(context.Exception.Message + Environment.NewLine + context.Exception.StackTrace, "Error");
                 });
 
                 Shell.Busy.Hide();
                 Shell.MessageBox.Success("Release \"" + Name + "\" is successfully created.", "Success");
-
                 Host.OnReleaseCreated(this);
             }
         }

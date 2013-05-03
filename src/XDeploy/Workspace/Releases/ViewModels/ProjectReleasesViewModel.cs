@@ -19,6 +19,8 @@ namespace XDeploy.Workspace.Releases.ViewModels
 
         public ReleaseListViewModel ReleaseListScreen { get; private set; }
 
+        public ReleaseDetailViewModel DetailScreen { get; private set; }
+
         public int PageIndex { get; private set; }
 
         public ProjectReleasesViewModel(ShellViewModel shell)
@@ -29,6 +31,7 @@ namespace XDeploy.Workspace.Releases.ViewModels
             NoReleaseScreen = new NoReleaseViewModel(this);
             CreateReleaseScreen = new CreateReleaseViewModel(this, Shell.WorkContext.Project);
             ReleaseListScreen = new ReleaseListViewModel(this);
+            DetailScreen = new ReleaseDetailViewModel(this);
         }
 
         public void CreateRelease()
@@ -37,13 +40,34 @@ namespace XDeploy.Workspace.Releases.ViewModels
             ActivateItem(CreateReleaseScreen);
         }
 
+        public IEnumerable<IResult> ShowDetail(int releaseId)
+        {
+            Shell.Busy.Loading();
+
+            yield return new AsyncActionResult(context =>
+            {
+                using (var session = Shell.WorkContext.OpenSession())
+                {
+                    var release = session.Get<Release>(releaseId);
+                    var targets = session.Query<DeploymentTarget>()
+                                         .OrderBy(x => x.Id)
+                                         .ToList();
+                    DetailScreen.UpdateFrom(release, targets);
+                }
+            });
+
+            Shell.Busy.Hide();
+
+            ActivateItem(DetailScreen);
+        }
+
         protected override void OnViewLoaded(object view)
         {
             Caliburn.Micro.Action.Invoke(this, "LoadReleases", (DependencyObject)view, parameters: new object[] { 0 });
             base.OnViewLoaded(view);
         }
 
-        public IEnumerable<IResult> LoadReleases(int pageIndex = 0)
+        public IEnumerable<IResult> LoadReleases(int pageIndex)
         {
             PageIndex = pageIndex;
 
@@ -74,7 +98,7 @@ namespace XDeploy.Workspace.Releases.ViewModels
 
         public void OnReleaseCreated(CreateReleaseViewModel viewModel)
         {
-            Caliburn.Micro.Action.Invoke(this, "LoadReleases", (DependencyObject)GetView());
+            Caliburn.Micro.Action.Invoke(this, "LoadReleases", (DependencyObject)GetView(), parameters: new object[] { 0 });
         }
 
         public void OnReleaseCreationCanceled(CreateReleaseViewModel viewModel)

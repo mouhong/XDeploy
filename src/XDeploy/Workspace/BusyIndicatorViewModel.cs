@@ -1,11 +1,13 @@
 ﻿using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 
 namespace XDeploy.Workspace
 {
+    [Export(typeof(BusyIndicatorViewModel))]
     public class BusyIndicatorViewModel : PropertyChangedBase
     {
         private bool _isBusy;

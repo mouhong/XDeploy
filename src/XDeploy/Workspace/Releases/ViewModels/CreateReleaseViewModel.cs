@@ -1,13 +1,15 @@
 ﻿using Caliburn.Micro;
+using Caliburn.Micro.Validation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using XDeploy.Workspace.Shell.ViewModels;
 
 namespace XDeploy.Workspace.Releases.ViewModels
 {
-    public class CreateReleaseViewModel : Screen
+    public class CreateReleaseViewModel : ValidatableScreen
     {
         public ShellViewModel Shell
         {
@@ -21,21 +23,23 @@ namespace XDeploy.Workspace.Releases.ViewModels
 
         public string ProjectDirectory { get; private set; }
 
-        private string _name;
+        private string _releaseName;
 
-        public string Name
+        [Required]
+        public string ReleaseName
         {
             get
             {
-                return _name;
+                return _releaseName;
             }
             set
             {
-                if (_name != value)
+                if (_releaseName != value)
                 {
-                    _name = value;
-                    NotifyOfPropertyChange(() => Name);
-                    ReleaseDirectory = Paths.Release(ProjectDirectory, Name ?? String.Empty);
+                    _releaseName = value;
+                    NotifyOfPropertyChange(() => ReleaseName);
+                    ReleaseDirectory = Paths.Release(ProjectDirectory, ReleaseName ?? String.Empty);
+                    NotifyOfPropertyChange(() => CanCreate);
                 }
             }
         }
@@ -74,7 +78,16 @@ namespace XDeploy.Workspace.Releases.ViewModels
                 {
                     _releaseNotes = value;
                     NotifyOfPropertyChange(() => ReleaseNotes);
+                    NotifyOfPropertyChange(() => CanCreate);
                 }
+            }
+        }
+
+        public bool CanCreate
+        {
+            get
+            {
+                return !HasErrors;
             }
         }
 
@@ -88,7 +101,7 @@ namespace XDeploy.Workspace.Releases.ViewModels
 
         public void Reset()
         {
-            Name = null;
+            ReleaseName = null;
             ReleaseNotes = null;
         }
 
@@ -103,11 +116,11 @@ namespace XDeploy.Workspace.Releases.ViewModels
                 yield return new AsyncActionResult(context =>
                 {
                     var creator = new ReleaseCreator(Shell.WorkContext);
-                    creator.CreateRelease(Name, ReleaseNotes);
+                    creator.CreateRelease(ReleaseName, ReleaseNotes);
                 });
 
                 Shell.Busy.Hide();
-                Shell.MessageBox.Success("Release \"" + Name + "\" is successfully created.", "Success");
+                Shell.MessageBox.Success("Release \"" + ReleaseName + "\" is successfully created.", "Success");
                 Host.OnReleaseCreated(this);
             }
         }
@@ -119,7 +132,7 @@ namespace XDeploy.Workspace.Releases.ViewModels
 
         protected void ChangeReleaseName(string name)
         {
-            Name = name.Trim();
+            ReleaseName = name.Trim();
         }
     }
 }

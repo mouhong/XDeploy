@@ -44,9 +44,11 @@ namespace XDeploy
 
         protected override void OnUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
+#if !DEBUG
             var messageBox =container.GetExportedValue<IMessageBox>();
             messageBox.Error(e.Exception.Message + Environment.NewLine + e.Exception.StackTrace, null);
             e.Handled = true;
+#endif
         }
     }
 }

@@ -1,30 +1,33 @@
 ﻿using Caliburn.Micro;
+using Caliburn.Micro.Validation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using XDeploy.Workspace.Shared.ViewModels;
 
 namespace XDeploy.Workspace.DeploymentTargets.ViewModels
 {
-    public class DeploymentTargetFormViewModel : PropertyChangedBase
+    public class DeploymentTargetFormViewModel : ValidatablePropertyChangedBase
     {
         public int Id { get; set; }
 
-        private string _name;
+        private string _targetName;
 
-        public string Name
+        [Required]
+        public string TargetName
         {
             get
             {
-                return _name;
+                return _targetName;
             }
             set
             {
-                if (_name != value)
+                if (_targetName != value)
                 {
-                    _name = value;
-                    NotifyOfPropertyChange(() => Name);
+                    _targetName = value;
+                    NotifyOfPropertyChange(() => TargetName);
                 }
             }
         }
@@ -71,10 +74,23 @@ namespace XDeploy.Workspace.DeploymentTargets.ViewModels
             _backupLocation = new LocationFormViewModel();
         }
 
+        public void Reset()
+        {
+            TargetName = null;
+            if (DeployLocation != null)
+            {
+                DeployLocation.Reset();
+            }
+            if (BackupLocation != null)
+            {
+                BackupLocation.Reset();
+            }
+        }
+
         public void UpdateFrom(DeploymentTarget target)
         {
             Id = target.Id;
-            Name = target.Name;
+            TargetName = target.Name;
             DeployLocation.UpdateFrom(target.DeployLocation);
 
             if (target.BackupLocation != null)
@@ -89,7 +105,7 @@ namespace XDeploy.Workspace.DeploymentTargets.ViewModels
 
         public void UpdateTo(DeploymentTarget target)
         {
-            target.Name = Name.Trim();
+            target.Name = TargetName.Trim();
             DeployLocation.UpdateTo(target.DeployLocation);
 
             if (BackupLocation != null)

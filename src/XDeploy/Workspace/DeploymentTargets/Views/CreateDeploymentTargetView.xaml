@@ -12,7 +12,7 @@
         <ContentControl x:Name="Form" />
         <Border Style="{StaticResource FormActions}">
             <StackPanel>
-                <Button x:Name="Save" Content="Save" Style="{StaticResource ActionButtonPrimary}" />
+                <Button x:Name="Create" Content="Create" Style="{StaticResource ActionButtonPrimary}" />
                 <Button x:Name="Cancel" Content="Cancel" />
             </StackPanel>
         </Border>

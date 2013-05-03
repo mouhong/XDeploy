@@ -13,7 +13,7 @@
         </Border>
         <StackPanel Style="{StaticResource FormField}">
             <Label Content="Release Name:" />
-            <TextBox Text="{Binding Name}">
+            <TextBox x:Name="ReleaseName">
                 <i:Interaction.Behaviors>
                     <local:UpdateSourceOnTextChangedBehavior />
                 </i:Interaction.Behaviors>

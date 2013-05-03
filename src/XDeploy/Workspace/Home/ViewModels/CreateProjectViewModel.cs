@@ -1,20 +1,23 @@
 ﻿using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Text;
 using XDeploy.Data;
 using XDeploy.Workspace.Shell.ViewModels;
+using Caliburn.Micro.Validation;
 
 namespace XDeploy.Workspace.Home.ViewModels
 {
-    public class CreateProjectViewModel : Screen
+    public class CreateProjectViewModel : ValidatableScreen
     {
         public ShellViewModel Shell { get; private set; }
 
         private string _projectName;
 
+        [Required]
         public string ProjectName
         {
             get
@@ -32,12 +35,14 @@ namespace XDeploy.Workspace.Home.ViewModels
                 {
                     _projectName = value;
                     NotifyOfPropertyChange(() => ProjectName);
+                    NotifyOfPropertyChange(() => CanCreate);
                 }
             }
         }
 
         private string _sourceDirectory;
 
+        [Required]
         public string SourceDirectory
         {
             get
@@ -55,12 +60,14 @@ namespace XDeploy.Workspace.Home.ViewModels
                 {
                     _sourceDirectory = value;
                     NotifyOfPropertyChange(() => SourceDirectory);
+                    NotifyOfPropertyChange(() => CanCreate);
                 }
             }
         }
 
         private string _savingDirectory;
 
+        [Required]
         public string SavingDirectory
         {
             get
@@ -78,6 +85,7 @@ namespace XDeploy.Workspace.Home.ViewModels
                 {
                     _savingDirectory = value;
                     NotifyOfPropertyChange(() => SavingDirectory);
+                    NotifyOfPropertyChange(() => CanCreate);
                 }
             }
         }
@@ -102,6 +110,14 @@ namespace XDeploy.Workspace.Home.ViewModels
                     _ignoredPaths = value;
                     NotifyOfPropertyChange(() => IgnoredPaths);
                 }
+            }
+        }
+
+        public bool CanCreate
+        {
+            get
+            {
+                return !HasErrors;
             }
         }
 

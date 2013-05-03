@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Caliburn.Micro.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using XDeploy.Workspace.Shell.ViewModels;
 
 namespace XDeploy.Workspace.DeploymentTargets.ViewModels
 {
-    public class EditDeploymentTargetViewModel : Screen
+    public class EditDeploymentTargetViewModel : ValidatableScreen
     {
         public ShellViewModel Shell { get; private set; }
 
@@ -16,11 +17,23 @@ namespace XDeploy.Workspace.DeploymentTargets.ViewModels
 
         public IDeploymentTargetFormActionAware Host { get; private set; }
 
+        public bool CanSave
+        {
+            get
+            {
+                return !Form.HasErrors;
+            }
+        }
+
         public EditDeploymentTargetViewModel(ShellViewModel shell, IDeploymentTargetFormActionAware host)
         {
             Shell = shell;
             Host = host;
             Form = new DeploymentTargetFormViewModel();
+            Form.PropertyChanged += (sender, args) =>
+            {
+                NotifyOfPropertyChange(() => CanSave);
+            };
         }
 
         public void Update(DeploymentTarget target)

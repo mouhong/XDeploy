@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using NHibernate.Linq;
 using XDeploy.Workspace.Shell.ViewModels;
+using Caliburn.Micro.Validation;
 
 namespace XDeploy.Workspace.DeploymentTargets.ViewModels
 {
-    public class CreateDeploymentTargetViewModel : Screen
+    public class CreateDeploymentTargetViewModel : ValidatableScreen
     {
         public ShellViewModel Shell { get; private set; }
 
@@ -16,17 +17,35 @@ namespace XDeploy.Workspace.DeploymentTargets.ViewModels
 
         public IDeploymentTargetFormActionAware Host { get; private set; }
 
+        public bool CanCreate
+        {
+            get
+            {
+                return !Form.HasErrors;
+            }
+        }
+
         public CreateDeploymentTargetViewModel(ShellViewModel shell, IDeploymentTargetFormActionAware host)
         {
             Shell = shell;
-            Form = new DeploymentTargetFormViewModel();
+            Form = CreateFormViewModel();
             Host = host;
         }
 
         public void Reset()
         {
-            Form = new DeploymentTargetFormViewModel();
-            NotifyOfPropertyChange(() => Form);
+            Form.Reset();
+        }
+
+        private DeploymentTargetFormViewModel CreateFormViewModel()
+        {
+            var model = new DeploymentTargetFormViewModel();
+            model.PropertyChanged += (sender, args) =>
+            {
+                NotifyOfPropertyChange(() => CanCreate);
+            };
+
+            return model;
         }
 
         public void Cancel()
@@ -34,7 +53,7 @@ namespace XDeploy.Workspace.DeploymentTargets.ViewModels
             Host.OnFormCanceled(Form, FormMode.Add);
         }
 
-        public IEnumerable<IResult> Save()
+        public IEnumerable<IResult> Create()
         {
             Shell.Busy.Processing();
 

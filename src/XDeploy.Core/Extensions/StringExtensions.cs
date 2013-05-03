@@ -11,5 +11,10 @@ namespace XDeploy
         {
             return str == null ? null : str.Trim();
         }
+
+        public static string Quote(this string str, string open = "\"", string close = "\"")
+        {
+            return open + str + close;
+        }
     }
 }

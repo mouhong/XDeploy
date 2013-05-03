@@ -40,6 +40,9 @@
     <Reference Include="NHibernate">
       <HintPath>..\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.2.0.1.2\lib\net40\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -89,6 +92,7 @@
     <Compile Include="Location.cs" />
     <Compile Include="ReleasePackageBuilder.cs" />
     <Compile Include="ReleaseCreator.cs" />
+    <Compile Include="Safely.cs" />
     <Compile Include="Storage\Directories.cs" />
     <Compile Include="Storage\Local\LocalFile.cs" />
     <Compile Include="Storage\Ftp\FtpDirectory.cs" />

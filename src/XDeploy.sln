@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XDeploy.Tryout", "XDeploy.Tryout\XDeploy.Tryout.csproj", "{AE554CF1-D27C-4EB0-A2DD-8E2370FBFC06}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XDeploy.Core", "XDeploy.Core\XDeploy.Core.csproj", "{4C935634-DDA5-4434-9BC4-D0A9F08EE077}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XDeploy", "XDeploy\XDeploy.csproj", "{82E864FF-CBD9-4927-BC86-ED56642D0D7C}"
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AE554CF1-D27C-4EB0-A2DD-8E2370FBFC06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE554CF1-D27C-4EB0-A2DD-8E2370FBFC06}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE554CF1-D27C-4EB0-A2DD-8E2370FBFC06}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE554CF1-D27C-4EB0-A2DD-8E2370FBFC06}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C935634-DDA5-4434-9BC4-D0A9F08EE077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4C935634-DDA5-4434-9BC4-D0A9F08EE077}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C935634-DDA5-4434-9BC4-D0A9F08EE077}.Release|Any CPU.ActiveCfg = Release|Any CPU

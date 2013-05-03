@@ -161,7 +161,7 @@ namespace XDeploy.Workspace.Home.ViewModels
 
         public void Cancel()
         {
-            Shell.ShowWelcomeScreen();
+            Shell.SwithchToWelcomeScreen();
         }
 
         public void BrowseSourceDirectory()

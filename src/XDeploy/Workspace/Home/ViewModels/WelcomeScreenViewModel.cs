@@ -25,7 +25,7 @@ namespace XDeploy.Workspace.Home.ViewModels
 
         public IEnumerable<IResult> OpenProject()
         {
-            return Shell.OpenProject();
+            return Shell.BrowseProjectAndOpen();
         }
     }
 }

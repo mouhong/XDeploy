@@ -15,23 +15,40 @@ namespace XDeploy.Workspace.Shell.ViewModels
     [Export(typeof(ShellViewModel))]
     public class ShellViewModel : Conductor<IScreen>
     {
-        private IScreen _initialView;
+        static NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
 
         public IBusyIndicator Busy { get; private set; }
 
         public IMessageBox MessageBox { get; private set; }
 
+        public StartupArguments StartupArguments { get; private set; }
+
         public WorkContext WorkContext { get; private set; }
 
-        public DeploymentProjectViewModel Project { get; private set; }
+        private DeploymentProjectViewModel _project;
+
+        public DeploymentProjectViewModel Project
+        {
+            get
+            {
+                if (_project == null && WorkContext != null)
+                {
+                    _project = new DeploymentProjectViewModel(WorkContext.Project);
+                }
+                return _project;
+            }
+        }
 
         [ImportingConstructor]
-        public ShellViewModel(IMessageBox messageBox, IBusyIndicator busy)
+        public ShellViewModel(
+            StartupArguments startupArguments,
+            IMessageBox messageBox, 
+            IBusyIndicator busy)
         {
             DisplayName = "XDeploy";
+            StartupArguments = startupArguments;
             Busy = busy;
             MessageBox = messageBox;
-            _initialView = new WelcomeScreenViewModel(this);
         }
 
         public void CreateProject()
@@ -39,12 +56,18 @@ namespace XDeploy.Workspace.Shell.ViewModels
             ChangeActiveItem(new CreateProjectViewModel(this), true);
         }
 
-        public void ShowWelcomeScreen()
+        public void SwithchToWelcomeScreen()
         {
             ChangeActiveItem(new WelcomeScreenViewModel(this), true);
         }
 
-        public IEnumerable<IResult> OpenProject()
+        public void SwitchToProjectWorkspaceScreen()
+        {
+            ChangeActiveItem(new ProjectWorkspaceViewModel(this), true);
+            NotifyOfPropertyChange(() => CanCloseProject);
+        }
+
+        public IEnumerable<IResult> BrowseProjectAndOpen()
         {
             var dialog = new OpenFileDialog();
             dialog.Filter = "XDeploy Project|*.xdproj";
@@ -73,14 +96,11 @@ namespace XDeploy.Workspace.Shell.ViewModels
                     ApplicationWarmmer.Warm(WorkContext);
                 });
 
-                Project = new DeploymentProjectViewModel(WorkContext.Project);
                 NotifyOfPropertyChange(() => Project);
             });
 
             Busy.Hide();
-
-            ChangeActiveItem(new ProjectWorkspaceViewModel(this), true);
-            NotifyOfPropertyChange(() => CanCloseProject);
+            SwitchToProjectWorkspaceScreen();
         }
 
         public bool CanCloseProject
@@ -97,9 +117,7 @@ namespace XDeploy.Workspace.Shell.ViewModels
             {
                 WorkContext.Dispose();
                 WorkContext = null;
-                Project = null;
-
-                ChangeActiveItem(new WelcomeScreenViewModel(this), true);
+                SwithchToWelcomeScreen();
             }
         }
 
@@ -108,10 +126,18 @@ namespace XDeploy.Workspace.Shell.ViewModels
             Application.Current.Shutdown();
         }
 
-        protected override void OnInitialize()
+        protected override void OnViewLoaded(object view)
         {
-            ActivateItem(_initialView);
-            base.OnInitialize();
+            if (!String.IsNullOrEmpty(StartupArguments.Path))
+            {
+                Caliburn.Micro.Action.Invoke(this, "OpenProject", (DependencyObject)view, parameters: new object[] { StartupArguments.Path });
+            }
+            else
+            {
+                SwithchToWelcomeScreen();
+            }
+            
+            base.OnViewLoaded(view);
         }
     }
 }

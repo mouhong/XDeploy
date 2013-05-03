@@ -1,10 +1,13 @@
 ﻿using NHibernate;
 using NHibernate.Cfg;
+using NHibernate.Cfg.MappingSchema;
+using NHibernate.Mapping.ByCode;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using XDeploy.Data.Mapping;
 
@@ -80,20 +83,47 @@ namespace XDeploy.Data
 
                 InitializeDatabase(DbFilePath);
 
-                var config = new Configuration();
-                config.DataBaseIntegration(x =>
-                {
-                    x.Driver<NHibernate.Driver.SQLite20Driver>();
-                    x.Dialect<NHibernate.Dialect.SQLiteDialect>();
-                    x.ConnectionString = ConnectionString;
-                });
-
-                config.AddMapping(ByCodeMappingLoader.LoadMappingFrom(typeof(Database).Assembly));
-
+                var config = LoadConfiguration();
                 _sessionFactory = config.BuildSessionFactory();
 
                 IsInitialized = true;
             }
+        }
+
+        private Configuration LoadConfiguration()
+        {
+            var config = new Configuration();
+
+            config.DataBaseIntegration(x =>
+            {
+                x.Driver<NHibernate.Driver.SQLite20Driver>();
+                x.Dialect<NHibernate.Dialect.SQLiteDialect>();
+                x.ConnectionString = ConnectionString;
+            });
+
+            config.AddMapping(LoadMapping());
+
+            return config;
+        }
+
+        private HbmMapping LoadMapping()
+        {
+            var mapper = new ModelMapper();
+
+            foreach (var type in typeof(Database).Assembly.GetTypes())
+            {
+                if (!type.IsClass || type.IsAbstract || type.IsInterface || !type.BaseType.IsGenericType) continue;
+
+                if (type.Namespace == "XDeploy.Data.Mapping" && type.Name.EndsWith("Map"))
+                {
+                    mapper.AddMapping(type);
+                }
+            }
+
+            var mapping = mapper.CompileMappingForAllExplicitlyAddedEntities();
+            mapping.autoimport = false;
+
+            return mapping;
         }
 
         public static void InitializeDatabase(string dbFilePath)

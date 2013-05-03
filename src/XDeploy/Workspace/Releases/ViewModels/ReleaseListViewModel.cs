@@ -1,7 +1,6 @@
 ﻿using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using XDeploy.Workspace.Shared.ViewModels;
@@ -31,12 +30,12 @@ namespace XDeploy.Workspace.Releases.ViewModels
             }
         }
 
-        public ObservableCollection<ReleaseListItemViewModel> ReleasesInThisPage { get; private set; }
+        public BindableCollection<ReleaseListItemViewModel> ReleasesInThisPage { get; private set; }
 
         public ReleaseListViewModel(ProjectReleasesViewModel host)
         {
             Host = host;
-            ReleasesInThisPage = new ObservableCollection<ReleaseListItemViewModel>();
+            ReleasesInThisPage = new BindableCollection<ReleaseListItemViewModel>();
             Pager = new PagerViewModel(this, 6);
         }
 
@@ -44,7 +43,7 @@ namespace XDeploy.Workspace.Releases.ViewModels
         {
             Pager.Update(query, pageIndex);
 
-            ReleasesInThisPage = new ObservableCollection<ReleaseListItemViewModel>(
+            ReleasesInThisPage = new BindableCollection<ReleaseListItemViewModel>(
                 query.Page(pageIndex).Select(x => new ReleaseListItemViewModel(x)));
 
             NotifyOfPropertyChange(() => ReleasesInThisPage);

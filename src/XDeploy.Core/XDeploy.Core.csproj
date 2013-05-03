@@ -59,7 +59,6 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Data\Mapping\ByCodeMappingLoader.cs" />
     <Compile Include="Data\Mapping\DeploymentLogMap.cs" />
     <Compile Include="Data\Mapping\DeploymentTargetMap.cs" />
     <Compile Include="Data\Mapping\ReleaseMap.cs" />

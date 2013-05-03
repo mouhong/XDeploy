@@ -61,27 +61,26 @@ namespace XDeploy.Workspace.Shell.ViewModels
         public IEnumerable<IResult> OpenProject(string path)
         {
             Busy.Loading();
-            
+
             yield return new AsyncActionResult(context =>
             {
                 var project = new ProjectLoader().LoadFrom(path);
 
                 WorkContext = new WorkContext(project);
-                Project = new DeploymentProjectViewModel(WorkContext.Project);
 
+                Task.Factory.StartNew(() =>
+                {
+                    ApplicationWarmmer.Warm(WorkContext);
+                });
+
+                Project = new DeploymentProjectViewModel(WorkContext.Project);
                 NotifyOfPropertyChange(() => Project);
-            })
-            .OnError(context => Busy.Hide());
+            });
 
             Busy.Hide();
 
             ChangeActiveItem(new ProjectWorkspaceViewModel(this), true);
             NotifyOfPropertyChange(() => CanCloseProject);
-
-            Task.Factory.StartNew(() =>
-            {
-                WorkContext.Database.Initialize();
-            });
         }
 
         public bool CanCloseProject

@@ -84,6 +84,7 @@
     <Compile Include="AsyncActionContext.cs" />
     <Compile Include="AsyncActionResult.cs" />
     <Compile Include="Behaviors\UpdateSourceOnTextChangedBehavior.cs" />
+    <Compile Include="Workspace\ApplicationWarmmer.cs" />
     <Compile Include="Workspace\DefaultBusyIndicator.cs" />
     <Compile Include="Workspace\DeploymentTargets\ViewModels\CreateDeploymentTargetViewModel.cs" />
     <Compile Include="Workspace\DeploymentTargets\ViewModels\DeploymentTargetFormViewModel.cs" />

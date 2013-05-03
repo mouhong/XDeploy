@@ -7,23 +7,30 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
+        <ToolBar>
+            <Button x:Name="Back" Content="Back" />
+        </ToolBar>
         <Border Style="{StaticResource FormSectionTitle}">
             <TextBlock>Deployment Infos</TextBlock>
         </Border>
         <ListView ItemsSource="{Binding TargetDeploymentInfos}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding TargetName}" />
-                        <TextBlock>
+                    <Border>
+                        <StackPanel>
+                            <TextBlock Text="{Binding TargetName}" />
+                            <TextBlock>
                             <Run Text="Deployed: " />
                             <Run Text="{Binding IsDeployed}" />
-                        </TextBlock>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button cal:Message.Attach="[Event Click] = [Action Backup($dataContext)]" Visibility="{Binding HasSetBackupLocation, Converter={StaticResource BooleanToVisibilityConverter}}" Content="Backup for This Release" />
-                            <Button cal:Message.Attach="[Event Click] = [Action Deploy($dataContext)]" Content="Deploy" />
+                            </TextBlock>
+                            <Border>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button cal:Message.Attach="[Event Click] = [Action Backup($dataContext)]" IsEnabled="{Binding HasSetBackupLocation}" Content="Backup" />
+                                    <Button cal:Message.Attach="[Event Click] = [Action Deploy($dataContext)]" Content="Deploy" />
+                                </StackPanel>
+                            </Border>
                         </StackPanel>
-                    </StackPanel>
+                    </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

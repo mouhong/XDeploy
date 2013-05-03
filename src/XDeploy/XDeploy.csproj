@@ -84,7 +84,7 @@
     <Compile Include="AsyncActionContext.cs" />
     <Compile Include="AsyncActionResult.cs" />
     <Compile Include="Behaviors\UpdateSourceOnTextChangedBehavior.cs" />
-    <Compile Include="Workspace\BusyIndicatorViewModel.cs" />
+    <Compile Include="Workspace\DefaultBusyIndicator.cs" />
     <Compile Include="Workspace\DeploymentTargets\ViewModels\CreateDeploymentTargetViewModel.cs" />
     <Compile Include="Workspace\DeploymentTargets\ViewModels\DeploymentTargetFormViewModel.cs" />
     <Compile Include="Workspace\DeploymentTargets\ViewModels\DeploymentTargetListItemViewModel.cs" />
@@ -96,6 +96,7 @@
     <Compile Include="Workspace\Home\Views\CreateProjectView.xaml.cs">
       <DependentUpon>CreateProjectView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Workspace\IBusyIndicator.cs" />
     <Compile Include="Workspace\IMessageBox.cs" />
     <Compile Include="Workspace\Releases\ViewModels\CreateReleaseViewModel.cs" />
     <Compile Include="Workspace\Releases\ViewModels\TargetDeploymentInfoViewModel.cs" />

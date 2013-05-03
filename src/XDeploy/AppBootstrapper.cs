@@ -24,7 +24,6 @@ namespace XDeploy
 
             batch.AddExportedValue<IWindowManager>(new WindowManager());
             batch.AddExportedValue<IEventAggregator>(new EventAggregator());
-            batch.AddExportedValue<IMessageBox>(new DefaultMessageBox());
             batch.AddExportedValue(container);
 
             container.Compose(batch);

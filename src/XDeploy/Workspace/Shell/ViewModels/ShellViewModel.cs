@@ -17,7 +17,7 @@ namespace XDeploy.Workspace.Shell.ViewModels
     {
         private IScreen _initialView;
 
-        public BusyIndicatorViewModel Busy { get; private set; }
+        public IBusyIndicator Busy { get; private set; }
 
         public IMessageBox MessageBox { get; private set; }
 
@@ -26,7 +26,7 @@ namespace XDeploy.Workspace.Shell.ViewModels
         public DeploymentProjectViewModel Project { get; private set; }
 
         [ImportingConstructor]
-        public ShellViewModel(IMessageBox messageBox, BusyIndicatorViewModel busy)
+        public ShellViewModel(IMessageBox messageBox, IBusyIndicator busy)
         {
             DisplayName = "XDeploy";
             Busy = busy;

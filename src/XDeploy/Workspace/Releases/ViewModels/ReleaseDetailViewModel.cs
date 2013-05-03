@@ -94,6 +94,11 @@ namespace XDeploy.Workspace.Releases.ViewModels
             NotifyOfPropertyChange(() => TargetDeploymentInfos);
         }
 
+        public IEnumerable<IResult> Back()
+        {
+            return Host.LoadReleases(Host.PageIndex);
+        }
+
         public IEnumerable<IResult> Backup(TargetDeploymentInfoViewModel item)
         {
             if (Shell.MessageBox.Confirm("Are you sure to make this backup?", null) != System.Windows.MessageBoxResult.Yes)

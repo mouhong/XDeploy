@@ -7,8 +7,8 @@ using System.Text;
 
 namespace XDeploy.Workspace
 {
-    [Export(typeof(BusyIndicatorViewModel))]
-    public class BusyIndicatorViewModel : PropertyChangedBase
+    [Export(typeof(IBusyIndicator))]
+    public class DefaultBusyIndicator : PropertyChangedBase, IBusyIndicator
     {
         private bool _isBusy;
 
@@ -44,27 +44,6 @@ namespace XDeploy.Workspace
                     NotifyOfPropertyChange(() => Message);
                 }
             }
-        }
-
-        public void Show(string message)
-        {
-            Message = message;
-            IsBusy = true;
-        }
-
-        public void Processing()
-        {
-            Show("Processing...");
-        }
-
-        public void Loading()
-        {
-            Show("Loading...");
-        }
-
-        public void Hide()
-        {
-            IsBusy = false;
         }
     }
 }

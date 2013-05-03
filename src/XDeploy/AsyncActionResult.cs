@@ -38,7 +38,7 @@ namespace XDeploy
         {
             WithExceptionHandler(ex =>
             {
-                IoC.Get<BusyIndicatorViewModel>().Hide();
+                IoC.Get<IBusyIndicator>().Hide();
                 IoC.Get<IMessageBox>().Error(ex);
             });
             return this;

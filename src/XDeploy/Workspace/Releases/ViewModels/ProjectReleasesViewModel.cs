@@ -21,6 +21,8 @@ namespace XDeploy.Workspace.Releases.ViewModels
 
         public ReleaseDetailViewModel DetailScreen { get; private set; }
 
+        public DeploymentViewModel DeploymentScreen { get; private set; }
+
         public int PageIndex { get; private set; }
 
         public ProjectReleasesViewModel(ShellViewModel shell)
@@ -32,12 +34,19 @@ namespace XDeploy.Workspace.Releases.ViewModels
             CreateReleaseScreen = new CreateReleaseViewModel(this, Shell.WorkContext.Project);
             ReleaseListScreen = new ReleaseListViewModel(this);
             DetailScreen = new ReleaseDetailViewModel(this);
+            DeploymentScreen = new DeploymentViewModel(this);
         }
 
         public void CreateRelease()
         {
             CreateReleaseScreen.Reset();
             ActivateItem(CreateReleaseScreen);
+        }
+
+        public void ShowDeploymentScreen(ReleaseDetailViewModel release, TargetDeploymentInfoViewModel target)
+        {
+            DeploymentScreen.Update(release, target);
+            ActivateItem(DeploymentScreen);
         }
 
         public IEnumerable<IResult> ShowDetail(int releaseId)

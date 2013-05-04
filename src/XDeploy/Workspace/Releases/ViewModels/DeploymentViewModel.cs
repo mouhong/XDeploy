@@ -100,19 +100,33 @@ namespace XDeploy.Workspace.Releases.ViewModels
         {
             get
             {
-                return ReleaseDetail.Shell;
+                return Host.Shell;
             }
         }
+
+        public ProjectReleasesViewModel Host { get; private set; }
 
         public ReleaseDetailViewModel ReleaseDetail { get; private set; }
 
         public TargetDeploymentInfoViewModel DeploymentTarget { get; private set; }
 
-        public DeploymentViewModel(ReleaseDetailViewModel releaseDetail, TargetDeploymentInfoViewModel deploymentTarget)
+        public DeploymentViewModel(ProjectReleasesViewModel host)
+        {
+            Host = host;
+        }
+
+        public void Update(ReleaseDetailViewModel releaseDetail, TargetDeploymentInfoViewModel deploymentTarget)
         {
             ReleaseDetail = releaseDetail;
             DeploymentTarget = deploymentTarget;
             ProgressBar = new ProgressBarViewModel();
+            DisplayName = "Deploy Release - " + ReleaseDetail.ReleaseName;
+            LoadFiles();
+        }
+
+        public IEnumerable<IResult> Back()
+        {
+            return Host.ShowDetail(ReleaseDetail.ReleaseId);
         }
 
         public void LoadFiles()
@@ -322,12 +336,6 @@ namespace XDeploy.Workspace.Releases.ViewModels
             {
                 return session.Get<DeploymentTarget>(DeploymentTarget.TargetId);
             }
-        }
-
-        protected override void OnViewLoaded(object view)
-        {
-            LoadFiles();
-            base.OnViewLoaded(view);
         }
     }
 }

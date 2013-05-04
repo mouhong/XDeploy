@@ -6,18 +6,19 @@
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel>
-        <Border Style="{StaticResource Toolbar}">
-            <StackPanel Orientation="Horizontal">
-                <Button x:Name="CreateNewTarget" Content="Create New Target" Style="{MultiStyle Btn BtnPrimary BtnToolbar}" />
-            </StackPanel>
-        </Border>
-        <ListView ItemsSource="{Binding Targets}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Name}" />
-                        <TextBlock>
+    <HeaderedContentControl Header="Deployment Targets" Style="{StaticResource PageBody}">
+        <StackPanel>
+            <Border Style="{StaticResource Toolbar}">
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="CreateNewTarget" Content="Create New Target" Style="{MultiStyle Btn BtnPrimary BtnInToolbar}" />
+                </StackPanel>
+            </Border>
+            <ListView ItemsSource="{Binding Targets}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" />
+                            <TextBlock>
                             <Run>Created At:</Run>
                             <Run Text="{Binding CreatedAt}" />
                             <Run>|</Run>
@@ -26,11 +27,12 @@
                             <Run>|</Run>
                             <Run>Last Backupped At:</Run>
                             <Run Text="{Binding LastBackuppedAt}" />
-                        </TextBlock>
-                        <Button Content="Edit" cal:Message.Attach="EditTarget($dataContext)" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </StackPanel>
+                            </TextBlock>
+                            <Button Content="Edit" cal:Message.Attach="EditTarget($dataContext)" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+    </HeaderedContentControl>
 </UserControl>

@@ -6,33 +6,37 @@
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel>
-        <ToolBar>
-            <Button x:Name="Back" Content="Back" />
-        </ToolBar>
-        <Border Style="{StaticResource FormSectionTitle}">
-            <TextBlock>Deployment Infos</TextBlock>
-        </Border>
-        <ListView ItemsSource="{Binding TargetDeploymentInfos}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Border>
-                        <StackPanel>
-                            <TextBlock Text="{Binding TargetName}" />
-                            <TextBlock>
+    <HeaderedContentControl Header="{Binding DisplayName}" Style="{StaticResource PageBody}">
+        <StackPanel>
+            <Border Style="{StaticResource FormSectionTitle}">
+                <TextBlock>Deployment Infos</TextBlock>
+            </Border>
+            <ListView ItemsSource="{Binding TargetDeploymentInfos}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border>
+                            <StackPanel>
+                                <TextBlock Text="{Binding TargetName}" />
+                                <TextBlock>
                             <Run Text="Deployed: " />
                             <Run Text="{Binding IsDeployed}" />
-                            </TextBlock>
-                            <Border>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <Button cal:Message.Attach="[Event Click] = [Action Backup($dataContext)]" IsEnabled="{Binding HasSetBackupLocation}" Content="Backup" />
-                                    <Button cal:Message.Attach="[Event Click] = [Action Deploy($dataContext)]" Content="Deploy" />
-                                </StackPanel>
-                            </Border>
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </StackPanel>
+                                </TextBlock>
+                                <Border>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button cal:Message.Attach="[Event Click] = [Action Backup($dataContext)]" IsEnabled="{Binding HasSetBackupLocation}" Content="Backup" />
+                                        <Button cal:Message.Attach="[Event Click] = [Action Deploy($dataContext)]" Content="Deploy" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Border Style="{StaticResource PageActions}">
+                <StackPanel>
+                    <Button x:Name="Back" Content="Back" Style="{MultiStyle Btn}" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </HeaderedContentControl>
 </UserControl>

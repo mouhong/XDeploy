@@ -68,6 +68,7 @@ namespace XDeploy.Workspace.Releases.ViewModels
         {
             ReleaseId = release.Id;
             ReleaseName = release.Name;
+            DisplayName = "Release Detail - " + ReleaseName;
 
             var viewModels = new List<TargetDeploymentInfoViewModel>();
 
@@ -134,30 +135,7 @@ namespace XDeploy.Workspace.Releases.ViewModels
 
         public void Deploy(TargetDeploymentInfoViewModel item)
         {
-            Shell.ActivateItem(new DeploymentViewModel(this, item));
+            Host.ShowDeploymentScreen(this, item);
         }
-
-        //public IEnumerable<IResult> Deploy(TargetDeploymentInfoViewModel item)
-        //{
-        //    if (Shell.MessageBox.Confirm("Are you sure to deploy the release to this target?", null) != System.Windows.MessageBoxResult.Yes)
-        //    {
-        //        yield break;
-        //    }
-
-        //    Shell.Busy.Show("Deployment started. This might take several minutes. Please wait...");
-
-        //    yield return new AsyncActionResult(context =>
-        //    {
-        //        var deployer = new ReleaseDeployer(Shell.WorkContext);
-        //        deployer.Deploy(ReleaseId, item.TargetId);
-        //    });
-
-        //    Shell.Busy.Hide();
-
-        //    Shell.MessageBox.Success("Deployment succeeded!", "Success");
-
-        //    item.IsDeployed = true;
-        //    item.DeployedAt = DateTime.UtcNow;
-        //}
     }
 }

@@ -6,35 +6,34 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel>
-        <Border Style="{StaticResource PageTitle}">
-            <TextBlock>Create New Release</TextBlock>
-        </Border>
-        <StackPanel Style="{StaticResource FormField}">
-            <Label Content="Release Name:" />
-            <TextBox x:Name="ReleaseName">
-                <i:Interaction.Behaviors>
-                    <UpdateSourceOnTextChangedBehavior />
-                </i:Interaction.Behaviors>
-            </TextBox>
-        </StackPanel>
-        <StackPanel Style="{StaticResource FormField}">
-            <Label Content="Source Directory:" />
-            <TextBlock Text="{Binding SourceDirectory}" />
-        </StackPanel>
-        <StackPanel Style="{StaticResource FormField}">
-            <Label Content="Release Directory:" />
-            <TextBlock Text="{Binding ReleaseDirectory}" />
-        </StackPanel>
-        <StackPanel Style="{StaticResource FormField}">
-            <Label Content="Release Notes:" />
-            <TextBox Text="{Binding ReleaseNotes}" AcceptsReturn="True" TextWrapping="Wrap" Width="300" Height="80" VerticalContentAlignment="Top" />
-        </StackPanel>
-        <Border Style="{StaticResource FormActions}">
-            <StackPanel>
-                <Button x:Name="Create" Content="Create" Style="{MultiStyle Btn BtnPrimary}" />
-                <Button x:Name="Cancel" Content="Cancel" Style="{MultiStyle Btn}" Margin="5,0,0,0" />
+    <HeaderedContentControl Header="Create New Release" Style="{StaticResource PageBody}">
+        <StackPanel>
+            <StackPanel Style="{StaticResource FormField}">
+                <Label Content="Release Name:" />
+                <TextBox x:Name="ReleaseName">
+                    <i:Interaction.Behaviors>
+                        <UpdateSourceOnTextChangedBehavior />
+                    </i:Interaction.Behaviors>
+                </TextBox>
             </StackPanel>
-        </Border>
-    </StackPanel>
+            <StackPanel Style="{StaticResource FormField}">
+                <Label Content="Source Directory:" />
+                <TextBlock Text="{Binding SourceDirectory}" />
+            </StackPanel>
+            <StackPanel Style="{StaticResource FormField}">
+                <Label Content="Release Directory:" />
+                <TextBlock Text="{Binding ReleaseDirectory}" />
+            </StackPanel>
+            <StackPanel Style="{StaticResource FormField}">
+                <Label Content="Release Notes:" />
+                <TextBox Text="{Binding ReleaseNotes}" AcceptsReturn="True" TextWrapping="Wrap" Width="300" Height="80" VerticalContentAlignment="Top" />
+            </StackPanel>
+            <Border Style="{StaticResource FormActions}">
+                <StackPanel>
+                    <Button x:Name="Create" Content="Create" Style="{MultiStyle Btn BtnPrimary BtnInFormActions}" />
+                    <Button x:Name="Cancel" Content="Cancel" Style="{MultiStyle Btn BtnInFormActions}" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </HeaderedContentControl>
 </UserControl>

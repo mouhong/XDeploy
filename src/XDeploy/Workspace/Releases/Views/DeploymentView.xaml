@@ -5,47 +5,47 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel>
-        <Border Style="{StaticResource PageTitle}">
-            <TextBlock Text="{Binding ReleaseDetail.ReleaseName}" />
-        </Border>
-        <TextBlock Text="{Binding ReleaseDetail.ReleaseNotes}" />
-        <Border Style="{StaticResource FormSectionTitle}">
-            <TextBlock x:Name="Message" />
-        </Border>
-        <Border Height="20">
-            <ContentControl x:Name="ProgressBar" />
-        </Border>
-        <DataGrid ItemsSource="{Binding Files}" AutoGenerateColumns="False" IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Path" Width="400" Binding="{Binding VirtualPath}" />
-                <DataGridTemplateColumn Header="Backup Status" Width="120">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <DockPanel HorizontalAlignment="Center">
-                                <TextBlock Text="{Binding BackupStatus}" Foreground="{Binding BackupStatus, Converter={StaticResource ProcessingStatusToBrushConverter}}" />
-                                <Image Width="16" Height="16" DockPanel.Dock="Right" Source="pack://application:,,,/Resources/Images/error.png" ToolTip="{Binding BackupErrorMessage}" Visibility="{Binding HasBackupErrors, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
-                            </DockPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Deploy Status" Width="120">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <DockPanel HorizontalAlignment="Center">
-                                <TextBlock Text="{Binding DeployStatus}" Foreground="{Binding DeployStatus, Converter={StaticResource ProcessingStatusToBrushConverter}}" />
-                                <Image Width="16" Height="16" DockPanel.Dock="Right" Source="pack://application:,,,/Resources/Images/error.png" ToolTip="{Binding DeployErrorMessage}" Visibility="{Binding HasDeployErrors, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
-                            </DockPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        <Border Style="{StaticResource FormActions}">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button x:Name="Retry" Content="Retry" Visibility="{Binding HasErrors, Converter={StaticResource BooleanToVisibilityConverter}}" Style="{StaticResource ActionButtonPrimary}" />
-                <Button x:Name="StartDeployment" Content="Start Deployment" Visibility="{Binding HasErrors, Converter={StaticResource InvertableBooleanToVisibilityConverter}, ConverterParameter=Inverted}" Style="{StaticResource ActionButtonPrimary}" />
-            </StackPanel>
-        </Border>
-    </StackPanel>
+    <HeaderedContentControl Header="{Binding DisplayName}" Style="{StaticResource PageBody}">
+        <StackPanel>
+            <TextBlock Text="{Binding ReleaseDetail.ReleaseNotes}" />
+            <Border Style="{StaticResource FormSectionTitle}">
+                <TextBlock x:Name="Message" />
+            </Border>
+            <Border Height="20">
+                <ContentControl x:Name="ProgressBar" />
+            </Border>
+            <DataGrid ItemsSource="{Binding Files}" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Path" Width="400" Binding="{Binding VirtualPath}" />
+                    <DataGridTemplateColumn Header="Backup Status" Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <DockPanel HorizontalAlignment="Center">
+                                    <TextBlock Text="{Binding BackupStatus}" Foreground="{Binding BackupStatus, Converter={StaticResource ProcessingStatusToBrushConverter}}" />
+                                    <Image Width="16" Height="16" DockPanel.Dock="Right" Source="pack://application:,,,/Resources/Images/error.png" ToolTip="{Binding BackupErrorMessage}" Visibility="{Binding HasBackupErrors, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
+                                </DockPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Deploy Status" Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <DockPanel HorizontalAlignment="Center">
+                                    <TextBlock Text="{Binding DeployStatus}" Foreground="{Binding DeployStatus, Converter={StaticResource ProcessingStatusToBrushConverter}}" />
+                                    <Image Width="16" Height="16" DockPanel.Dock="Right" Source="pack://application:,,,/Resources/Images/error.png" ToolTip="{Binding DeployErrorMessage}" Visibility="{Binding HasDeployErrors, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
+                                </DockPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Border Style="{StaticResource PageActions}">
+                <StackPanel>
+                    <Button x:Name="Back" Content="Back" Style="{MultiStyle Btn BtnInPageActions}" />
+                    <Button x:Name="Retry" Content="Retry" Visibility="{Binding HasErrors, Converter={StaticResource BooleanToVisibilityConverter}}" Style="{MultiStyle Btn BtnPrimary BtnInPageActions}" />
+                    <Button x:Name="StartDeployment" Content="Start Deployment" Visibility="{Binding HasErrors, Converter={StaticResource InvertableBooleanToVisibilityConverter}, ConverterParameter=Inverted}" Style="{MultiStyle Btn BtnPrimary BtnInPageActions}" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </HeaderedContentControl>
 </UserControl>

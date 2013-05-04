@@ -6,41 +6,40 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel>
-        <Border Style="{StaticResource PageTitle}">
-            <TextBlock>Create New Project</TextBlock>
-        </Border>
-        <Border Style="{StaticResource FormSectionTitle}">
-            <TextBlock>XDeploy Project Settings</TextBlock>
-        </Border>
-        <StackPanel Style="{StaticResource FormField}">
-            <Label Content="Project Name:" />
-            <TextBox x:Name="ProjectName" />
-        </StackPanel>
-        <StackPanel Style="{StaticResource FormField}">
-            <Label Content="Saving Directory:" />
-            <TextBox x:Name="SavingDirectory" Width="400" />
-            <TextBlock Text=" " />
-            <Button x:Name="BrowseSavingDirectory" Content="Browse..." />
-        </StackPanel>
-        <Border Style="{StaticResource FormSectionTitle}">
-            <TextBlock>Deployment Settings</TextBlock>
-        </Border>
-        <StackPanel Style="{StaticResource FormField}">
-            <Label Content="Source Directory:" />
-            <TextBox x:Name="SourceDirectory" Width="400" />
-            <TextBlock Text=" " />
-            <Button x:Name="BrowseSourceDirectory" Content="Browse..." />
-        </StackPanel>
-        <StackPanel Style="{StaticResource FormField}">
-            <Label Content="Ignored Paths:" />
-            <TextBox x:Name="IgnoredPaths" Width="400" />
-        </StackPanel>
-        <Border Style="{StaticResource FormActions}">
-            <StackPanel>
-                <Button x:Name="Create" Content="Create" Style="{MultiStyle Btn BtnPrimary}" />
-                <Button x:Name="Cancel" Content="Cancel" Style="{MultiStyle Btn}" Margin="5,0,0,0" />
+    <HeaderedContentControl Header="Create New Project" Style="{StaticResource PageBody}">
+        <StackPanel>
+            <Border Style="{StaticResource FormSectionTitle}">
+                <TextBlock>XDeploy Project Settings</TextBlock>
+            </Border>
+            <StackPanel Style="{StaticResource FormField}">
+                <Label Content="Project Name:" />
+                <TextBox x:Name="ProjectName" />
             </StackPanel>
-        </Border>
-    </StackPanel>
+            <StackPanel Style="{StaticResource FormField}">
+                <Label Content="Saving Directory:" />
+                <TextBox x:Name="SavingDirectory" Width="400" />
+                <TextBlock Text=" " />
+                <Button x:Name="BrowseSavingDirectory" Content="Browse..." />
+            </StackPanel>
+            <Border Style="{StaticResource FormSectionTitle}">
+                <TextBlock>Deployment Settings</TextBlock>
+            </Border>
+            <StackPanel Style="{StaticResource FormField}">
+                <Label Content="Source Directory:" />
+                <TextBox x:Name="SourceDirectory" Width="400" />
+                <TextBlock Text=" " />
+                <Button x:Name="BrowseSourceDirectory" Content="Browse..." />
+            </StackPanel>
+            <StackPanel Style="{StaticResource FormField}">
+                <Label Content="Ignored Paths:" />
+                <TextBox x:Name="IgnoredPaths" Width="400" />
+            </StackPanel>
+            <Border Style="{StaticResource FormActions}">
+                <StackPanel>
+                    <Button x:Name="Create" Content="Create" Style="{MultiStyle Btn BtnPrimary BtnInFormActions}" />
+                    <Button x:Name="Cancel" Content="Cancel" Style="{MultiStyle Btn BtnInFormActions}" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </HeaderedContentControl>
 </UserControl>

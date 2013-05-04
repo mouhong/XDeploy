@@ -6,22 +6,24 @@
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel>
-        <Border Style="{StaticResource Toolbar}">
-            <StackPanel Orientation="Horizontal">
-                <Button x:Name="CreateNewRelease" Content="Create New Release" Style="{MultiStyle Btn BtnPrimary BtnToolbar}" />
-            </StackPanel>
-        </Border>
-        <ListView ItemsSource="{Binding ReleasesInThisPage}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <Button cal:Message.Attach="[Event Click] = [Action ShowDetail($dataContext)]" Content="{Binding Name}" Style="{StaticResource LinkButton}" />
-                        <TextBlock Text="{Binding ReleaseNotes}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <ContentControl x:Name="Pager" />
-    </StackPanel>
+    <HeaderedContentControl Header="Releases" Style="{StaticResource PageBody}">
+        <StackPanel>
+            <Border Style="{StaticResource Toolbar}">
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="CreateNewRelease" Content="Create New Release" Style="{MultiStyle Btn BtnPrimary BtnInToolbar}" />
+                </StackPanel>
+            </Border>
+            <ListView ItemsSource="{Binding ReleasesInThisPage}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Button cal:Message.Attach="[Event Click] = [Action ShowDetail($dataContext)]" Content="{Binding Name}" Style="{StaticResource LinkButton}" />
+                            <TextBlock Text="{Binding ReleaseNotes}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ContentControl x:Name="Pager" />
+        </StackPanel>
+    </HeaderedContentControl>
 </UserControl>

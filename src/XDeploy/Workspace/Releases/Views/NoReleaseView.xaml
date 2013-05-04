@@ -11,6 +11,6 @@
                 There's no release right now.
             </TextBlock>
         </Border>
-        <Button x:Name="CreateNewRelease" Content="Create New Release" Style="{StaticResource ButtonLarge}" />
+        <Button x:Name="CreateNewRelease" Content="Create New Release" Style="{MultiStyle Btn BtnPrimary BtnLarge}" />
     </StackPanel>
 </UserControl>

@@ -11,6 +11,6 @@
                 There's no deploy target right now.
             </TextBlock>
         </Border>
-        <Button x:Name="CreateNewTarget" Content="Create New Target" Style="{StaticResource ButtonLarge}" />
+        <Button x:Name="CreateNewTarget" Content="Create New Target" Style="{MultiStyle Btn BtnPrimary BtnLarge}" />
     </StackPanel>
 </UserControl>

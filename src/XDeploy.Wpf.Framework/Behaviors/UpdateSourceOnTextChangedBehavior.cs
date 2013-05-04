@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
-namespace XDeploy.Behaviors
+namespace XDeploy.Wpf.Framework.Behaviors
 {
     public class UpdateSourceOnTextChangedBehavior : Behavior<TextBox>
     {

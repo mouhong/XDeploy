@@ -132,27 +132,32 @@ namespace XDeploy.Workspace.Releases.ViewModels
             Shell.MessageBox.Success("Backup succeeded!", "Success");
         }
 
-        public IEnumerable<IResult> Deploy(TargetDeploymentInfoViewModel item)
+        public void Deploy(TargetDeploymentInfoViewModel item)
         {
-            if (Shell.MessageBox.Confirm("Are you sure to deploy the release to this target?", null) != System.Windows.MessageBoxResult.Yes)
-            {
-                yield break;
-            }
-
-            Shell.Busy.Show("Deployment started. This might take several minutes. Please wait...");
-
-            yield return new AsyncActionResult(context =>
-            {
-                var deployer = new ReleaseDeployer(Shell.WorkContext);
-                deployer.Deploy(ReleaseId, item.TargetId);
-            });
-
-            Shell.Busy.Hide();
-
-            Shell.MessageBox.Success("Deployment succeeded!", "Success");
-
-            item.IsDeployed = true;
-            item.DeployedAt = DateTime.UtcNow;
+            Shell.ActivateItem(new DeploymentViewModel(this, item));
         }
+
+        //public IEnumerable<IResult> Deploy(TargetDeploymentInfoViewModel item)
+        //{
+        //    if (Shell.MessageBox.Confirm("Are you sure to deploy the release to this target?", null) != System.Windows.MessageBoxResult.Yes)
+        //    {
+        //        yield break;
+        //    }
+
+        //    Shell.Busy.Show("Deployment started. This might take several minutes. Please wait...");
+
+        //    yield return new AsyncActionResult(context =>
+        //    {
+        //        var deployer = new ReleaseDeployer(Shell.WorkContext);
+        //        deployer.Deploy(ReleaseId, item.TargetId);
+        //    });
+
+        //    Shell.Busy.Hide();
+
+        //    Shell.MessageBox.Success("Deployment succeeded!", "Success");
+
+        //    item.IsDeployed = true;
+        //    item.DeployedAt = DateTime.UtcNow;
+        //}
     }
 }

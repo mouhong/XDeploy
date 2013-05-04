@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using NHibernate.Linq;
 using XDeploy.Workspace.Shell.ViewModels;
-using XDeploy.Validation;
+using XDeploy.Wpf.Framework.Validation;
 
 namespace XDeploy.Workspace.DeploymentTargets.ViewModels
 {

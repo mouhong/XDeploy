@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-namespace XDeploy.Validation
+namespace XDeploy.Wpf.Framework.Validation
 {
     public class ModelValidationMeta
     {

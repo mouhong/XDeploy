@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace XDeploy.Validation
+namespace XDeploy.Wpf.Framework.Validation
 {
     public abstract class ValidatablePropertyChangedBase : PropertyChangedBase, IDataErrorInfo
     {

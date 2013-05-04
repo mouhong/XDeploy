@@ -17,5 +17,10 @@ namespace XDeploy
         {
             return Path.Combine(projectDirectory, "Releases", releaseName);
         }
+
+        public static string ReleaseFiles(string projectDirectory, string releaseName)
+        {
+            return Path.Combine(Release(projectDirectory, releaseName), "Files");
+        }
     }
 }

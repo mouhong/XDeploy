@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace XDeploy.Validation
+namespace XDeploy.Wpf.Framework.Validation
 {
     public abstract class ValidatableScreen : Screen, IDataErrorInfo
 	{

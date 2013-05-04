@@ -78,6 +78,7 @@
     <Compile Include="IIgnorantRulesTemplate.cs" />
     <Compile Include="PagedQueryable.cs" />
     <Compile Include="Paths.cs" />
+    <Compile Include="ProcessingStatus.cs" />
     <Compile Include="ProjectLoader.cs" />
     <Compile Include="Release.cs" />
     <Compile Include="ReleaseBackuper.cs" />

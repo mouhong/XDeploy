@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Reflection;
 
-namespace XDeploy.Validation
+namespace XDeploy.Wpf.Framework.Validation
 {
     public static class Validator
     {

@@ -115,14 +115,8 @@
     </ApplicationDefinition>
     <Compile Include="AsyncActionContext.cs" />
     <Compile Include="AsyncActionResult.cs" />
-    <Compile Include="Behaviors\UpdateSourceOnTextChangedBehavior.cs" />
     <Compile Include="FileAssociation.cs" />
     <Compile Include="StartupArguments.cs" />
-    <Compile Include="Validation\ModelValidationMeta.cs" />
-    <Compile Include="Validation\ModelValidationMetaCache.cs" />
-    <Compile Include="Validation\ValidatablePropertyChangedBase.cs" />
-    <Compile Include="Validation\ValidatableScreen.cs" />
-    <Compile Include="Validation\Validator.cs" />
     <Compile Include="Workspace\ApplicationWarmmer.cs" />
     <Compile Include="Workspace\DefaultBusyIndicator.cs" />
     <Compile Include="Workspace\DeploymentTargets\ViewModels\CreateDeploymentTargetViewModel.cs" />
@@ -138,7 +132,10 @@
     </Compile>
     <Compile Include="Workspace\IBusyIndicator.cs" />
     <Compile Include="Workspace\IMessageBox.cs" />
+    <Compile Include="Workspace\Shared\ViewModels\ProgressBarViewModel.cs" />
     <Compile Include="Workspace\Releases\ViewModels\CreateReleaseViewModel.cs" />
+    <Compile Include="Workspace\Releases\ViewModels\FileViewModel.cs" />
+    <Compile Include="Workspace\Releases\ViewModels\DeploymentViewModel.cs" />
     <Compile Include="Workspace\Releases\ViewModels\TargetDeploymentInfoViewModel.cs" />
     <Compile Include="Workspace\Releases\ViewModels\IReleaseCreationFormHost.cs" />
     <Compile Include="Workspace\Releases\ViewModels\NoReleaseViewModel.cs" />
@@ -147,6 +144,9 @@
     <Compile Include="Workspace\Releases\ViewModels\ReleaseListViewModel.cs" />
     <Compile Include="Workspace\Releases\Views\CreateReleaseView.xaml.cs">
       <DependentUpon>CreateReleaseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Workspace\Releases\Views\DeploymentView.xaml.cs">
+      <DependentUpon>DeploymentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workspace\Releases\Views\NoReleaseView.xaml.cs">
       <DependentUpon>NoReleaseView.xaml</DependentUpon>
@@ -165,6 +165,9 @@
     <Compile Include="Workspace\Shared\ViewModels\PagerViewModel.cs" />
     <Compile Include="Workspace\Shared\Views\PagerView.xaml.cs">
       <DependentUpon>PagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Workspace\Shared\Views\ProgressBarView.xaml.cs">
+      <DependentUpon>ProgressBarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workspace\Shell\ViewModels\ProjectWorkspaceViewModel.cs" />
     <Compile Include="Workspace\Home\ViewModels\ProjectSummaryViewModel.cs" />
@@ -240,6 +243,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Workspace\Releases\Views\DeploymentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Workspace\Releases\Views\NoReleaseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -276,6 +283,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Workspace\Shared\Views\ProgressBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Workspace\Shell\Views\ProjectWorkspaceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -306,6 +317,10 @@
     <ProjectReference Include="..\XDeploy.Core\XDeploy.Core.csproj">
       <Project>{4c935634-dda5-4434-9bc4-d0a9f08ee077}</Project>
       <Name>XDeploy.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XDeploy.Wpf.Framework\XDeploy.Wpf.Framework.csproj">
+      <Project>{1aee706f-ac34-435a-af6c-8136941cfc71}</Project>
+      <Name>XDeploy.Wpf.Framework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

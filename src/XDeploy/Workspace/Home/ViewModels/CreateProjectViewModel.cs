@@ -6,8 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using XDeploy.Data;
-using XDeploy.Validation;
 using XDeploy.Workspace.Shell.ViewModels;
+using XDeploy.Wpf.Framework.Validation;
 
 namespace XDeploy.Workspace.Home.ViewModels
 {

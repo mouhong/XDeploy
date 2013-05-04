@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using XDeploy.Validation;
 using XDeploy.Workspace.Shell.ViewModels;
+using XDeploy.Wpf.Framework.Validation;
 
 namespace XDeploy.Workspace.Releases.ViewModels
 {

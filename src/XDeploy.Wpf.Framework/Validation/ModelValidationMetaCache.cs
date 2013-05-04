@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace XDeploy.Validation
+namespace XDeploy.Wpf.Framework.Validation
 {
     public static class ModelValidationMetaCache
     {

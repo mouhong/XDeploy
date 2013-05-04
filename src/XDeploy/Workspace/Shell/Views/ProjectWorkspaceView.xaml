@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TabControl x:Name="Items" SelectedItem="{Binding ActiveItem}">
+        <TabControl x:Name="Items" SelectedItem="{Binding ActiveItem}" Style="{StaticResource MainTab}">
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding DisplayName}" />

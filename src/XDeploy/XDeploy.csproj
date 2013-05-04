@@ -215,7 +215,15 @@
     <Compile Include="Workspace\Home\Views\WelcomeScreenView.xaml.cs">
       <DependentUpon>WelcomeScreenView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Theme.xaml">
+    <Page Include="Theme\Buttons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\Form.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\Theme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

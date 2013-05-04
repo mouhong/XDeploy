@@ -43,7 +43,6 @@ namespace XDeploy.Workspace.Releases.ViewModels
                     _backupStatus = value;
                     NotifyOfPropertyChange(() => BackupStatus);
                     NotifyOfPropertyChange(() => HasBackupErrors);
-                    NotifyOfPropertyChange(() => BackupStatusTextBrush);
                 }
             }
         }
@@ -107,7 +106,6 @@ namespace XDeploy.Workspace.Releases.ViewModels
                     _deployStatus = value;
                     NotifyOfPropertyChange(() => DeployStatus);
                     NotifyOfPropertyChange(() => HasDeployErrors);
-                    NotifyOfPropertyChange(() => DeployStatusTextBrush);
                 }
             }
         }
@@ -154,40 +152,6 @@ namespace XDeploy.Workspace.Releases.ViewModels
                     NotifyOfPropertyChange(() => DeployErrorDetail);
                 }
             }
-        }
-
-        public Brush BackupStatusTextBrush
-        {
-            get
-            {
-                return GetBrush(BackupStatus);
-            }
-        }
-
-        public Brush DeployStatusTextBrush
-        {
-            get
-            {
-                return GetBrush(BackupStatus);
-            }
-        }
-
-        public Brush GetBrush(ProcessingStatus status)
-        {
-            if (status == ProcessingStatus.Pending)
-            {
-                return Brushes.Gray;
-            }
-            if (status == ProcessingStatus.InProgress)
-            {
-                return Brushes.Green;
-            }
-            if (status == ProcessingStatus.Succeeded)
-            {
-                return Brushes.Green;
-            }
-
-            return Brushes.Red;
         }
     }
 }

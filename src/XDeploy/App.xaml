@@ -11,7 +11,9 @@
                     <InvertableBooleanToVisibilityConverter x:Key="InvertableBooleanToVisibilityConverter" />
                     <ProcessingStatusToBrushConverter x:Key="ProcessingStatusToBrushConverter" />
                 </ResourceDictionary>
-                <ResourceDictionary Source="Theme.xaml" />
+                <ResourceDictionary Source="Theme/Theme.xaml" />
+                <ResourceDictionary Source="Theme/Buttons.xaml" />
+                <ResourceDictionary Source="Theme/Form.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

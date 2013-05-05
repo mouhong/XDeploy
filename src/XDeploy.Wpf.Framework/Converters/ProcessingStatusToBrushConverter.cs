@@ -12,9 +12,9 @@ namespace XDeploy.Wpf.Framework.Converters
         static Dictionary<ProcessingStatus, Brush> _brushes = new Dictionary<ProcessingStatus, Brush>
         {
             { ProcessingStatus.Pending, Brushes.DarkGray },
-            { ProcessingStatus.InProgress, new SolidColorBrush(Color.FromRgb(71, 156, 235)) },
-            { ProcessingStatus.Failed, new SolidColorBrush(Color.FromRgb(89, 190, 20)) },
-            { ProcessingStatus.Succeeded, new SolidColorBrush(Color.FromRgb(248, 82, 48)) }
+            { ProcessingStatus.InProgress, (SolidColorBrush)new BrushConverter().ConvertFrom("#127FC0") },
+            { ProcessingStatus.Failed, Brushes.Red },
+            { ProcessingStatus.Succeeded, (SolidColorBrush)new BrushConverter().ConvertFrom("#4FA613") }
         };
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

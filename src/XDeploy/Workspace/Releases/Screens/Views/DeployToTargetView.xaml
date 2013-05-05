@@ -50,10 +50,13 @@
                             </DataGridTemplateColumn.HeaderStyle>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <DockPanel HorizontalAlignment="Center">
-                                        <TextBlock Text="{Binding BackupStatus}" Foreground="{Binding BackupStatus, Converter={StaticResource ProcessingStatusToBrushConverter}}" />
-                                        <Image Width="16" Height="16" DockPanel.Dock="Right" Source="pack://application:,,,/Resources/Images/error.png" ToolTip="{Binding BackupErrorMessage}" Visibility="{Binding HasBackupErrors, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
-                                    </DockPanel>
+                                    <StackPanel>
+                                        <DockPanel HorizontalAlignment="Center" Visibility="{Binding IsBackupEnabled,Converter={StaticResource InvertableBooleanToVisibilityConverter}}">
+                                            <TextBlock Text="{Binding BackupStatus}" Foreground="{Binding BackupStatus, Converter={StaticResource ProcessingStatusToBrushConverter}}" />
+                                            <Image DockPanel.Dock="Right" Margin="2,0,0,0" Style="{StaticResource IconError}" ToolTip="{Binding BackupErrorMessage}" Visibility="{Binding HasBackupErrors, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
+                                        </DockPanel>
+                                        <TextBlock Text="N/A" HorizontalAlignment="Center" Foreground="DarkOrange" Visibility="{Binding IsBackupEnabled,Converter={StaticResource InvertableBooleanToVisibilityConverter},ConverterParameter=Inverted}" />
+                                    </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -67,7 +70,7 @@
                                 <DataTemplate>
                                     <DockPanel HorizontalAlignment="Center">
                                         <TextBlock Text="{Binding DeployStatus}" Foreground="{Binding DeployStatus, Converter={StaticResource ProcessingStatusToBrushConverter}}" />
-                                        <Image Width="16" Height="16" DockPanel.Dock="Right" Source="pack://application:,,,/Resources/Images/error.png" ToolTip="{Binding DeployErrorMessage}" Visibility="{Binding HasDeployErrors, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
+                                        <Image DockPanel.Dock="Right" Margin="2,0,0,0" Style="{StaticResource IconError}" ToolTip="{Binding DeployErrorMessage}" Visibility="{Binding HasDeployErrors, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
                                     </DockPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>

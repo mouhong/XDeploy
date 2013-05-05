@@ -28,6 +28,24 @@ namespace XDeploy.Workspace.Releases.Screens
             }
         }
 
+        private bool _isBackupEnabled;
+
+        public bool IsBackupEnabled
+        {
+            get
+            {
+                return _isBackupEnabled;
+            }
+            set
+            {
+                if (_isBackupEnabled != value)
+                {
+                    _isBackupEnabled = value;
+                    NotifyOfPropertyChange(() => IsBackupEnabled);
+                }
+            }
+        }
+
         private ProcessingStatus _backupStatus;
 
         public ProcessingStatus BackupStatus

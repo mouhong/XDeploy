@@ -83,6 +83,27 @@ namespace XDeploy.Workspace.Releases.Screens
             }
         }
 
+        private bool _isProcessing;
+
+        public bool IsProcessing
+        {
+            get
+            {
+                return _isProcessing;
+            }
+            set
+            {
+                if (_isProcessing != value)
+                {
+                    _isProcessing = value;
+                    NotifyOfPropertyChange(() => IsProcessing);
+                    NotifyOfPropertyChange(() => CanBack);
+                    NotifyOfPropertyChange(() => CanStartDeployment);
+                    NotifyOfPropertyChange(() => CanRetry);
+                }
+            }
+        }
+
         public ShellViewModel Shell
         {
             get
@@ -123,6 +144,14 @@ namespace XDeploy.Workspace.Releases.Screens
             LoadFiles();
         }
 
+        public bool CanBack
+        {
+            get
+            {
+                return !IsProcessing;
+            }
+        }
+
         public void Back()
         {
             Workspace.ActivateItem(ReleaseDetail);
@@ -141,7 +170,8 @@ namespace XDeploy.Workspace.Releases.Screens
                 {
                     var fileViewModel = new FileViewModel
                     {
-                        VirtualPath = VirtualPathUtil.GetVirtualPath(file, directory)
+                        VirtualPath = VirtualPathUtil.GetVirtualPath(file, directory),
+                        IsBackupEnabled = DeploymentTarget.HasSetBackupLocation
                     };
                     Files.Add(fileViewModel);
                 }
@@ -150,10 +180,25 @@ namespace XDeploy.Workspace.Releases.Screens
             });
         }
 
+        public bool CanStartDeployment
+        {
+            get
+            {
+                return !IsProcessing;
+            }
+        }
+
         public IEnumerable<IResult> StartDeployment()
         {
+            if (Shell.MessageBox.Confirm("Are you sure to start deployment?", null) != MessageBoxResult.Yes)
+            {
+                yield break;
+            }
+
+            IsProcessing = true;
+
             Progress.HasErrors = false;
-            Progress.MaxValue = (Files.Count * 2);
+            Progress.MaxValue = DeploymentTarget.HasSetBackupLocation ? (Files.Count * 2) : Files.Count;
             Progress.IsVisible = true;
 
             DeploymentTarget target = null;
@@ -177,10 +222,21 @@ namespace XDeploy.Workspace.Releases.Screens
             }
 
             Progress.HasErrors = HasErrors;
+            IsProcessing = false;
+        }
+
+        public bool CanRetry
+        {
+            get
+            {
+                return !IsProcessing;
+            }
         }
 
         public IEnumerable<IResult> Retry()
         {
+            IsProcessing = true;
+
             DeploymentTarget target = null;
 
             yield return new AsyncActionResult(context =>
@@ -224,6 +280,7 @@ namespace XDeploy.Workspace.Releases.Screens
             }
 
             Progress.HasErrors = HasErrors;
+            IsProcessing = false;
         }
 
         private void DoBackup(DeploymentTarget target, IEnumerable<FileViewModel> files)

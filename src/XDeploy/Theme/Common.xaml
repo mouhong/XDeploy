@@ -58,7 +58,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
-                    <Border x:Name="Border" Padding="20,15" MinWidth="140" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Border x:Name="Border" Padding="20,15" MinWidth="140" HorizontalAlignment="Center" VerticalAlignment="Center"
+                             Visibility="{Binding IsVisible, Converter={StaticResource InvertableBooleanToVisibilityConverter}}">
                         <Border.Background>
                             <SolidColorBrush x:Name="BackgroundBrush" Color="#127EBF" />
                         </Border.Background>

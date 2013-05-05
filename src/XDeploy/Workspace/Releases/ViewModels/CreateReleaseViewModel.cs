@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -9,18 +10,28 @@ using XDeploy.Wpf.Framework.Validation;
 
 namespace XDeploy.Workspace.Releases.ViewModels
 {
-    public class CreateReleaseViewModel : ValidatableScreen
+    [Export(typeof(CreateReleaseViewModel))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public class CreateReleaseViewModel : ValidatableScreen, IWorkspaceScreen
     {
+        private IProjectWorkContextAccessor _workContextAccessor;
+
         public ShellViewModel Shell
         {
             get
             {
-                return Host.Shell;
+                return this.GetWorkspace().GetShell();
             }
         }
 
-        public IReleaseCreationFormHost Host { get; private set; }
-
+        public ReleasesWorkspaceViewModel Workspace
+        {
+            get
+            {
+                return (ReleasesWorkspaceViewModel)this.GetWorkspace();
+            }
+        }
+        
         public string ProjectDirectory { get; private set; }
 
         private string _releaseName;
@@ -91,20 +102,18 @@ namespace XDeploy.Workspace.Releases.ViewModels
             }
         }
 
-        public CreateReleaseViewModel(IReleaseCreationFormHost host, DeploymentProject project)
+        [ImportingConstructor]
+        public CreateReleaseViewModel(
+            IProjectWorkContextAccessor workContextAccessor)
         {
-            Host = host;
-            ProjectDirectory = project.ProjectDirectory;
-            SourceDirectory = project.SourceDirectory;
+            _workContextAccessor = workContextAccessor;
+
+            var workContext = _workContextAccessor.GetCurrentWorkContext();
+            ProjectDirectory = workContext.ProjectDirectory;
+            SourceDirectory = workContext.Project.SourceDirectory;
             ReleaseDirectory = Paths.Release(ProjectDirectory, String.Empty);
         }
-
-        public void Reset()
-        {
-            ReleaseName = null;
-            ReleaseNotes = null;
-        }
-
+        
         public IEnumerable<IResult> Create()
         {
             var result = Shell.MessageBox.Confirm("Are you sure to create this release?", null, System.Windows.MessageBoxButton.YesNo);
@@ -115,19 +124,21 @@ namespace XDeploy.Workspace.Releases.ViewModels
 
                 yield return new AsyncActionResult(context =>
                 {
-                    var creator = new ReleaseCreator(Shell.WorkContext);
+                    var workContext = _workContextAccessor.GetCurrentWorkContext();
+                    var creator = new ReleaseCreator(workContext.WorkContext);
                     creator.CreateRelease(ReleaseName, ReleaseNotes);
                 });
 
                 Shell.Busy.Hide();
                 Shell.MessageBox.Success("Release \"" + ReleaseName + "\" is successfully created.", "Success");
-                Host.OnReleaseCreated(this);
+
+                Workspace.ShowReleaseList();
             }
         }
 
         public void Cancel()
         {
-            Host.OnReleaseCreationCanceled(this);
+            Workspace.ShowReleaseList();
         }
 
         protected void ChangeReleaseName(string name)

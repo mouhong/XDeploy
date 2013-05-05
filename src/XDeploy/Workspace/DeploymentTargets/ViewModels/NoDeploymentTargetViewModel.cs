@@ -1,23 +1,26 @@
 ﻿using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 
 namespace XDeploy.Workspace.DeploymentTargets.ViewModels
 {
-    public class NoDeploymentTargetViewModel : Screen
+    [Export(typeof(NoDeploymentTargetViewModel))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public class NoDeploymentTargetViewModel : Screen, IWorkspaceScreen
     {
-        public ProjectDeploymentTargetsViewModel Host { get; private set; }
+        private Func<CreateDeploymentTargetViewModel> _createDeploymentTargetViewModel;
 
-        public NoDeploymentTargetViewModel(ProjectDeploymentTargetsViewModel host)
+        public NoDeploymentTargetViewModel(Func<CreateDeploymentTargetViewModel> createDeploymentTargetViewModel)
         {
-            Host = host;
+            _createDeploymentTargetViewModel = createDeploymentTargetViewModel;
         }
 
         public void CreateNewTarget()
         {
-            Host.CreateDeploymentTarget();
+            this.GetWorkspace().ActivateItem(_createDeploymentTargetViewModel());
         }
     }
 }

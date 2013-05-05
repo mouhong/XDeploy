@@ -9,6 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using XDeploy.Workspace;
+using XDeploy.Workspace.DeploymentTargets.ViewModels;
+using XDeploy.Workspace.Home.ViewModels;
+using XDeploy.Workspace.Releases.ViewModels;
 using XDeploy.Workspace.Shell.ViewModels;
 
 namespace XDeploy
@@ -28,6 +31,22 @@ namespace XDeploy
 
             batch.AddExportedValue<IWindowManager>(new WindowManager());
             batch.AddExportedValue<IEventAggregator>(new EventAggregator());
+
+            batch.AddExportedValue<Func<WelcomeScreenViewModel>>(() => container.GetExportedValue<WelcomeScreenViewModel>());
+            batch.AddExportedValue<Func<CreateProjectViewModel>>(() => container.GetExportedValue<CreateProjectViewModel>());
+            batch.AddExportedValue<Func<ProjectSummaryViewModel>>(() => container.GetExportedValue<ProjectSummaryViewModel>());
+
+            batch.AddExportedValue<Func<NoDeploymentTargetViewModel>>(() => container.GetExportedValue<NoDeploymentTargetViewModel>());
+            batch.AddExportedValue<Func<CreateDeploymentTargetViewModel>>(() => container.GetExportedValue<CreateDeploymentTargetViewModel>());
+            batch.AddExportedValue<Func<EditDeploymentTargetViewModel>>(() => container.GetExportedValue<EditDeploymentTargetViewModel>());
+            batch.AddExportedValue<Func<DeploymentTargetListViewModel>>(() => container.GetExportedValue<DeploymentTargetListViewModel>());
+
+            batch.AddExportedValue<Func<NoReleaseViewModel>>(() => container.GetExportedValue<NoReleaseViewModel>());
+            batch.AddExportedValue<Func<CreateReleaseViewModel>>(() => container.GetExportedValue<CreateReleaseViewModel>());
+            batch.AddExportedValue<Func<ReleaseListViewModel>>(() => container.GetExportedValue<ReleaseListViewModel>());
+            batch.AddExportedValue<Func<ReleaseDetailViewModel>>(() => container.GetExportedValue<ReleaseDetailViewModel>());
+            batch.AddExportedValue<Func<DeploymentViewModel>>(() => container.GetExportedValue<DeploymentViewModel>());
+
             batch.AddExportedValue(container);
 
             container.Compose(batch);

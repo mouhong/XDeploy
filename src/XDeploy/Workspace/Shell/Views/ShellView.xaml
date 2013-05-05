@@ -8,22 +8,14 @@
              MinWidth="800" MinHeight="600"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Menu Grid.Row="0">
-            <MenuItem Header="_File">
-                <MenuItem x:Name="CreateProject" Header="_New" />
-                <MenuItem x:Name="OpenProject" Header="_Open" />
-                <Separator />
-                <MenuItem x:Name="CloseProject" Header="_Close Project" />
-                <Separator />
-                <MenuItem x:Name="Exit" Header="_Exit" />
-            </MenuItem>
-        </Menu>
-        <xctk:BusyIndicator Grid.Row="1" IsBusy="{Binding Busy.IsBusy}" BusyContent="{Binding Busy.Message}">
-            <ContentControl x:Name="ActiveItem" />
+        <xctk:BusyIndicator IsBusy="{Binding Busy.IsBusy}" BusyContent="{Binding Busy.Message}">
+            <TabControl x:Name="Items" SelectedItem="{Binding ActiveItem}" Style="{StaticResource MainTab}">
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DisplayName}" />
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+            </TabControl>
         </xctk:BusyIndicator>
     </Grid>
 </UserControl>

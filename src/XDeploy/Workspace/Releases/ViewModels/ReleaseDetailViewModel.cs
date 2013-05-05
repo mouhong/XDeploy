@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using XDeploy.Storage;
@@ -8,17 +9,21 @@ using XDeploy.Workspace.Shell.ViewModels;
 
 namespace XDeploy.Workspace.Releases.ViewModels
 {
-    public class ReleaseDetailViewModel : Screen
+    [Export(typeof(ReleaseDetailViewModel))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public class ReleaseDetailViewModel : Screen, IWorkspaceScreen
     {
+        private IProjectWorkContextAccessor _workContextAccessor;
+        private Func<ReleaseListViewModel> _releaseListViewModel;
+        private Func<DeploymentViewModel> _deploymentViewModel;
+
         public ShellViewModel Shell
         {
             get
             {
-                return Host.Shell;
+                return this.GetWorkspace().GetShell();
             }
         }
-
-        public ProjectReleasesViewModel Host { get; private set; }
 
         private int _releaseId;
 
@@ -58,9 +63,15 @@ namespace XDeploy.Workspace.Releases.ViewModels
 
         public BindableCollection<TargetDeploymentInfoViewModel> TargetDeploymentInfos { get; private set; }
 
-        public ReleaseDetailViewModel(ProjectReleasesViewModel host)
+        [ImportingConstructor]
+        public ReleaseDetailViewModel(
+            IProjectWorkContextAccessor workContextAccessor,
+            Func<ReleaseListViewModel> releaseListViewModel,
+            Func<DeploymentViewModel> deploymentViewModel)
         {
-            Host = host;
+            _workContextAccessor = workContextAccessor;
+            _releaseListViewModel = releaseListViewModel;
+            _deploymentViewModel = deploymentViewModel;
             TargetDeploymentInfos = new BindableCollection<TargetDeploymentInfoViewModel>();
         }
 
@@ -95,9 +106,11 @@ namespace XDeploy.Workspace.Releases.ViewModels
             NotifyOfPropertyChange(() => TargetDeploymentInfos);
         }
 
-        public IEnumerable<IResult> Back()
+        public void Back()
         {
-            return Host.LoadReleases(Host.PageIndex);
+            var listViewModel = _releaseListViewModel();
+            this.GetWorkspace().ActivateItem(listViewModel);
+            listViewModel.LoadAsync(0);
         }
 
         public IEnumerable<IResult> Backup(TargetDeploymentInfoViewModel item)
@@ -113,7 +126,9 @@ namespace XDeploy.Workspace.Releases.ViewModels
             {
                 DeploymentTarget target = null;
 
-                using (var session = Shell.WorkContext.OpenSession())
+                var workContext = _workContextAccessor.GetCurrentWorkContext();
+
+                using (var session = workContext.OpenSession())
                 {
                     target = session.Get<DeploymentTarget>(item.TargetId);
                 }
@@ -123,7 +138,7 @@ namespace XDeploy.Workspace.Releases.ViewModels
 
                 var backuper = new ReleaseBackuper();
                 backuper.Backup(
-                    Paths.Release(Shell.WorkContext.Project.ProjectDirectory, ReleaseName),
+                    Paths.Release(workContext.ProjectDirectory, ReleaseName),
                     deployDirectory,
                     backupDirectory);
             });
@@ -135,7 +150,9 @@ namespace XDeploy.Workspace.Releases.ViewModels
 
         public void Deploy(TargetDeploymentInfoViewModel item)
         {
-            Host.ShowDeploymentScreen(this, item);
+            var deploymentViewModel = _deploymentViewModel();
+            this.GetWorkspace().ActivateItem(deploymentViewModel);
+            deploymentViewModel.Update(this, item);
         }
     }
 }

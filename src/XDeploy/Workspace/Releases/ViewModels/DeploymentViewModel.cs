@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,8 +15,12 @@ using XDeploy.Workspace.Shell.ViewModels;
 
 namespace XDeploy.Workspace.Releases.ViewModels
 {
-    public class DeploymentViewModel : Screen
+    [Export(typeof(DeploymentViewModel))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public class DeploymentViewModel : Screen, IWorkspaceScreen
     {
+        private IProjectWorkContextAccessor _workContextAccessor;
+
         private BindableCollection<FileViewModel> _files;
 
         public BindableCollection<FileViewModel> Files
@@ -100,19 +105,31 @@ namespace XDeploy.Workspace.Releases.ViewModels
         {
             get
             {
-                return Host.Shell;
+                return Workspace.GetShell();
             }
         }
 
-        public ProjectReleasesViewModel Host { get; private set; }
+        public IWorkspace Workspace
+        {
+            get
+            {
+                return this.GetWorkspace();
+            }
+        }
 
         public ReleaseDetailViewModel ReleaseDetail { get; private set; }
 
         public TargetDeploymentInfoViewModel DeploymentTarget { get; private set; }
 
-        public DeploymentViewModel(ProjectReleasesViewModel host)
+        private Func<ReleaseListViewModel> _releaseListViewModel;
+
+        [ImportingConstructor]
+        public DeploymentViewModel(
+            IProjectWorkContextAccessor workContextAccessor,
+            Func<ReleaseListViewModel> releaseListViewModel)
         {
-            Host = host;
+            _workContextAccessor = workContextAccessor;
+            _releaseListViewModel = releaseListViewModel;
         }
 
         public void Update(ReleaseDetailViewModel releaseDetail, TargetDeploymentInfoViewModel deploymentTarget)
@@ -124,9 +141,11 @@ namespace XDeploy.Workspace.Releases.ViewModels
             LoadFiles();
         }
 
-        public IEnumerable<IResult> Back()
+        public void Back()
         {
-            return Host.ShowDetail(ReleaseDetail.ReleaseId);
+            var listViewModel = _releaseListViewModel();
+            Workspace.ActivateItem(listViewModel);
+            listViewModel.LoadAsync(0);
         }
 
         public void LoadFiles()
@@ -135,7 +154,8 @@ namespace XDeploy.Workspace.Releases.ViewModels
 
             Task.Factory.StartNew(() =>
             {
-                var directory = new DirectoryInfo(Paths.ReleaseFiles(Shell.WorkContext.Project.ProjectDirectory, ReleaseDetail.ReleaseName));
+                var workContext = _workContextAccessor.GetCurrentWorkContext();
+                var directory = new DirectoryInfo(Paths.ReleaseFiles(workContext.ProjectDirectory, ReleaseDetail.ReleaseName));
 
                 foreach (var file in directory.EnumerateFiles("*", SearchOption.AllDirectories))
                 {
@@ -261,7 +281,9 @@ namespace XDeploy.Workspace.Releases.ViewModels
 
             if (target.BackupLocation != null && !target.BackupLocation.IsEmpty())
             {
-                var sourceDirectory = Directories.GetDirectory(Paths.ReleaseFiles(Shell.WorkContext.Project.ProjectDirectory, ReleaseDetail.ReleaseName));
+                var workContext = _workContextAccessor.GetCurrentWorkContext();
+
+                var sourceDirectory = Directories.GetDirectory(Paths.ReleaseFiles(workContext.ProjectDirectory, ReleaseDetail.ReleaseName));
                 var backupDirectory = target.BackupLocation.GetDirectory();
 
                 foreach (var file in files)
@@ -301,7 +323,9 @@ namespace XDeploy.Workspace.Releases.ViewModels
         {
             var hasErrors = false;
 
-            var sourceDirectory = Directories.GetDirectory(Paths.ReleaseFiles(Shell.WorkContext.Project.ProjectDirectory, ReleaseDetail.ReleaseName));
+            var workContext = _workContextAccessor.GetCurrentWorkContext();
+
+            var sourceDirectory = Directories.GetDirectory(Paths.ReleaseFiles(workContext.ProjectDirectory, ReleaseDetail.ReleaseName));
             var deployDirectory = target.DeployLocation.GetDirectory();
 
             foreach (var file in files)
@@ -332,7 +356,9 @@ namespace XDeploy.Workspace.Releases.ViewModels
 
         private DeploymentTarget LoadDeploymentTarget()
         {
-            using (var session = Shell.WorkContext.OpenSession())
+            var workContext = _workContextAccessor.GetCurrentWorkContext();
+
+            using (var session = workContext.OpenSession())
             {
                 return session.Get<DeploymentTarget>(DeploymentTarget.TargetId);
             }

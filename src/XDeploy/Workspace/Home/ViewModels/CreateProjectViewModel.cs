@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
@@ -11,9 +12,17 @@ using XDeploy.Wpf.Framework.Validation;
 
 namespace XDeploy.Workspace.Home.ViewModels
 {
-    public class CreateProjectViewModel : ValidatableScreen
+    [Export(typeof(CreateProjectViewModel))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public class CreateProjectViewModel : ValidatableScreen, IWorkspaceScreen
     {
-        public ShellViewModel Shell { get; private set; }
+        public ShellViewModel Shell
+        {
+            get
+            {
+                return this.GetWorkspace().GetShell();
+            }
+        }
 
         private string _projectName;
 
@@ -113,17 +122,20 @@ namespace XDeploy.Workspace.Home.ViewModels
             }
         }
 
+        public HomeWorkspaceViewModel Workspace
+        {
+            get
+            {
+                return (HomeWorkspaceViewModel)this.GetWorkspace();
+            }
+        }
+
         public bool CanCreate
         {
             get
             {
                 return !HasErrors;
             }
-        }
-
-        public CreateProjectViewModel(ShellViewModel shell)
-        {
-            Shell = shell;
         }
 
         public IEnumerable<IResult> Create()
@@ -153,7 +165,7 @@ namespace XDeploy.Workspace.Home.ViewModels
                 Database.InitializeDatabase(Paths.DbFile(SavingDirectory));
             });
 
-            foreach (var result in Shell.OpenProject(projectFilePath))
+            foreach (var result in Workspace.OpenProject(projectFilePath))
             {
                 yield return result;
             }
@@ -161,7 +173,7 @@ namespace XDeploy.Workspace.Home.ViewModels
 
         public void Cancel()
         {
-            Shell.SwithchToWelcomeScreen();
+            Workspace.ShowWelcome();
         }
 
         public void BrowseSourceDirectory()

@@ -128,19 +128,24 @@
     <Compile Include="Workspace\DeploymentTargets\ViewModels\DeploymentTargetListViewModel.cs" />
     <Compile Include="Workspace\DeploymentTargets\ViewModels\EditDeploymentTargetViewModel.cs" />
     <Compile Include="Workspace\FormMode.cs" />
-    <Compile Include="Workspace\DeploymentTargets\ViewModels\IDeploymentTargetFormActionAware.cs" />
     <Compile Include="Workspace\Home\ViewModels\CreateProjectViewModel.cs" />
+    <Compile Include="Workspace\Home\ViewModels\HomeWorkspaceViewModel.cs" />
     <Compile Include="Workspace\Home\Views\CreateProjectView.xaml.cs">
       <DependentUpon>CreateProjectView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Workspace\Home\Views\HomeWorkspaceView.xaml.cs">
+      <DependentUpon>HomeWorkspaceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Workspace\IBusyIndicator.cs" />
     <Compile Include="Workspace\IMessageBox.cs" />
+    <Compile Include="Workspace\IProjectWorkContextAccessor.cs" />
+    <Compile Include="Workspace\IWorkspace.cs" />
+    <Compile Include="Workspace\ProjectWorkContext.cs" />
     <Compile Include="Workspace\Shared\ViewModels\ProgressBarViewModel.cs" />
     <Compile Include="Workspace\Releases\ViewModels\CreateReleaseViewModel.cs" />
     <Compile Include="Workspace\Releases\ViewModels\FileViewModel.cs" />
     <Compile Include="Workspace\Releases\ViewModels\DeploymentViewModel.cs" />
     <Compile Include="Workspace\Releases\ViewModels\TargetDeploymentInfoViewModel.cs" />
-    <Compile Include="Workspace\Releases\ViewModels\IReleaseCreationFormHost.cs" />
     <Compile Include="Workspace\Releases\ViewModels\NoReleaseViewModel.cs" />
     <Compile Include="Workspace\Releases\ViewModels\ReleaseDetailViewModel.cs" />
     <Compile Include="Workspace\Releases\ViewModels\ReleaseListItemViewModel.cs" />
@@ -163,8 +168,8 @@
     <Compile Include="Workspace\Shared\ViewModels\IPagerHost.cs" />
     <Compile Include="Workspace\Shared\ViewModels\LocationFormViewModel.cs" />
     <Compile Include="Workspace\DeploymentTargets\ViewModels\NoDeploymentTargetViewModel.cs" />
-    <Compile Include="Workspace\DeploymentTargets\ViewModels\ProjectDeploymentTargetsViewModel.cs" />
-    <Compile Include="Workspace\Releases\ViewModels\ProjectReleasesViewModel.cs" />
+    <Compile Include="Workspace\DeploymentTargets\ViewModels\DeploymentTargetsWorkspaceViewModel.cs" />
+    <Compile Include="Workspace\Releases\ViewModels\ReleasesWorkspaceViewModel.cs" />
     <Compile Include="Workspace\Shared\ViewModels\PagerViewModel.cs" />
     <Compile Include="Workspace\Shared\Views\PagerView.xaml.cs">
       <DependentUpon>PagerView.xaml</DependentUpon>
@@ -172,7 +177,6 @@
     <Compile Include="Workspace\Shared\Views\ProgressBarView.xaml.cs">
       <DependentUpon>ProgressBarView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Workspace\Shell\ViewModels\ProjectWorkspaceViewModel.cs" />
     <Compile Include="Workspace\Home\ViewModels\ProjectSummaryViewModel.cs" />
     <Compile Include="Workspace\Home\ViewModels\WelcomeScreenViewModel.cs" />
     <Compile Include="Workspace\DeploymentProjectViewModel.cs" />
@@ -194,17 +198,14 @@
     <Compile Include="Workspace\DeploymentTargets\Views\NoDeploymentTargetView.xaml.cs">
       <DependentUpon>NoDeploymentTargetView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Workspace\DeploymentTargets\Views\ProjectDeploymentTargetsView.xaml.cs">
-      <DependentUpon>ProjectDeploymentTargetsView.xaml</DependentUpon>
+    <Compile Include="Workspace\DeploymentTargets\Views\DeploymentTargetsWorkspaceView.xaml.cs">
+      <DependentUpon>DeploymentTargetsWorkspaceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Workspace\Releases\Views\ProjectReleasesView.xaml.cs">
-      <DependentUpon>ProjectReleasesView.xaml</DependentUpon>
+    <Compile Include="Workspace\Releases\Views\ReleasesWorkspaceView.xaml.cs">
+      <DependentUpon>ReleasesWorkspaceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workspace\Home\Views\ProjectSummaryView.xaml.cs">
       <DependentUpon>ProjectSummaryView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Workspace\Shell\Views\ProjectWorkspaceView.xaml.cs">
-      <DependentUpon>ProjectWorkspaceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workspace\Shell\Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -254,6 +255,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Workspace\Home\Views\HomeWorkspaceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Workspace\Releases\Views\CreateReleaseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -282,11 +287,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Workspace\DeploymentTargets\Views\ProjectDeploymentTargetsView.xaml">
+    <Page Include="Workspace\DeploymentTargets\Views\DeploymentTargetsWorkspaceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Workspace\Releases\Views\ProjectReleasesView.xaml">
+    <Page Include="Workspace\Releases\Views\ReleasesWorkspaceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -299,10 +304,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Workspace\Shared\Views\ProgressBarView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Workspace\Shell\Views\ProjectWorkspaceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -6,16 +6,34 @@ using System.Text;
 using NHibernate.Linq;
 using XDeploy.Workspace.Shell.ViewModels;
 using XDeploy.Wpf.Framework.Validation;
+using System.ComponentModel.Composition;
 
 namespace XDeploy.Workspace.DeploymentTargets.ViewModels
 {
-    public class CreateDeploymentTargetViewModel : ValidatableScreen
+    [Export(typeof(CreateDeploymentTargetViewModel))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public class CreateDeploymentTargetViewModel : ValidatableScreen, IWorkspaceScreen
     {
-        public ShellViewModel Shell { get; private set; }
+        private IProjectWorkContextAccessor _workContextAccessor;
+        private Func<DeploymentTargetListViewModel> _deploymentTargetListViewModel;
+
+        public ShellViewModel Shell
+        {
+            get
+            {
+                return this.GetWorkspace().GetShell();
+            }
+        }
+
+        public IWorkspace Workspace
+        {
+            get
+            {
+                return this.GetWorkspace();
+            }
+        }
 
         public DeploymentTargetFormViewModel Form { get; private set; }
-
-        public IDeploymentTargetFormActionAware Host { get; private set; }
 
         public bool CanCreate
         {
@@ -25,11 +43,14 @@ namespace XDeploy.Workspace.DeploymentTargets.ViewModels
             }
         }
 
-        public CreateDeploymentTargetViewModel(ShellViewModel shell, IDeploymentTargetFormActionAware host)
+        [ImportingConstructor]
+        public CreateDeploymentTargetViewModel(
+            IProjectWorkContextAccessor workContextAccessor,
+            Func<DeploymentTargetListViewModel> deploymentTargetListViewModelFactory)
         {
-            Shell = shell;
+            _workContextAccessor = workContextAccessor;
+            _deploymentTargetListViewModel = deploymentTargetListViewModelFactory;
             Form = CreateFormViewModel();
-            Host = host;
         }
 
         public void Reset()
@@ -50,7 +71,8 @@ namespace XDeploy.Workspace.DeploymentTargets.ViewModels
 
         public void Cancel()
         {
-            Host.OnFormCanceled(Form, FormMode.Add);
+            var listViewModel = _deploymentTargetListViewModel();
+            Workspace.ActivateItem(listViewModel);
         }
 
         public IEnumerable<IResult> Create()
@@ -59,7 +81,9 @@ namespace XDeploy.Workspace.DeploymentTargets.ViewModels
 
             yield return new AsyncActionResult(context =>
             {
-                using (var session = Shell.WorkContext.OpenSession())
+                var workContext = _workContextAccessor.GetCurrentWorkContext();
+
+                using (var session = workContext.OpenSession())
                 {
                     var target = new DeploymentTarget();
                     Form.UpdateTo(target);
@@ -67,12 +91,13 @@ namespace XDeploy.Workspace.DeploymentTargets.ViewModels
                     session.Save(target);
                     session.Commit();
 
-                    Shell.WorkContext.Project.TotalDeployTargets = session.Query<DeploymentTarget>().Count();
-                    Shell.WorkContext.Project.Save();
+                    workContext.WorkContext.Project.TotalDeployTargets = session.Query<DeploymentTarget>().Count();
+                    workContext.WorkContext.Project.Save();
                 }
             });
 
-            Host.OnFormSaved(Form, FormMode.Add);
+            var listViewModel = _deploymentTargetListViewModel();
+            Workspace.ActivateItem(listViewModel);
 
             Shell.Busy.Hide();
         }

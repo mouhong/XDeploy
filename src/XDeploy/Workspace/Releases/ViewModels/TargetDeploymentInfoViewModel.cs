@@ -6,7 +6,7 @@ using System.Text;
 
 namespace XDeploy.Workspace.Releases.ViewModels
 {
-    public class TargetDeploymentInfoViewModel:PropertyChangedBase
+    public class TargetDeploymentInfoViewModel : PropertyChangedBase
     {
         private int _targetId;
 

@@ -6,26 +6,57 @@ using System.Linq;
 using System.Text;
 using Microsoft.Win32;
 using XDeploy.Workspace.Shell.ViewModels;
+using System.Threading.Tasks;
 
 namespace XDeploy.Workspace.Home.ViewModels
 {
-    public class WelcomeScreenViewModel : Screen
+    [Export(typeof(WelcomeScreenViewModel))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public class WelcomeScreenViewModel : Screen, IWorkspaceScreen
     {
-        public ShellViewModel Shell { get; private set; }
+        private Func<CreateProjectViewModel> _createProjectViewModel;
 
-        public WelcomeScreenViewModel(ShellViewModel shell)
+        public ShellViewModel Shell
         {
-            Shell = shell;
+            get
+            {
+                return this.GetWorkspace().GetShell();
+            }
+        }
+
+        public HomeWorkspaceViewModel Workspace
+        {
+            get
+            {
+                return (HomeWorkspaceViewModel)this.GetWorkspace();
+            }
+        }
+
+        [ImportingConstructor]
+        public WelcomeScreenViewModel(
+            Func<CreateProjectViewModel> createProjectViewModelFactory)
+        {
+            _createProjectViewModel = createProjectViewModelFactory;
         }
 
         public void CreateProject()
         {
-            Shell.CreateProject();
+            var viewModel = _createProjectViewModel();
+            this.GetWorkspace().ActivateItem(viewModel);
         }
 
         public IEnumerable<IResult> OpenProject()
         {
-            return Shell.BrowseProjectAndOpen();
+            var dialog = new OpenFileDialog();
+            dialog.Filter = "XDeploy Project|*.xdproj";
+            dialog.Multiselect = false;
+
+            if (dialog.ShowDialog() == true)
+            {
+                return Workspace.OpenProject(dialog.FileName);
+            }
+
+            return Enumerable.Empty<IResult>();
         }
     }
 }

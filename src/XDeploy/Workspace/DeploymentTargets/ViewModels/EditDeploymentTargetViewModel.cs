@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -9,13 +10,29 @@ using XDeploy.Wpf.Framework.Validation;
 
 namespace XDeploy.Workspace.DeploymentTargets.ViewModels
 {
-    public class EditDeploymentTargetViewModel : ValidatableScreen
+    [Export(typeof(EditDeploymentTargetViewModel))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public class EditDeploymentTargetViewModel : ValidatableScreen, IWorkspaceScreen
     {
-        public ShellViewModel Shell { get; private set; }
+        private IProjectWorkContextAccessor _workContextAccessor;
+
+        public ShellViewModel Shell
+        {
+            get
+            {
+                return this.GetWorkspace().GetShell();
+            }
+        }
+
+        public DeploymentTargetsWorkspaceViewModel Workspace
+        {
+            get
+            {
+                return (DeploymentTargetsWorkspaceViewModel)this.GetWorkspace();
+            }
+        }
 
         public DeploymentTargetFormViewModel Form { get; private set; }
-
-        public IDeploymentTargetFormActionAware Host { get; private set; }
 
         public bool CanSave
         {
@@ -25,10 +42,11 @@ namespace XDeploy.Workspace.DeploymentTargets.ViewModels
             }
         }
 
-        public EditDeploymentTargetViewModel(ShellViewModel shell, IDeploymentTargetFormActionAware host)
+        [ImportingConstructor]
+        public EditDeploymentTargetViewModel(
+            IProjectWorkContextAccessor workContextAccessor)
         {
-            Shell = shell;
-            Host = host;
+            _workContextAccessor = workContextAccessor;
             Form = new DeploymentTargetFormViewModel();
             Form.PropertyChanged += (sender, args) =>
             {
@@ -43,7 +61,7 @@ namespace XDeploy.Workspace.DeploymentTargets.ViewModels
 
         public void Cancel()
         {
-            Host.OnFormCanceled(Form, FormMode.Edit);
+            Workspace.ShowTargetList();
         }
 
         public IEnumerable<IResult> Save()
@@ -52,7 +70,9 @@ namespace XDeploy.Workspace.DeploymentTargets.ViewModels
 
             yield return new AsyncActionResult(context =>
             {
-                using (var session = Shell.WorkContext.OpenSession())
+                var workContext = _workContextAccessor.GetCurrentWorkContext();
+
+                using (var session = workContext.OpenSession())
                 {
                     var target = session.Get<DeploymentTarget>(Form.Id);
                     Form.UpdateTo(target);
@@ -60,9 +80,9 @@ namespace XDeploy.Workspace.DeploymentTargets.ViewModels
                 }
             });
 
-            Host.OnFormSaved(Form, FormMode.Edit);
-
             Shell.Busy.Hide();
+
+            Workspace.ShowTargetList();
         }
     }
 }

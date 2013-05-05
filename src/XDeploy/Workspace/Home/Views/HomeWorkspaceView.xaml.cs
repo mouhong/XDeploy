@@ -12,14 +12,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace XDeploy.Workspace.DeploymentTargets.Views
+namespace XDeploy.Workspace.Home.Views
 {
     /// <summary>
-    /// Interaction logic for ProjectDeployTargetsView.xaml
+    /// Interaction logic for HomeWorkspaceView.xaml
     /// </summary>
-    public partial class ProjectDeploymentTargetsView : UserControl
+    public partial class HomeWorkspaceView : UserControl
     {
-        public ProjectDeploymentTargetsView()
+        public HomeWorkspaceView()
         {
             InitializeComponent();
         }

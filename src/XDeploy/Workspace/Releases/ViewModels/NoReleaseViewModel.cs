@@ -1,32 +1,29 @@
 ﻿using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using XDeploy.Workspace.Shell.ViewModels;
 
 namespace XDeploy.Workspace.Releases.ViewModels
 {
-    public class NoReleaseViewModel : Screen
+    [Export(typeof(NoReleaseViewModel))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public class NoReleaseViewModel : Screen, IWorkspaceScreen
     {
-        public ShellViewModel Shell
-        {
-            get
-            {
-                return Host.Shell;
-            }
-        }
+        private Func<CreateReleaseViewModel> _createReleaseViewModel;
 
-        public ProjectReleasesViewModel Host { get; private set; }
-
-        public NoReleaseViewModel(ProjectReleasesViewModel host)
+        [ImportingConstructor]
+        public NoReleaseViewModel(
+            Func<CreateReleaseViewModel> createReleaseViewModelFactory)
         {
-            Host = host;
+            _createReleaseViewModel = createReleaseViewModelFactory;
         }
 
         public void CreateNewRelease()
         {
-            Host.CreateRelease();
+            this.GetWorkspace().ActivateItem(_createReleaseViewModel());
         }
     }
 }

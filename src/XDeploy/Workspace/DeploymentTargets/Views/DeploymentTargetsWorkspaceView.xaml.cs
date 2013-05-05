@@ -12,14 +12,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace XDeploy.Workspace.Releases.Views
+namespace XDeploy.Workspace.DeploymentTargets.Views
 {
     /// <summary>
-    /// Interaction logic for ProjectReleasesView.xaml
+    /// Interaction logic for ProjectDeployTargetsView.xaml
     /// </summary>
-    public partial class ProjectReleasesView : UserControl
+    public partial class DeploymentTargetsWorkspaceView : UserControl
     {
-        public ProjectReleasesView()
+        public DeploymentTargetsWorkspaceView()
         {
             InitializeComponent();
         }

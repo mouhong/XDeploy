@@ -8,7 +8,7 @@
     <HeaderedContentControl Header="{Binding DisplayName}" Style="{StaticResource PageBody}">
         <StackPanel>
             <TextBlock Text="{Binding ReleaseDetail.ReleaseNotes}" />
-            <Border Style="{StaticResource FormSectionTitle}">
+            <Border Style="{StaticResource SectionTitle}">
                 <TextBlock x:Name="Message" />
             </Border>
             <Border Height="20">

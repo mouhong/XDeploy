@@ -6,9 +6,9 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <HeaderedContentControl Header="Create New Project" Style="{StaticResource PageBody}">
+    <HeaderedContentControl Header="Create New Project" Style="{MultiStyle PageBody}">
         <StackPanel>
-            <Border Style="{StaticResource FormSectionTitle}">
+            <Border Style="{StaticResource SectionTitle}">
                 <TextBlock>XDeploy Project Settings</TextBlock>
             </Border>
             <StackPanel Style="{StaticResource FormField}">
@@ -21,7 +21,7 @@
                 <TextBlock Text=" " />
                 <Button x:Name="BrowseSavingDirectory" Content="Browse..." />
             </StackPanel>
-            <Border Style="{StaticResource FormSectionTitle}">
+            <Border Style="{StaticResource SectionTitle}">
                 <TextBlock>Deployment Settings</TextBlock>
             </Border>
             <StackPanel Style="{StaticResource FormField}">

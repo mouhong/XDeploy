@@ -6,30 +6,46 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <HeaderedContentControl Header="{Binding Project.Name}" Style="{StaticResource PageBody}">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30*"/>
-                <ColumnDefinition Width="70*"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Margin="10,10,5,10">
-                <TextBlock Height="25" Text="Name:" HorizontalAlignment="Right" />
-                <TextBlock Height="25" Text="Source Directory:" HorizontalAlignment="Right" />
-                <TextBlock Height="25" Text="Total Deploy Targets:" HorizontalAlignment="Right" />
-                <TextBlock Height="25" Text="Total Releases" HorizontalAlignment="Right" />
-            </StackPanel>
-            <StackPanel Grid.Column="1" Margin="5,10,10,10">
-                <TextBlock Height="25" Text="{Binding Project.Name}" />
-                <TextBlock Height="25" Text="{Binding Project.SourceDirectory}" />
-                <TextBlock Height="25" Text="{Binding Project.TotalDeployTargets}" />
-                <TextBlock Height="25">
-                <Run Text="{Binding Project.TotalReleases}" />
-                <TextBlock Visibility="{Binding Project.HasRelease, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <Run Text="( Last release: " />
-                    <Run Text="{Binding Project.LastReleaseCreatedAt}" />
-                    <Run Text=" )" />
-                </TextBlock>
-            </TextBlock>
-            </StackPanel>
-        </Grid>
+        <StackPanel>
+            <Border Style="{StaticResource AttrListItem}">
+                <StackPanel>
+                    <Label Content="Name:" />
+                    <Border Style="{StaticResource AttrListItemValue}">
+                        <TextBlock Text="{Binding Project.Name}" />
+                    </Border>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource AttrListItem}">
+                <StackPanel>
+                    <Label Content="Source Directory:" />
+                    <Border Style="{StaticResource AttrListItemValue}">
+                        <TextBlock Text="{Binding Project.SourceDirectory}" />
+                    </Border>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource AttrListItem}">
+                <StackPanel>
+                    <Label Content="Total Deployment Targets:" />
+                    <Border Style="{StaticResource AttrListItemValue}">
+                        <TextBlock Text="{Binding Project.TotalDeployTargets}" />
+                    </Border>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource AttrListItem}">
+                <StackPanel>
+                    <Label Content="Total Releases:" />
+                    <Border Style="{StaticResource AttrListItemValue}">
+                        <TextBlock>
+                        <Run Text="{Binding Project.TotalReleases}" />
+                        <TextBlock Visibility="{Binding Project.HasRelease, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Run Text="( Last release: " />
+                            <Run Text="{Binding Project.LastReleaseCreatedAt}" />
+                            <Run Text=" )" />
+                        </TextBlock>
+                    </TextBlock>
+                    </Border>
+                </StackPanel>
+            </Border>
+        </StackPanel>
     </HeaderedContentControl>
 </UserControl>

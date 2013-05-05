@@ -10,11 +10,11 @@
             <Label Content="Name:" />
             <TextBox x:Name="TargetName" />
         </StackPanel>
-        <Border Style="{StaticResource FormSectionTitle}">
+        <Border Style="{StaticResource SectionTitle}">
             <TextBlock>Deployment Location</TextBlock>
         </Border>
         <ContentControl x:Name="DeployLocation" />
-        <Border Style="{StaticResource FormSectionTitle}">
+        <Border Style="{StaticResource SectionTitle}">
             <TextBlock>Backup Location</TextBlock>
         </Border>
         <ContentControl x:Name="BackupLocation" />

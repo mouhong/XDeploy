@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <HeaderedContentControl Header="{Binding DisplayName}" Style="{StaticResource PageBody}">
         <StackPanel>
-            <Border Style="{StaticResource FormSectionTitle}">
+            <Border Style="{StaticResource SectionTitle}">
                 <TextBlock>Deployment Infos</TextBlock>
             </Border>
             <ListView ItemsSource="{Binding TargetDeploymentInfos}">

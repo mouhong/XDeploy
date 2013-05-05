@@ -4,18 +4,21 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="HeaderedContentControl">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Border Grid.Row="0" BorderBrush="#0B6092" BorderThickness="0,0,0,1" Padding="5" Margin="0,0,0,20" SnapsToDevicePixels="True">
-                            <ContentControl Content="{TemplateBinding Header}" 
+                    <Border Padding="10" Background="#F3F9FC">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" BorderBrush="#0B6092" BorderThickness="0,0,0,1" Padding="5" Margin="0,0,0,20" SnapsToDevicePixels="True">
+                                <ContentControl Content="{TemplateBinding Header}" 
                                             Foreground="#0B6092"
-                                            FontSize="18"/>
-                        </Border>
-                        <ContentControl Grid.Row="1" Content="{TemplateBinding Content}" />
-                    </Grid>
+                                            FontSize="18"
+                                            FontWeight="Bold"/>
+                            </Border>
+                            <ContentControl Grid.Row="1" Content="{TemplateBinding Content}" />
+                        </Grid>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -41,7 +44,7 @@
                         <Border Grid.Row="0" Background="#127EBF">
                             <TabPanel IsItemsHost="True" />
                         </Border>
-                        <Border Grid.Row="1" Background="#E8F3F9" BorderBrush="#0B6092" BorderThickness="0,1,0,0" Padding="10">
+                        <Border Grid.Row="1" BorderBrush="#0B6092" BorderThickness="0,1,0,0" Padding="10">
                             <ContentPresenter ContentSource="SelectedContent" />
                         </Border>
                     </Grid>
@@ -87,7 +90,17 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+    <Style x:Key="SectionTitle" TargetType="Border">
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="BorderBrush" Value="#127EBF" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="Margin" Value="0,5,0,10" />
+        <Setter Property="TextBlock.FontSize" Value="14" />
+        <Setter Property="TextBlock.Foreground" Value="#127EBF" />
+        <Setter Property="TextBlock.FontWeight" Value="Bold" />
+    </Style>
+
     <Style x:Key="PageActions" TargetType="Border">
         <Setter Property="BorderThickness" Value="0,1,0,0" />
         <Setter Property="BorderBrush" Value="LightGray" />

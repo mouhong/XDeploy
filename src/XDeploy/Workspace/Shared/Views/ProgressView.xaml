@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="XDeploy.Workspace.Shared.ProgressBarView"
+﻿<UserControl x:Class="XDeploy.Workspace.Shared.ProgressView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,6 +10,7 @@
         Minimum="{Binding MinValue}" 
         Maximum="{Binding MaxValue}" 
         Height="10"
-        Foreground="{Binding Foreground}"
-        Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        Margin="0,5"
+        Foreground="{Binding HasErrors, Converter={StaticResource HasErrorsToBrushConverter}}"
+        Visibility="{Binding IsVisible, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
 </UserControl>

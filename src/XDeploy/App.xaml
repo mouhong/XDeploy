@@ -7,7 +7,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <local:AppBootstrapper x:Key="Bootstrapper" />
-                    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+                    <HasErrorsToBrushConverter x:Key="HasErrorsToBrushConverter" />
                     <InvertableBooleanToVisibilityConverter x:Key="InvertableBooleanToVisibilityConverter" />
                     <ProcessingStatusToBrushConverter x:Key="ProcessingStatusToBrushConverter" />
                 </ResourceDictionary>

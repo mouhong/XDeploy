@@ -92,19 +92,19 @@
         </Style.Resources>
     </Style>
     <Style x:Key="ListItemFooter" TargetType="Border">
-        <Setter Property="BorderBrush" Value="#DDDDDD" />
-        <Setter Property="BorderThickness" Value="0,1,0,0" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="5,5,5,0" />
         <Setter Property="Margin" Value="0,5,0,0" />
         <Style.Resources>
             <Style TargetType="StackPanel">
                 <Setter Property="Orientation" Value="Horizontal" />
+                <Setter Property="HorizontalAlignment" Value="Right" />
             </Style>
         </Style.Resources>
     </Style>
     <Style x:Key="BtnListItemAction" TargetType="Button">
         <Setter Property="FontSize" Value="12" />
-        <Setter Property="Padding" Value="7,3" />
+        <Setter Property="Padding" Value="8,4" />
     </Style>
 
     <Style x:Key="AttrListItem" TargetType="Border">
@@ -131,5 +131,31 @@
                 <Setter Property="FontSize" Value="13" />
             </Style>
         </Style.Resources>
+    </Style>
+    
+    <Style x:Key="Grid" TargetType="DataGrid">
+        <Setter Property="HorizontalGridLinesBrush" Value="#CCCCCC" />
+        <Setter Property="VerticalGridLinesBrush" Value="#CCCCCC" />
+        <Setter Property="CellStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Padding" Value="4" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridCell">
+                                <Border Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter SnapsToDevicePixels="True" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="#333333" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

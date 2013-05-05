@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             MinWidth="800" MinHeight="600"
+             Width="800" Height="600"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <xctk:BusyIndicator IsBusy="{Binding Busy.IsBusy}" BusyContent="{Binding Busy.Message}">
+        <xctk:BusyIndicator Grid.Row="0" IsBusy="{Binding Busy.IsBusy}" BusyContent="{Binding Busy.Message}">
             <TabControl x:Name="Items" SelectedItem="{Binding ActiveItem}" Style="{StaticResource MainTab}">
                 <TabControl.ItemTemplate>
                     <DataTemplate>

@@ -37,7 +37,7 @@
                     <Border Style="{StaticResource AttrListItemValue}">
                         <TextBlock>
                         <Run Text="{Binding Project.TotalReleases}" />
-                        <TextBlock Visibility="{Binding Project.HasRelease, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <TextBlock Visibility="{Binding Project.HasRelease, Converter={StaticResource InvertableBooleanToVisibilityConverter}}">
                             <Run Text="( Last release: " />
                             <Run Text="{Binding Project.LastReleaseCreatedAt}" />
                             <Run Text=" )" />

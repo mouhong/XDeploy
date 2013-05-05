@@ -12,14 +12,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace XDeploy.Workspace.Shared
+namespace XDeploy.Workspace.Releases.Screens
 {
-    /// <summary>
-    /// Interaction logic for ProgressBarView.xaml
-    /// </summary>
-    public partial class ProgressBarView : UserControl
+    public partial class DeployToTargetView : UserControl
     {
-        public ProgressBarView()
+        public DeployToTargetView()
         {
             InitializeComponent();
         }

@@ -12,14 +12,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace XDeploy.Workspace.Releases.Screens
+namespace XDeploy.Workspace.Shared
 {
-    /// <summary>
-    /// Interaction logic for DeploymentView.xaml
-    /// </summary>
-    public partial class DeploymentView : UserControl
+    public partial class ProgressView : UserControl
     {
-        public DeploymentView()
+        public ProgressView()
         {
             InitializeComponent();
         }

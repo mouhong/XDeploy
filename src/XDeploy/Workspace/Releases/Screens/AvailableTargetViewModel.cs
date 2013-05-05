@@ -6,7 +6,7 @@ using System.Text;
 
 namespace XDeploy.Workspace.Releases.Screens
 {
-    public class TargetDeploymentInfoViewModel : PropertyChangedBase
+    public class AvailableTargetViewModel : PropertyChangedBase
     {
         private int _targetId;
 
@@ -40,6 +40,43 @@ namespace XDeploy.Workspace.Releases.Screens
                 {
                     _targetName = value;
                     NotifyOfPropertyChange(() => TargetName);
+                }
+            }
+        }
+
+
+        private string _deployLocationUri;
+
+        public string DeployLocationUri
+        {
+            get
+            {
+                return _deployLocationUri;
+            }
+            set
+            {
+                if (_deployLocationUri != value)
+                {
+                    _deployLocationUri = value;
+                    NotifyOfPropertyChange(() => DeployLocationUri);
+                }
+            }
+        }
+
+        private string _backupLocationUri;
+
+        public string BackupLocationUri
+        {
+            get
+            {
+                return _backupLocationUri;
+            }
+            set
+            {
+                if (_backupLocationUri != value)
+                {
+                    _backupLocationUri = value;
+                    NotifyOfPropertyChange(() => BackupLocationUri);
                 }
             }
         }
@@ -97,7 +134,7 @@ namespace XDeploy.Workspace.Releases.Screens
             }
         }
 
-        public TargetDeploymentInfoViewModel()
+        public AvailableTargetViewModel()
         {
         }
     }

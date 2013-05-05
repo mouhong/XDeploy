@@ -9,7 +9,7 @@
         <TextBlock x:Name="PageNumber" />
         <TextBlock Text="/" />
         <TextBlock x:Name="TotalPages" />
-        <Button x:Name="Prev" Content="&lt;" Visibility="{Binding HasPrev, Converter={StaticResource BooleanToVisibilityConverter}}" />
-        <Button x:Name="Next" Content="&gt;" Visibility="{Binding HasNext, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <Button x:Name="Prev" Content="&lt;" Visibility="{Binding HasPrev, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
+        <Button x:Name="Next" Content="&gt;" Visibility="{Binding HasNext, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
     </StackPanel>
 </UserControl>

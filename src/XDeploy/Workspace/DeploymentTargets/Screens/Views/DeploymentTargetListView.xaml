@@ -18,9 +18,9 @@
                     <DataTemplate>
                         <StackPanel>
                             <Border Style="{StaticResource ListItemHeader}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Name}" Style="{StaticResource ListItemTitle}" />
-                                <TextBlock Text="{Binding DeployLocationUri}" Style="{StaticResource ListItemTitleRemark}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}" Style="{StaticResource ListItemTitle}" />
+                                    <TextBlock Text="{Binding DeployLocationUri}" Style="{StaticResource ListItemTitleRemark}" />
                                 </StackPanel>
                             </Border>
                             <Border Style="{StaticResource ListItemDesc}">

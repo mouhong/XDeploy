@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace XDeploy.Workspace.Shared
 {
-    public class ProgressBarViewModel : PropertyChangedBase
+    public class ProgressViewModel : PropertyChangedBase
     {
         private double _minValue;
 
@@ -82,32 +82,22 @@ namespace XDeploy.Workspace.Shared
             }
         }
 
-        private Brush _foreground = Brushes.Green;
+        private bool _hasErrors;
 
-        public Brush Foreground
+        public bool HasErrors
         {
             get
             {
-                return _foreground;
+                return _hasErrors;
             }
             set
             {
-                if (_foreground != value)
+                if (_hasErrors != value)
                 {
-                    _foreground = value;
-                    NotifyOfPropertyChange(() => Foreground);
+                    _hasErrors = value;
+                    NotifyOfPropertyChange(() => HasErrors);
                 }
             }
-        }
-
-        public void SetError()
-        {
-            Foreground = Brushes.Red;
-        }
-
-        public void ResetColor()
-        {
-            Foreground = Brushes.Green;
         }
     }
 }

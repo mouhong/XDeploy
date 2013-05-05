@@ -23,6 +23,9 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="GridPageActionedLayout" TargetType="Grid">
+        <Setter Property="GridFooteredLayout.FooterHeight" Value="60" />
+    </Style>
     <Style x:Key="Toolbar" TargetType="Border">
         <Setter Property="Padding" Value="0,5" />
         <Setter Property="Margin" Value="0,-10,0,5" />
@@ -44,7 +47,7 @@
                         <Border Grid.Row="0" Background="#127EBF">
                             <TabPanel IsItemsHost="True" />
                         </Border>
-                        <Border Grid.Row="1" BorderBrush="#0B6092" BorderThickness="0,1,0,0" Padding="10">
+                        <Border Grid.Row="1" BorderBrush="#0B6092" BorderThickness="0,1,0,0">
                             <ContentPresenter ContentSource="SelectedContent" />
                         </Border>
                     </Grid>
@@ -106,13 +109,31 @@
         <Setter Property="BorderThickness" Value="0,1,0,0" />
         <Setter Property="BorderBrush" Value="LightGray" />
         <Setter Property="Margin" Value="0,10,0,0" />
-        <Setter Property="Padding" Value="0,10" />
+        <Setter Property="Padding" Value="0,10,0,0" />
         <Style.Resources>
             <Style TargetType="StackPanel">
                 <Setter Property="Orientation" Value="Horizontal" />
                 <Setter Property="HorizontalAlignment" Value="Right" />
             </Style>
         </Style.Resources>
+    </Style>
+
+    <Style x:Key="TextSection" TargetType="Border">
+        <Setter Property="BorderBrush" Value="Gray" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="Margin" Value="0,5" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="TextBlock.FontSize" Value="13" />
+    </Style>
+
+    <Style x:Key="StatusBar" TargetType="Border">
+        <Setter Property="Padding" Value="5,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextBlock.FontSize" Value="12" />
+        <Setter Property="TextBlock.Foreground" Value="Gray" />
     </Style>
     
     <Style x:Key="MessageInfo" TargetType="Border">

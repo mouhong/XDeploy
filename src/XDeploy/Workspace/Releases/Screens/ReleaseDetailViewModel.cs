@@ -15,7 +15,7 @@ namespace XDeploy.Workspace.Releases.Screens
     {
         private IProjectWorkContextAccessor _workContextAccessor;
         private Func<ReleaseListViewModel> _releaseListViewModel;
-        private Func<DeploymentViewModel> _deploymentViewModel;
+        private Func<DeployToTargetViewModel> _deployToTargetViewModel;
 
         public ShellViewModel Shell
         {
@@ -61,34 +61,64 @@ namespace XDeploy.Workspace.Releases.Screens
             }
         }
 
-        public BindableCollection<TargetDeploymentInfoViewModel> TargetDeploymentInfos { get; private set; }
+        private string _releaseNotes;
+
+        public string ReleaseNotes
+        {
+            get
+            {
+                return _releaseNotes;
+            }
+            set
+            {
+                if (_releaseNotes != value)
+                {
+                    _releaseNotes = value;
+                    NotifyOfPropertyChange(() => ReleaseNotes);
+                    NotifyOfPropertyChange(() => HasReleaseNotes);
+                }
+            }
+        }
+
+        public bool HasReleaseNotes
+        {
+            get
+            {
+                return !String.IsNullOrWhiteSpace(ReleaseNotes);
+            }
+        }
+
+        public BindableCollection<AvailableTargetViewModel> AvailableTargets { get; private set; }
 
         [ImportingConstructor]
         public ReleaseDetailViewModel(
             IProjectWorkContextAccessor workContextAccessor,
-            Func<ReleaseListViewModel> releaseListViewModel,
-            Func<DeploymentViewModel> deploymentViewModel)
+            Func<ReleaseListViewModel> releaseListViewModelFactory,
+            Func<DeployToTargetViewModel> deployToTargetViewModelFactory)
         {
             _workContextAccessor = workContextAccessor;
-            _releaseListViewModel = releaseListViewModel;
-            _deploymentViewModel = deploymentViewModel;
-            TargetDeploymentInfos = new BindableCollection<TargetDeploymentInfoViewModel>();
+            _releaseListViewModel = releaseListViewModelFactory;
+            _deployToTargetViewModel = deployToTargetViewModelFactory;
+            AvailableTargets = new BindableCollection<AvailableTargetViewModel>();
         }
 
         public void UpdateFrom(Release release, IEnumerable<DeploymentTarget> allTargets)
         {
             ReleaseId = release.Id;
             ReleaseName = release.Name;
+            ReleaseNotes = release.ReleaseNotes;
             DisplayName = "Release Detail - " + ReleaseName;
 
-            var viewModels = new List<TargetDeploymentInfoViewModel>();
+            var viewModels = new List<AvailableTargetViewModel>();
 
             foreach (var target in allTargets)
             {
-                var targetDeploymentInfo = new TargetDeploymentInfoViewModel
+                var targetDeploymentInfo = new AvailableTargetViewModel
                 {
                     TargetId = target.Id,
                     TargetName = target.Name,
+                    DeployLocationUri = target.DeployLocation.Uri,
+                    BackupLocationUri = target.BackupLocation == null ? null : target.BackupLocation.Uri,
                     HasSetBackupLocation = target.BackupLocation != null && !target.BackupLocation.IsEmpty()
                 };
 
@@ -102,8 +132,8 @@ namespace XDeploy.Workspace.Releases.Screens
                 viewModels.Add(targetDeploymentInfo);
             }
 
-            TargetDeploymentInfos = new BindableCollection<TargetDeploymentInfoViewModel>(viewModels);
-            NotifyOfPropertyChange(() => TargetDeploymentInfos);
+            AvailableTargets = new BindableCollection<AvailableTargetViewModel>(viewModels);
+            NotifyOfPropertyChange(() => AvailableTargets);
         }
 
         public void Back()
@@ -113,7 +143,7 @@ namespace XDeploy.Workspace.Releases.Screens
             listViewModel.LoadAsync(0);
         }
 
-        public IEnumerable<IResult> Backup(TargetDeploymentInfoViewModel item)
+        public IEnumerable<IResult> Backup(AvailableTargetViewModel item)
         {
             if (Shell.MessageBox.Confirm("Are you sure to make this backup?", null) != System.Windows.MessageBoxResult.Yes)
             {
@@ -148,9 +178,9 @@ namespace XDeploy.Workspace.Releases.Screens
             Shell.MessageBox.Success("Backup succeeded!", "Success");
         }
 
-        public void Deploy(TargetDeploymentInfoViewModel item)
+        public void Deploy(AvailableTargetViewModel item)
         {
-            var deploymentViewModel = _deploymentViewModel();
+            var deploymentViewModel = _deployToTargetViewModel();
             this.GetWorkspace().ActivateItem(deploymentViewModel);
             deploymentViewModel.Update(this, item);
         }

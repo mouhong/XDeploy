@@ -7,36 +7,39 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <HeaderedContentControl Header="{Binding DisplayName}" Style="{StaticResource PageBody}">
-        <StackPanel>
-            <Border Style="{StaticResource SectionTitle}">
-                <TextBlock>Deployment Infos</TextBlock>
-            </Border>
-            <ListView ItemsSource="{Binding TargetDeploymentInfos}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Border>
+        <Grid Style="{StaticResource GridPageActionedLayout}">
+            <StackPanel Grid.Row="0">
+                <Border Style="{StaticResource TextSection}">
+                    <TextBlock Text="{Binding ReleaseNotes}" />
+                </Border>
+                <Border Style="{StaticResource SectionTitle}">
+                    <TextBlock>Deployment Targets</TextBlock>
+                </Border>
+                <ListView ItemsSource="{Binding AvailableTargets}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="{Binding TargetName}" />
-                                <TextBlock>
-                            <Run Text="Deployed: " />
-                            <Run Text="{Binding IsDeployed}" />
-                                </TextBlock>
-                                <Border>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <Button cal:Message.Attach="[Event Click] = [Action Backup($dataContext)]" IsEnabled="{Binding HasSetBackupLocation}" Content="Backup" />
-                                        <Button cal:Message.Attach="[Event Click] = [Action Deploy($dataContext)]" Content="Deploy" />
+                                <Border Style="{StaticResource ListItemHeader}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding TargetName}" Style="{StaticResource ListItemTitle}" />
+                                        <TextBlock Text="{Binding DeployLocationUri}" Style="{StaticResource ListItemTitleRemark}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource ListItemFooter}">
+                                    <StackPanel>
+                                        <Button cal:Message.Attach="[Event Click] = [Action Deploy($dataContext)]" Content="Deploy to This Target..." Style="{MultiStyle Btn BtnPrimary BtnListItemAction}" />
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <Border Style="{StaticResource PageActions}">
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+            <Border Grid.Row="1" Style="{StaticResource PageActions}">
                 <StackPanel>
-                    <Button x:Name="Back" Content="Back" Style="{MultiStyle Btn}" />
+                    <Button x:Name="Back" Content="Back" Style="{MultiStyle Btn BtnInPageActions}" />
                 </StackPanel>
             </Border>
-        </StackPanel>
+        </Grid>
     </HeaderedContentControl>
 </UserControl>

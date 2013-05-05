@@ -52,8 +52,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\UpdateSourceOnTextChangedBehavior.cs" />
+    <Compile Include="Converters\HasErrorsToBrushConverter.cs" />
     <Compile Include="Converters\InvertableBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\ProcessingStatusToBrushConverter.cs" />
+    <Compile Include="GridFooteredLayout.cs" />
     <Compile Include="Markup\MultiStyleExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

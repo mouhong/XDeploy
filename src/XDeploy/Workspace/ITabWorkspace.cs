@@ -11,6 +11,8 @@ namespace XDeploy.Workspace
     {
         string DisplayName { get; }
 
+        int DisplayOrder { get; }
+
         bool IsVisible { get; set; }
     }
 

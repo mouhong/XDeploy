@@ -24,7 +24,7 @@ namespace XDeploy.Workspace.Shell
             DisplayName = "XDeploy";
             Busy = busy;
             MessageBox = messageBox;
-            Items.AddRange(workspaces);
+            Items.AddRange(workspaces.OrderBy(x => x.DisplayOrder));
             Items[0].IsVisible = true;
             ActivateItem(Items[0]);
         }

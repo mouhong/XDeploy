@@ -33,6 +33,14 @@ namespace XDeploy.Workspace.Releases
             }
         }
 
+        public int DisplayOrder
+        {
+            get
+            {
+                return 1;
+            }
+        }
+
         [ImportingConstructor]
         public WorkspaceViewModel(
             Func<ReleaseListViewModel> releaseListViewModelFactory)

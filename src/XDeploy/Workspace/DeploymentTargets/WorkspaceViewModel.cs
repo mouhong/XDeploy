@@ -16,6 +16,14 @@ namespace XDeploy.Workspace.DeploymentTargets
     {
         private Func<DeploymentTargetListViewModel> _deploymentTargetListViewModel;
 
+        public int DisplayOrder
+        {
+            get
+            {
+                return 2;
+            }
+        }
+
         private bool _isVisible;
 
         public bool IsVisible

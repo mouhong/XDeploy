@@ -27,6 +27,14 @@ namespace XDeploy.Workspace.Home
             }
         }
 
+        public int DisplayOrder
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
         private bool _isVisible;
 
         public bool IsVisible

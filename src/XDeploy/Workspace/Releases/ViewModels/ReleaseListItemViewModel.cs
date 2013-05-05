@@ -24,7 +24,16 @@ namespace XDeploy.Workspace.Releases.ViewModels
                 {
                     _name = value;
                     NotifyOfPropertyChange(() => Name);
+                    NotifyOfPropertyChange(() => ItemTitle);
                 }
+            }
+        }
+
+        public string ItemTitle
+        {
+            get
+            {
+                return "Release - " + Name;
             }
         }
 
@@ -42,7 +51,16 @@ namespace XDeploy.Workspace.Releases.ViewModels
                 {
                     _releaseNotes = value;
                     NotifyOfPropertyChange(() => ReleaseNotes);
+                    NotifyOfPropertyChange(() => HasReleaseNotes);
                 }
+            }
+        }
+
+        public bool HasReleaseNotes
+        {
+            get
+            {
+                return !String.IsNullOrWhiteSpace(ReleaseNotes);
             }
         }
 

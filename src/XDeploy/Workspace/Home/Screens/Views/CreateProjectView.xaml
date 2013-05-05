@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="XDeploy.Workspace.Home.Screens.CreateProjectView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <HeaderedContentControl Header="Create New Project" Style="{MultiStyle PageBody}">
+        <StackPanel>
+            <Border Style="{StaticResource SectionTitle}">
+                <TextBlock>XDeploy Project Settings</TextBlock>
+            </Border>
+            <StackPanel Style="{StaticResource FormField}">
+                <Label Content="Project Name:" />
+                <TextBox x:Name="ProjectName" />
+            </StackPanel>
+            <StackPanel Style="{StaticResource FormField}">
+                <Label Content="Saving Directory:" />
+                <TextBox x:Name="SavingDirectory" Width="400" />
+                <TextBlock Text=" " />
+                <Button x:Name="BrowseSavingDirectory" Content="Browse..." />
+            </StackPanel>
+            <Border Style="{StaticResource SectionTitle}">
+                <TextBlock>Deployment Settings</TextBlock>
+            </Border>
+            <StackPanel Style="{StaticResource FormField}">
+                <Label Content="Source Directory:" />
+                <TextBox x:Name="SourceDirectory" Width="400" />
+                <TextBlock Text=" " />
+                <Button x:Name="BrowseSourceDirectory" Content="Browse..." />
+            </StackPanel>
+            <StackPanel Style="{StaticResource FormField}">
+                <Label Content="Ignored Paths:" />
+                <TextBox x:Name="IgnoredPaths" Width="400" />
+            </StackPanel>
+            <Border Style="{StaticResource FormActions}">
+                <StackPanel>
+                    <Button x:Name="Create" Content="Create" Style="{MultiStyle Btn BtnPrimary BtnInFormActions}" />
+                    <Button x:Name="Cancel" Content="Cancel" Style="{MultiStyle Btn BtnInFormActions}" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </HeaderedContentControl>
+</UserControl>

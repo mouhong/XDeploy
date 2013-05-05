@@ -12,14 +12,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace XDeploy.Workspace.Shared
+namespace XDeploy.Workspace.Releases.Screens
 {
     /// <summary>
-    /// Interaction logic for LocationForm.xaml
+    /// Interaction logic for CreateReleaseView.xaml
     /// </summary>
-    public partial class LocationFormView : UserControl
+    public partial class CreateReleaseView : UserControl
     {
-        public LocationFormView()
+        public CreateReleaseView()
         {
             InitializeComponent();
         }

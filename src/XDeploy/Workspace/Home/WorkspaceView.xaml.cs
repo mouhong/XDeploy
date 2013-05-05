@@ -12,14 +12,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace XDeploy.Workspace.Shared
+namespace XDeploy.Workspace.Home
 {
     /// <summary>
-    /// Interaction logic for LocationForm.xaml
+    /// Interaction logic for HomeWorkspaceView.xaml
     /// </summary>
-    public partial class LocationFormView : UserControl
+    public partial class WorkspaceView : UserControl
     {
-        public LocationFormView()
+        public WorkspaceView()
         {
             InitializeComponent();
         }

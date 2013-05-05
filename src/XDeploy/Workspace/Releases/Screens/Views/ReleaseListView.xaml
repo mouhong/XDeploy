@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="XDeploy.Workspace.Releases.Screens.ReleaseListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <HeaderedContentControl Header="Releases" Style="{StaticResource PageBody}">
+        <StackPanel>
+            <Border Style="{StaticResource Toolbar}">
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="CreateNewRelease" Content="Create New Release" Style="{MultiStyle Btn BtnPrimary BtnInToolbar}" />
+                </StackPanel>
+            </Border>
+            <ListView ItemsSource="{Binding ReleasesInThisPage}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="150" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                    <Button cal:Message.Attach="[Event Click] = [Action ShowDetail($dataContext)]" Content="{Binding ItemTitle}" Style="{StaticResource ListItemLinkTitle}" />
+                                </StackPanel>
+                                <TextBlock Grid.Column="1" Text="{Binding CreatedAt}" HorizontalAlignment="Right" />
+                            </Grid>
+                            <Border Style="{StaticResource ListItemDesc}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding ReleaseNotes}" Visibility="{Binding HasReleaseNotes, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
+                                    <TextBlock Text="No Release Notes" Visibility="{Binding HasReleaseNotes, Converter={StaticResource InvertableBooleanToVisibilityConverter}, ConverterParameter=Inverted}" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ContentControl x:Name="Pager" />
+        </StackPanel>
+    </HeaderedContentControl>
+</UserControl>

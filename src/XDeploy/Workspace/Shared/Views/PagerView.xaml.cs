@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace XDeploy.Workspace.Shared.Views
+namespace XDeploy.Workspace.Shared
 {
     /// <summary>
     /// Interaction logic for PagerView.xaml

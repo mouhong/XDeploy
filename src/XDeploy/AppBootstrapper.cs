@@ -9,10 +9,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using XDeploy.Workspace;
-using XDeploy.Workspace.DeploymentTargets.ViewModels;
-using XDeploy.Workspace.Home.ViewModels;
-using XDeploy.Workspace.Releases.ViewModels;
-using XDeploy.Workspace.Shell.ViewModels;
+using XDeploy.Workspace.DeploymentTargets.Screens;
+using XDeploy.Workspace.Home.Screens;
+using XDeploy.Workspace.Releases.Screens;
+using XDeploy.Workspace.Shell;
 
 namespace XDeploy
 {

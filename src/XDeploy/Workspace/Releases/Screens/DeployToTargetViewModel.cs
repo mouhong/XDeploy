@@ -304,12 +304,6 @@ namespace XDeploy.Workspace.Releases.Screens
                     try
                     {
                         backupFile.OverwriteWith(sourceFile);
-
-                        System.Threading.Thread.Sleep(500);
-
-                        if (file.VirtualPath.Contains("Default.aspx"))
-                            throw new IOException("Cannot open file: " + file.VirtualPath);
-
                         file.BackupStatus = ProcessingStatus.Succeeded;
                     }
                     catch (Exception ex)

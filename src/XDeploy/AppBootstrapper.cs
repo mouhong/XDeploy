@@ -29,23 +29,26 @@ namespace XDeploy
 
             CompositionBatch batch = new CompositionBatch();
 
-            batch.AddExportedValue<IWindowManager>(new WindowManager());
+            batch.AddExportedValue<IWindowManager>(new AppWindowManager());
             batch.AddExportedValue<IEventAggregator>(new EventAggregator());
 
+            // Home Tab
             batch.AddExportedValue<Func<WelcomeScreenViewModel>>(() => container.GetExportedValue<WelcomeScreenViewModel>());
             batch.AddExportedValue<Func<CreateProjectViewModel>>(() => container.GetExportedValue<CreateProjectViewModel>());
             batch.AddExportedValue<Func<ProjectSummaryViewModel>>(() => container.GetExportedValue<ProjectSummaryViewModel>());
 
-            batch.AddExportedValue<Func<NoDeploymentTargetViewModel>>(() => container.GetExportedValue<NoDeploymentTargetViewModel>());
-            batch.AddExportedValue<Func<CreateDeploymentTargetViewModel>>(() => container.GetExportedValue<CreateDeploymentTargetViewModel>());
-            batch.AddExportedValue<Func<EditDeploymentTargetViewModel>>(() => container.GetExportedValue<EditDeploymentTargetViewModel>());
-            batch.AddExportedValue<Func<DeploymentTargetListViewModel>>(() => container.GetExportedValue<DeploymentTargetListViewModel>());
-
+            // Releases Tab
             batch.AddExportedValue<Func<NoReleaseViewModel>>(() => container.GetExportedValue<NoReleaseViewModel>());
             batch.AddExportedValue<Func<CreateReleaseViewModel>>(() => container.GetExportedValue<CreateReleaseViewModel>());
             batch.AddExportedValue<Func<ReleaseListViewModel>>(() => container.GetExportedValue<ReleaseListViewModel>());
             batch.AddExportedValue<Func<ReleaseDetailViewModel>>(() => container.GetExportedValue<ReleaseDetailViewModel>());
             batch.AddExportedValue<Func<DeployToTargetViewModel>>(() => container.GetExportedValue<DeployToTargetViewModel>());
+
+            // Deployment Targets Tab
+            batch.AddExportedValue<Func<NoDeploymentTargetViewModel>>(() => container.GetExportedValue<NoDeploymentTargetViewModel>());
+            batch.AddExportedValue<Func<CreateDeploymentTargetViewModel>>(() => container.GetExportedValue<CreateDeploymentTargetViewModel>());
+            batch.AddExportedValue<Func<EditDeploymentTargetViewModel>>(() => container.GetExportedValue<EditDeploymentTargetViewModel>());
+            batch.AddExportedValue<Func<DeploymentTargetListViewModel>>(() => container.GetExportedValue<DeploymentTargetListViewModel>());
 
             batch.AddExportedValue(container);
 

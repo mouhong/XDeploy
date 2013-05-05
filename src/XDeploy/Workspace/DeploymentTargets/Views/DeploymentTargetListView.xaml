@@ -17,18 +17,45 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
-                            <TextBlock Text="{Binding Name}" />
-                            <TextBlock>
-                            <Run>Created At:</Run>
-                            <Run Text="{Binding CreatedAt}" />
-                            <Run>|</Run>
-                            <Run>Last Deployed At:</Run>
-                            <Run Text="{Binding LastDeployedAt}" />
-                            <Run>|</Run>
-                            <Run>Last Backupped At:</Run>
-                            <Run Text="{Binding LastBackuppedAt}" />
-                            </TextBlock>
-                            <Button Content="Edit" cal:Message.Attach="EditTarget($dataContext)" />
+                            <Border Style="{StaticResource ListItemHeader}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" Style="{StaticResource ListItemTitle}" />
+                                <TextBlock Text="{Binding DeployLocationUri}" Style="{StaticResource ListItemTitleRemark}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource ListItemDesc}">
+                                <StackPanel>
+                                    <Border Style="{StaticResource ListItemAttr}">
+                                        <StackPanel>
+                                            <Label Content="Deploy Location:" />
+                                            <TextBlock Text="{Binding DeployLocationUri}" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Style="{StaticResource ListItemAttr}">
+                                        <StackPanel>
+                                            <Label Content="Backup Location:" />
+                                            <TextBlock Text="{Binding BackupLocationUri}" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Style="{StaticResource ListItemAttr}">
+                                        <StackPanel>
+                                            <Label Content="Last Deployed:" />
+                                            <TextBlock Text="{Binding LastDeployedAt}" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Style="{StaticResource ListItemAttr}">
+                                        <StackPanel>
+                                            <Label Content="Last Backupped:" />
+                                            <TextBlock Text="{Binding LastBackuppedAt}" />
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource ListItemFooter}">
+                                <StackPanel>
+                                    <Button Content="Edit" cal:Message.Attach="EditTarget($dataContext)" Style="{MultiStyle Btn BtnListItemAction}" />
+                                </StackPanel>
+                            </Border>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

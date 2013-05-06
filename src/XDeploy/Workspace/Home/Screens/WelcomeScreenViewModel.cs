@@ -48,7 +48,7 @@ namespace XDeploy.Workspace.Home.Screens
         public IEnumerable<IResult> OpenProject()
         {
             var dialog = new OpenFileDialog();
-            dialog.Filter = "XDeploy Project|*.xdproj";
+            dialog.Filter = "XDeploy Project|*.xd";
             dialog.Multiselect = false;
 
             if (dialog.ShowDialog() == true)

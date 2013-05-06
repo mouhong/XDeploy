@@ -140,7 +140,7 @@ namespace XDeploy.Workspace.Home.Screens
 
         public IEnumerable<IResult> Create()
         {
-            var projectFilePath = Path.Combine(SavingDirectory, ProjectName.Trim() + ".xdproj");
+            var projectFilePath = Path.Combine(SavingDirectory, ProjectName.Trim() + ".xd");
 
             Shell.Busy.Show("Creating project...");
 

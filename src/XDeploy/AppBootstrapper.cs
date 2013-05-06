@@ -82,7 +82,7 @@ namespace XDeploy
 
         private void EnsureFileAssociation()
         {
-            var extension = ".xdproj";
+            var extension = ".xd";
             var scope = FileAssociationScope.CurrentUser;
             var exePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "XDeploy.exe");
 

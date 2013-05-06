@@ -57,6 +57,7 @@
     <Compile Include="Converters\ProcessingStatusToBrushConverter.cs" />
     <Compile Include="GridFooteredLayout.cs" />
     <Compile Include="Markup\MultiStyleExtension.cs" />
+    <Compile Include="PasswordBinding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

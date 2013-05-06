@@ -16,7 +16,7 @@
         </StackPanel>
         <StackPanel Style="{StaticResource FormField}">
             <Label Content="Password:" />
-            <PasswordBox x:Name="Password" />
+            <PasswordBox PasswordBinding.Attach="True"  PasswordBinding.Password="{Binding Path=Password, Mode=TwoWay}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

@@ -82,9 +82,14 @@ namespace XDeploy
 
         private void EnsureFileAssociation()
         {
-            if (!FileAssociation.IsAssociated(".xdproj"))
+            var extension = ".xdproj";
+            var scope = FileAssociationScope.CurrentUser;
+            var exePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "XDeploy.exe");
+
+            if (!FileAssociation.IsAssociated(extension, scope))
             {
-                FileAssociation.Associate(".xdproj", "XDeploy", "XDeploy Project", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "XDeploy.exe"));
+                FileAssociation.Associate(
+                    extension, "XDeploy", "XDeploy Project", exePath, exePath + ",1", scope);
             }
         }
 

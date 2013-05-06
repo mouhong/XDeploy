@@ -7,59 +7,59 @@ using System.Text;
 
 namespace XDeploy
 {
-    public class FileAssociation
+    public enum FileAssociationScope
     {
-        static RegistryKey Root
+        CurrentUser = 0,
+        LocalMachine = 1,
+        ClassRoot = 2
+    }
+
+    public static class FileAssociation
+    {
+        public static void Associate(string extension,
+               string progID, string description, string application, FileAssociationScope scope)
         {
-            get
-            {
-                return Registry.CurrentUser;
-            }
+            Associate(extension, progID, description, application, application + ",0", scope);
         }
 
-        // Associate file extension with progID, description, icon and application
         public static void Associate(string extension,
-               string progID, string description, string application)
+               string progID, string description, string application, string icon, FileAssociationScope scope)
         {
             Require.NotNullOrEmpty(extension, "extension");
             Require.NotNullOrEmpty(progID, "progID");
             Require.NotNullOrEmpty(application, "application");
             Require.NotNullOrEmpty(description, "description");
 
-            Root.CreateSubKey(extension).SetValue("", progID);
+            var basePath = GetRegistryKeyBasePath(scope);
 
-            using (var key = Root.CreateSubKey(progID))
-            {
-                key.SetValue("", description);
+            Registry.SetValue(basePath + extension, "", progID);
+            Registry.SetValue(basePath + progID + "\\DefaultIcon", "", icon);
+            Registry.SetValue(basePath + progID + "\\Shell\\Open\\Command", "", application.Quote() + " " + "%1".Quote());
 
-                key.CreateSubKey("DefaultIcon").SetValue("", ToShortPathName(application).Quote() + ",0");
-                key.CreateSubKey(@"Shell\Open\Command").SetValue("", ToShortPathName(application).Quote() + " \"%1\"");
-
-                // Tell explorer the file association has been changed
-                SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero);
-            }
+            SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero);
         }
 
-        // Return true if extension already associated in registry
-        public static bool IsAssociated(string extension)
+        static string GetRegistryKeyBasePath(FileAssociationScope scope)
         {
-            return (Root.OpenSubKey(extension, false) != null);
+            if (scope == FileAssociationScope.ClassRoot)
+            {
+                return "HKEY_CLASSES_ROOT\\";
+            }
+            if (scope == FileAssociationScope.LocalMachine)
+            {
+                return "HKEY_LOCAL_MACHINE\\Software\\Classes\\";
+            }
+
+            return "HKEY_CURRENT_USER\\Software\\Classes\\";
+        }
+
+        public static bool IsAssociated(string extension, FileAssociationScope scope)
+        {
+            var keyPath = GetRegistryKeyBasePath(scope) + extension;
+            return Registry.GetValue(keyPath, "", "") != null;
         }
 
         [DllImport("shell32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
-
-        [DllImport("Kernel32.dll")]
-        private static extern uint GetShortPathName(string lpszLongPath,
-            [Out] StringBuilder lpszShortPath, uint cchBuffer);
-
-        // Return short path format of a file name
-        private static string ToShortPathName(string longName)
-        {
-            StringBuilder s = new StringBuilder(1000);
-            uint iSize = (uint)s.Capacity;
-            uint iRet = GetShortPathName(longName, s, iSize);
-            return s.ToString();
-        }
     }
 }

@@ -27,6 +27,32 @@ namespace XDeploy.Workspace.DeploymentTargets.Screens
             }
         }
 
+        public bool HasTargets
+        {
+            get
+            {
+                return Targets.Count > 0;
+            }
+        }
+
+        private bool _isLoaded;
+
+        public bool IsLoaded
+        {
+            get
+            {
+                return _isLoaded;
+            }
+            set
+            {
+                if (_isLoaded != value)
+                {
+                    _isLoaded = value;
+                    NotifyOfPropertyChange(() => IsLoaded);
+                }
+            }
+        }
+
         public ObservableCollection<DeploymentTargetListItemViewModel> Targets { get; private set; }
 
         [ImportingConstructor]
@@ -62,6 +88,8 @@ namespace XDeploy.Workspace.DeploymentTargets.Screens
                     Targets = new ObservableCollection<DeploymentTargetListItemViewModel>(
                         targets.Select(x => new DeploymentTargetListItemViewModel(x)));
                     NotifyOfPropertyChange(() => Targets);
+                    NotifyOfPropertyChange(() => HasTargets);
+                    IsLoaded = true;
                 }
             });
 

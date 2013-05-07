@@ -6,60 +6,71 @@
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <HeaderedContentControl Header="Deployment Targets" Style="{StaticResource PageBody}">
+    <HeaderedContentControl Header="Deployment Targets" Style="{StaticResource PageBody}"
+                            Visibility="{Binding IsLoaded, Converter={StaticResource InvertableBooleanToVisibilityConverter}}">
         <StackPanel>
-            <Border Style="{StaticResource Toolbar}">
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="CreateNewTarget" Content="Create New Target" Style="{MultiStyle Btn BtnPrimary BtnInToolbar}" />
-                </StackPanel>
-            </Border>
-            <ListView ItemsSource="{Binding Targets}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <Border Style="{StaticResource ListItemHeader}">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Name}" Style="{StaticResource ListItemTitle}" />
-                                    <TextBlock Text="{Binding DeployLocationUri}" Style="{StaticResource ListItemTitleRemark}" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource ListItemDesc}">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ListItemAttr}">
-                                        <StackPanel>
-                                            <Label Content="Deploy Location:" />
-                                            <TextBlock Text="{Binding DeployLocationUri}" />
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Style="{StaticResource ListItemAttr}">
-                                        <StackPanel>
-                                            <Label Content="Backup Location:" />
-                                            <TextBlock Text="{Binding BackupLocationUri}" />
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Style="{StaticResource ListItemAttr}">
-                                        <StackPanel>
-                                            <Label Content="Last Deployed:" />
-                                            <TextBlock Text="{Binding LastDeployedAt}" />
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Style="{StaticResource ListItemAttr}">
-                                        <StackPanel>
-                                            <Label Content="Last Backupped:" />
-                                            <TextBlock Text="{Binding LastBackuppedAt}" />
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource ListItemFooter}">
-                                <StackPanel>
-                                    <Button Content="Edit" cal:Message.Attach="EditTarget($dataContext)" Style="{MultiStyle Btn BtnListItemAction}" />
-                                </StackPanel>
-                            </Border>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <StackPanel Visibility="{Binding HasTargets, Converter={StaticResource InvertableBooleanToVisibilityConverter}}">
+                <Border Style="{StaticResource Toolbar}">
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="CreateNewTarget" Content="Create New Target" Style="{MultiStyle Btn BtnPrimary BtnInToolbar}" />
+                    </StackPanel>
+                </Border>
+                <ListView ItemsSource="{Binding Targets}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Border Style="{StaticResource ListItemHeader}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}" Style="{StaticResource ListItemTitle}" />
+                                        <TextBlock Text="{Binding DeployLocationUri}" Style="{StaticResource ListItemTitleRemark}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource ListItemDesc}">
+                                    <StackPanel>
+                                        <Border Style="{StaticResource ListItemAttr}">
+                                            <StackPanel>
+                                                <Label Content="Deploy Location:" />
+                                                <TextBlock Text="{Binding DeployLocationUri}" />
+                                            </StackPanel>
+                                        </Border>
+                                        <Border Style="{StaticResource ListItemAttr}">
+                                            <StackPanel>
+                                                <Label Content="Backup Location:" />
+                                                <TextBlock Text="{Binding BackupLocationUri}" />
+                                            </StackPanel>
+                                        </Border>
+                                        <Border Style="{StaticResource ListItemAttr}">
+                                            <StackPanel>
+                                                <Label Content="Last Deployed:" />
+                                                <TextBlock Text="{Binding LastDeployedAt}" />
+                                            </StackPanel>
+                                        </Border>
+                                        <Border Style="{StaticResource ListItemAttr}">
+                                            <StackPanel>
+                                                <Label Content="Last Backupped:" />
+                                                <TextBlock Text="{Binding LastBackuppedAt}" />
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource ListItemFooter}">
+                                    <StackPanel>
+                                        <Button Content="Edit" cal:Message.Attach="EditTarget($dataContext)" Style="{MultiStyle Btn BtnListItemAction}" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding HasTargets, Converter={StaticResource InvertableBooleanToVisibilityConverter}, ConverterParameter=Inverted}">
+                <Border Style="{StaticResource MessageInfo}">
+                    <TextBlock>
+                        There's no deploy target right now.
+                    </TextBlock>
+                </Border>
+                <Button Content="Create New Target" Style="{MultiStyle Btn BtnPrimary BtnLarge}" cal:Message.Attach="[Event Click] = [Action CreateNewTarget]" />
+            </StackPanel>
         </StackPanel>
     </HeaderedContentControl>
 </UserControl>

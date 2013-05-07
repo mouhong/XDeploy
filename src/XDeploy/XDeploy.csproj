@@ -168,7 +168,6 @@
     </Compile>
     <Compile Include="Workspace\Shared\IPagerHost.cs" />
     <Compile Include="Workspace\Shared\LocationFormViewModel.cs" />
-    <Compile Include="Workspace\DeploymentTargets\Screens\NoDeploymentTargetViewModel.cs" />
     <Compile Include="Workspace\DeploymentTargets\WorkspaceViewModel.cs" />
     <Compile Include="Workspace\Releases\WorkspaceViewModel.cs" />
     <Compile Include="Workspace\Shared\PagerViewModel.cs" />
@@ -195,9 +194,6 @@
     </Compile>
     <Compile Include="Workspace\Shared\Views\LocationFormView.xaml.cs">
       <DependentUpon>LocationFormView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Workspace\DeploymentTargets\Screens\Views\NoDeploymentTargetView.xaml.cs">
-      <DependentUpon>NoDeploymentTargetView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workspace\DeploymentTargets\WorkspaceView.xaml.cs">
       <DependentUpon>WorkspaceView.xaml</DependentUpon>
@@ -285,10 +281,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Workspace\Shared\Views\LocationFormView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Workspace\DeploymentTargets\Screens\Views\NoDeploymentTargetView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

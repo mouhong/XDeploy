@@ -10,6 +10,7 @@ namespace XDeploy
         Pending = 0,
         InProgress = 1,
         Succeeded = 2,
-        Failed = 3
+        Failed = 3,
+        Ignored = 4
     }
 }

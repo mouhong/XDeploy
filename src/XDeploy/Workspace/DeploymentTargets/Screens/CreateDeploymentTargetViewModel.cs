@@ -53,11 +53,6 @@ namespace XDeploy.Workspace.DeploymentTargets.Screens
             Form = CreateFormViewModel();
         }
 
-        public void Reset()
-        {
-            Form.Reset();
-        }
-
         private DeploymentTargetFormViewModel CreateFormViewModel()
         {
             var model = new DeploymentTargetFormViewModel();

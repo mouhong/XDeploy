@@ -53,10 +53,10 @@ namespace XDeploy
 
             IDirectory backupDirectory = null;
 
-            if (target.BackupLocation != null)
+            if (target.BackupRootLocation != null)
             {
                 backupDirectory = Directories.GetDirectory(
-                    target.BackupLocation.Uri, target.BackupLocation.UserName, target.BackupLocation.Password);
+                    target.BackupRootLocation.Uri, target.BackupRootLocation.UserName, target.BackupRootLocation.Password);
             }
 
             var releasePath = Paths.Release(_workContext.Project.ProjectDirectory, release.Name);

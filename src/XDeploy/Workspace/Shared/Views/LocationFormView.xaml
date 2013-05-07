@@ -7,7 +7,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
         <StackPanel Style="{StaticResource FormField}">
-            <Label Content="Uri:" />
+            <Label x:Name="UriLabel" />
             <TextBox x:Name="Uri" />
         </StackPanel>
         <StackPanel Style="{StaticResource FormField}">

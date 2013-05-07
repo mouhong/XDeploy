@@ -29,7 +29,7 @@
                                 <Label Content="Backup Location:" Width="130" />
                                 <Border Style="{StaticResource AttrListItemValue}">
                                     <StackPanel>
-                                        <TextBlock Text="{Binding DeploymentTarget.BackupLocationUri}" Visibility="{Binding DeploymentTarget.HasSetBackupLocation, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
+                                        <TextBlock Text="{Binding BackupLocationUri}" Visibility="{Binding DeploymentTarget.HasSetBackupLocation, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
                                         <TextBlock Text="Not set" Visibility="{Binding DeploymentTarget.HasSetBackupLocation,Converter={StaticResource InvertableBooleanToVisibilityConverter},ConverterParameter=Inverted}" />
                                     </StackPanel>
                                 </Border>

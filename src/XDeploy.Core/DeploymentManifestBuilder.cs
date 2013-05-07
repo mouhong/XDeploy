@@ -26,7 +26,9 @@ namespace XDeploy
             {
                 var ignore = false;
 
-                if (settings.DeployItemsModifiedSinceUtc != null && entry.LastWriteTimeUtc < settings.DeployItemsModifiedSinceUtc.Value)
+                if (settings.DeployItemsModifiedSinceUtc != null 
+                    && entry is FileInfo
+                    && entry.LastWriteTimeUtc < settings.DeployItemsModifiedSinceUtc.Value)
                 {
                     ignore = true;
                 }

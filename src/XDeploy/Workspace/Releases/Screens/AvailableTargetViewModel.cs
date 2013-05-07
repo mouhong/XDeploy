@@ -117,6 +117,24 @@ namespace XDeploy.Workspace.Releases.Screens
             }
         }
 
+        private string _backupFolderNameTemplate;
+
+        public string BackupFolderNameTemplate
+        {
+            get
+            {
+                return _backupFolderNameTemplate;
+            }
+            set
+            {
+                if (_backupFolderNameTemplate != value)
+                {
+                    _backupFolderNameTemplate = value;
+                    NotifyOfPropertyChange(() => BackupFolderNameTemplate);
+                }
+            }
+        }
+
         private DateTime? _deployedAt;
 
         public DateTime? DeployedAt

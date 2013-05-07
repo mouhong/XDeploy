@@ -11,11 +11,21 @@ namespace XDeploy
 
         public string TargetName { get; set; }
 
+        public string DeployLocationUri { get; set; }
+
+        public string BackupLocationUri { get; set; }
+
         public DateTime DeployedAtUtc { get; set; }
 
         public ReleaseDeploymentInfo()
         {
             DeployedAtUtc = DateTime.UtcNow;
+        }
+
+        public ReleaseDeploymentInfo(int targetId, string targetName)
+        {
+            TargetId = targetId;
+            TargetName = targetName;
         }
     }
 }

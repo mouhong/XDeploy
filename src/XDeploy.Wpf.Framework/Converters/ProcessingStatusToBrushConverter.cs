@@ -14,7 +14,8 @@ namespace XDeploy.Wpf.Framework.Converters
             { ProcessingStatus.Pending, Brushes.DarkGray },
             { ProcessingStatus.InProgress, (SolidColorBrush)new BrushConverter().ConvertFrom("#127FC0") },
             { ProcessingStatus.Failed, Brushes.Red },
-            { ProcessingStatus.Succeeded, (SolidColorBrush)new BrushConverter().ConvertFrom("#4FA613") }
+            { ProcessingStatus.Succeeded, (SolidColorBrush)new BrushConverter().ConvertFrom("#4FA613") },
+            { ProcessingStatus.Ignored, Brushes.DarkOrange }
         };
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

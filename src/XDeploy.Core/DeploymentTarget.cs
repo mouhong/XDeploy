@@ -7,13 +7,17 @@ namespace XDeploy
 {
     public class DeploymentTarget
     {
+        public static readonly string DefaultBackupFolderNameTemplate = "Before-Deploy-{ReleaseName}";
+
         public virtual int Id { get; set; }
 
         public virtual string Name { get; set; }
 
         public virtual Location DeployLocation { get; set; }
 
-        public virtual Location BackupLocation { get; set; }
+        public virtual Location BackupRootLocation { get; set; }
+
+        public virtual string BackupFolderNameTemplate { get; set; }
 
         public virtual DateTime CreatedAtUtc { get; protected set; }
 
@@ -25,17 +29,10 @@ namespace XDeploy
         {
             CreatedAtUtc = DateTime.UtcNow;
             DeployLocation = new Location();
-            BackupLocation = new Location();
+            BackupRootLocation = new Location();
+            BackupFolderNameTemplate = DefaultBackupFolderNameTemplate;
         }
-
-        public DeploymentTarget(string name, Location deployLocation)
-        {
-            Name = name;
-            CreatedAtUtc = DateTime.UtcNow;
-            DeployLocation = deployLocation;
-            BackupLocation = new Location();
-        }
-
+        
         public override string ToString()
         {
             return Name;

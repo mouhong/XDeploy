@@ -8,6 +8,24 @@ namespace XDeploy.Workspace.Shared
 {
     public class LocationFormViewModel : PropertyChangedBase
     {
+        private string _uriLabel = "Uri:";
+
+        public string UriLabel
+        {
+            get
+            {
+                return _uriLabel;
+            }
+            set
+            {
+                if (_uriLabel != value)
+                {
+                    _uriLabel = value;
+                    NotifyOfPropertyChange(() => UriLabel);
+                }
+            }
+        }
+
         private string _uri;
 
         public string Uri

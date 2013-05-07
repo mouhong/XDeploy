@@ -17,6 +17,10 @@
         <Border Style="{StaticResource SectionTitle}">
             <TextBlock>Backup Location</TextBlock>
         </Border>
-        <ContentControl x:Name="BackupLocation" />
+        <ContentControl x:Name="BackupRootLocation" />
+        <StackPanel Style="{StaticResource FormField}">
+            <Label Content="Folder Name Template:" />
+            <TextBox x:Name="BackupFolderNameTemplate" />
+        </StackPanel>
     </StackPanel>
 </UserControl>

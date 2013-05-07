@@ -63,6 +63,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="BackupFolderNameTemplateModel.cs" />
     <Compile Include="Data\Mapping\DeploymentLogMap.cs" />
     <Compile Include="Data\Mapping\DeploymentTargetMap.cs" />
     <Compile Include="Data\Mapping\ReleaseMap.cs" />
@@ -104,6 +105,11 @@
     <Compile Include="Require.cs" />
     <Compile Include="Storage\IFile.cs" />
     <Compile Include="Storage\Ftp\LazyFtpClient.cs" />
+    <Compile Include="Text\Template.cs" />
+    <Compile Include="Text\TemplateFieldAttribute.cs" />
+    <Compile Include="Text\TemplateModelMeta.cs" />
+    <Compile Include="Text\TemplateModelMetaCache.cs" />
+    <Compile Include="Text\TemplateModelPropertyMeta.cs" />
     <Compile Include="Utils\VirtualPathUtil.cs" />
     <Compile Include="WorkContext.cs" />
   </ItemGroup>

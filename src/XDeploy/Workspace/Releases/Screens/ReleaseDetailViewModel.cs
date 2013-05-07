@@ -118,8 +118,9 @@ namespace XDeploy.Workspace.Releases.Screens
                     TargetId = target.Id,
                     TargetName = target.Name,
                     DeployLocationUri = target.DeployLocation.Uri,
-                    BackupLocationUri = target.BackupLocation == null ? null : target.BackupLocation.Uri,
-                    HasSetBackupLocation = target.BackupLocation != null && !target.BackupLocation.IsEmpty()
+                    BackupLocationUri = target.BackupRootLocation == null ? null : target.BackupRootLocation.Uri,
+                    BackupFolderNameTemplate = target.BackupFolderNameTemplate,
+                    HasSetBackupLocation = target.BackupRootLocation != null && !target.BackupRootLocation.IsEmpty()
                 };
 
                 var releaseDeploymentInfo = release.DeploymentInfos.FirstOrDefault(x => x.TargetId == target.Id);
@@ -164,7 +165,7 @@ namespace XDeploy.Workspace.Releases.Screens
                 }
 
                 var deployDirectory = target.DeployLocation.GetDirectory();
-                var backupDirectory = target.BackupLocation.GetDirectory();
+                var backupDirectory = target.BackupRootLocation.GetDirectory();
 
                 var backuper = new ReleaseBackuper();
                 backuper.Backup(

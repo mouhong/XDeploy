@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using XDeploy.Storage;
+using XDeploy.Text;
 using XDeploy.Utils;
 using XDeploy.Workspace.Shared;
 using XDeploy.Workspace.Shell;
@@ -21,6 +22,14 @@ namespace XDeploy.Workspace.Releases.Screens
     {
         private IProjectWorkContextAccessor _workContextAccessor;
 
+        public ProjectWorkContext WorkContext
+        {
+            get
+            {
+                return _workContextAccessor.GetCurrentWorkContext();
+            }
+        }
+
         private BindableCollection<FileViewModel> _files;
 
         public BindableCollection<FileViewModel> Files
@@ -32,6 +41,39 @@ namespace XDeploy.Workspace.Releases.Screens
                     _files = new BindableCollection<FileViewModel>();
                 }
                 return _files;
+            }
+        }
+
+        private string _backupFolderName;
+
+        public string BackupFolderName
+        {
+            get
+            {
+                return _backupFolderName;
+            }
+            set
+            {
+                if (_backupFolderName != value)
+                {
+                    _backupFolderName = value;
+                    NotifyOfPropertyChange(() => BackupFolderName);
+                    NotifyOfPropertyChange(() => BackupLocationUri);
+                }
+            }
+        }
+
+        public string BackupLocationUri
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(DeploymentTarget.BackupLocationUri)
+                    && !String.IsNullOrEmpty(BackupFolderName))
+                {
+                    return Path.Combine(DeploymentTarget.BackupLocationUri, BackupFolderName);
+                }
+
+                return null;
             }
         }
 
@@ -141,6 +183,13 @@ namespace XDeploy.Workspace.Releases.Screens
             ReleaseDetail = releaseDetail;
             DeploymentTarget = deploymentTarget;
             DisplayName = "Deploy Release " + ReleaseDetail.ReleaseName + " to " + deploymentTarget.TargetName;
+
+            BackupFolderName = Template.Render(deploymentTarget.BackupFolderNameTemplate, new BackupFolderNameTemplateModel
+            {
+                ReleaseId = releaseDetail.ReleaseId,
+                ReleaseName = releaseDetail.ReleaseName
+            });
+            
             LoadFiles();
         }
 
@@ -201,24 +250,23 @@ namespace XDeploy.Workspace.Releases.Screens
             Progress.MaxValue = DeploymentTarget.HasSetBackupLocation ? (Files.Count * 2) : Files.Count;
             Progress.IsVisible = true;
 
-            DeploymentTarget target = null;
+            var session = WorkContext.OpenSession();
+
+            var target = session.Get<DeploymentTarget>(DeploymentTarget.TargetId);
+            var deploymentInfo = new ReleaseDeploymentInfo(target.Id, target.Name);
 
             yield return new AsyncActionResult(context =>
             {
-                target = LoadDeploymentTarget();
-            });
-
-            yield return new AsyncActionResult(context =>
-            {
-                DoBackup(target, Files);
-            });
-
-            if (!HasBackupErrors)
-            {
-                yield return new AsyncActionResult(context =>
+                DoBackup(target, Files, deploymentInfo);
+                if (!HasBackupErrors)
                 {
-                    DoDeploy(target, Files);
-                });
+                    DoDeploy(target, Files, deploymentInfo);
+                }
+            });
+            
+            if (!HasErrors)
+            {
+                UpdateDeploymentInfoInDatabase(deploymentInfo);
             }
 
             Progress.HasErrors = HasErrors;
@@ -237,12 +285,11 @@ namespace XDeploy.Workspace.Releases.Screens
         {
             IsProcessing = true;
 
-            DeploymentTarget target = null;
+            var session = WorkContext.OpenSession();
 
-            yield return new AsyncActionResult(context =>
-            {
-                target = LoadDeploymentTarget();
-            });
+            var target = session.Get<DeploymentTarget>(DeploymentTarget.TargetId);
+            var release = session.Get<Release>(ReleaseDetail.ReleaseId);
+            var deploymentInfo = release.FindDeploymentInfo(DeploymentTarget.TargetId) ?? new ReleaseDeploymentInfo(DeploymentTarget.TargetId, DeploymentTarget.TargetName);
 
             Progress.HasErrors = false;
 
@@ -258,7 +305,7 @@ namespace XDeploy.Workspace.Releases.Screens
 
                 yield return new AsyncActionResult(context =>
                 {
-                    DoBackup(target, files);
+                    DoBackup(target, files, deploymentInfo);
                 });
             }
 
@@ -275,43 +322,58 @@ namespace XDeploy.Workspace.Releases.Screens
 
                 yield return new AsyncActionResult(context =>
                 {
-                    DoDeploy(target, files);
+                    DoDeploy(target, files, deploymentInfo);
                 });
+            }
+
+            if (!HasErrors)
+            {
+                UpdateDeploymentInfoInDatabase(deploymentInfo);
             }
 
             Progress.HasErrors = HasErrors;
             IsProcessing = false;
         }
 
-        private void DoBackup(DeploymentTarget target, IEnumerable<FileViewModel> files)
+        private void DoBackup(DeploymentTarget target, IEnumerable<FileViewModel> files, ReleaseDeploymentInfo deploymentInfo)
         {
             var hasErrors = false;
 
-            if (target.BackupLocation != null && !target.BackupLocation.IsEmpty())
+            if (target.BackupRootLocation != null && !target.BackupRootLocation.IsEmpty())
             {
                 var workContext = _workContextAccessor.GetCurrentWorkContext();
 
-                var sourceDirectory = Directories.GetDirectory(Paths.ReleaseFiles(workContext.ProjectDirectory, ReleaseDetail.ReleaseName));
-                var backupDirectory = target.BackupLocation.GetDirectory();
+                var sourceDirectory = target.DeployLocation.GetDirectory();
+                var backupDirectory = target.BackupRootLocation.GetDirectory().GetDirectory(BackupFolderName);
+
+                deploymentInfo.BackupLocationUri = backupDirectory.Uri;
 
                 foreach (var file in files)
                 {
                     var sourceFile = sourceDirectory.GetFile(file.VirtualPath);
-                    var backupFile = backupDirectory.GetFile(file.VirtualPath);
 
-                    file.BackupStatus = ProcessingStatus.InProgress;
-
-                    try
+                    if (sourceFile.Exists)
                     {
-                        backupFile.OverwriteWith(sourceFile);
-                        file.BackupStatus = ProcessingStatus.Succeeded;
+                        var backupFile = backupDirectory.GetFile(file.VirtualPath);
+
+                        file.BackupStatus = ProcessingStatus.InProgress;
+
+                        try
+                        {
+                            backupFile.OverwriteWith(sourceFile);
+                            file.BackupStatus = ProcessingStatus.Succeeded;
+                        }
+                        catch (Exception ex)
+                        {
+                            file.BackupStatus = ProcessingStatus.Failed;
+                            file.BackupErrorMessage = ex.Message;
+                            file.BackupErrorDetail = ex.StackTrace;
+                            hasErrors = true;
+                        }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        file.BackupStatus = ProcessingStatus.Failed;
-                        file.BackupErrorMessage = ex.Message;
-                        file.BackupErrorDetail = ex.StackTrace;
-                        hasErrors = true;
+                        file.BackupStatus = ProcessingStatus.Ignored;
                     }
 
                     Progress.Value++;
@@ -321,7 +383,7 @@ namespace XDeploy.Workspace.Releases.Screens
             HasBackupErrors = hasErrors;
         }
 
-        private void DoDeploy(DeploymentTarget target, IEnumerable<FileViewModel> files)
+        private void DoDeploy(DeploymentTarget target, IEnumerable<FileViewModel> files, ReleaseDeploymentInfo deploymentInfo)
         {
             var hasErrors = false;
 
@@ -329,6 +391,8 @@ namespace XDeploy.Workspace.Releases.Screens
 
             var sourceDirectory = Directories.GetDirectory(Paths.ReleaseFiles(workContext.ProjectDirectory, ReleaseDetail.ReleaseName));
             var deployDirectory = target.DeployLocation.GetDirectory();
+
+            deploymentInfo.DeployLocationUri = deployDirectory.Uri;
 
             foreach (var file in files)
             {
@@ -354,15 +418,29 @@ namespace XDeploy.Workspace.Releases.Screens
             }
 
             HasDeployErrors = hasErrors;
+
+            if (!hasErrors)
+            {
+                deploymentInfo.DeployedAtUtc = DateTime.UtcNow;
+            }
         }
 
-        private DeploymentTarget LoadDeploymentTarget()
+        private void UpdateDeploymentInfoInDatabase(ReleaseDeploymentInfo deploymentInfo)
         {
-            var workContext = _workContextAccessor.GetCurrentWorkContext();
-
-            using (var session = workContext.OpenSession())
+            using (var session = WorkContext.OpenSession())
             {
-                return session.Get<DeploymentTarget>(DeploymentTarget.TargetId);
+                var release = session.Get<Release>(ReleaseDetail.ReleaseId);
+                var target = session.Get<DeploymentTarget>(DeploymentTarget.TargetId);
+                release.AddDeploymentInfo(deploymentInfo);
+                release.LastDeployedAtUtc = deploymentInfo.DeployedAtUtc;
+                target.LastDeployedAtUtc = deploymentInfo.DeployedAtUtc;
+
+                if (!String.IsNullOrEmpty(deploymentInfo.BackupLocationUri))
+                {
+                    target.LastBackuppedAtUtc = deploymentInfo.DeployedAtUtc;
+                }
+
+                session.Commit();
             }
         }
     }

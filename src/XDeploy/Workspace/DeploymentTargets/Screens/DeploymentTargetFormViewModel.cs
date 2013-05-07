@@ -50,20 +50,38 @@ namespace XDeploy.Workspace.DeploymentTargets.Screens
             }
         }
 
-        private LocationFormViewModel _backupLocation;
+        private LocationFormViewModel _backupRootLocation;
 
-        public LocationFormViewModel BackupLocation
+        public LocationFormViewModel BackupRootLocation
         {
             get
             {
-                return _backupLocation;
+                return _backupRootLocation;
             }
             set
             {
-                if (_backupLocation != value)
+                if (_backupRootLocation != value)
                 {
-                    _backupLocation = value;
-                    NotifyOfPropertyChange(() => BackupLocation);
+                    _backupRootLocation = value;
+                    NotifyOfPropertyChange(() => BackupRootLocation);
+                }
+            }
+        }
+
+        private string _backupFolderNameTemplate;
+
+        public string BackupFolderNameTemplate
+        {
+            get
+            {
+                return _backupFolderNameTemplate;
+            }
+            set
+            {
+                if (_backupFolderNameTemplate != value)
+                {
+                    _backupFolderNameTemplate = value;
+                    NotifyOfPropertyChange(() => BackupFolderNameTemplate);
                 }
             }
         }
@@ -71,56 +89,55 @@ namespace XDeploy.Workspace.DeploymentTargets.Screens
         public DeploymentTargetFormViewModel()
         {
             _deployLocation = new LocationFormViewModel();
-            _backupLocation = new LocationFormViewModel();
-        }
-
-        public void Reset()
-        {
-            TargetName = null;
-            if (DeployLocation != null)
+            _backupRootLocation = new LocationFormViewModel
             {
-                DeployLocation.Reset();
-            }
-            if (BackupLocation != null)
-            {
-                BackupLocation.Reset();
-            }
+                UriLabel = "Root Uri:"
+            };
+            _backupFolderNameTemplate = DeploymentTarget.DefaultBackupFolderNameTemplate;
         }
 
         public void UpdateFrom(DeploymentTarget target)
         {
+            Require.NotNull(target, "target");
+
             Id = target.Id;
             TargetName = target.Name;
             DeployLocation.UpdateFrom(target.DeployLocation);
 
-            if (target.BackupLocation != null)
+            if (target.BackupRootLocation != null)
             {
-                BackupLocation.UpdateFrom(target.BackupLocation);
+                BackupRootLocation.UpdateFrom(target.BackupRootLocation);
             }
             else
             {
-                BackupLocation.Reset();
+                BackupRootLocation.Reset();
             }
+
+            BackupFolderNameTemplate = target.BackupFolderNameTemplate;
         }
 
         public void UpdateTo(DeploymentTarget target)
         {
+            Require.NotNull(target, "target");
+
             target.Name = TargetName.Trim();
             DeployLocation.UpdateTo(target.DeployLocation);
 
-            if (BackupLocation != null)
+            if (BackupRootLocation != null)
             {
-                if (target.BackupLocation == null)
+                if (target.BackupRootLocation == null)
                 {
-                    target.BackupLocation = new Location();
+                    target.BackupRootLocation = new Location();
                 }
 
-                BackupLocation.UpdateTo(target.BackupLocation);
+                BackupRootLocation.UpdateTo(target.BackupRootLocation);
             }
             else
             {
-                target.BackupLocation = null;
+                target.BackupRootLocation = null;
             }
+
+            target.BackupFolderNameTemplate = BackupFolderNameTemplate;
         }
     }
 }

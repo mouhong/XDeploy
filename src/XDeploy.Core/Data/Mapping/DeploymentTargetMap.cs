@@ -16,6 +16,7 @@ namespace XDeploy.Data.Mapping
             Property(c => c.CreatedAtUtc);
             Property(c => c.LastDeployedAtUtc);
             Property(c => c.LastBackuppedAtUtc);
+            Property(c => c.BackupFolderNameTemplate);
 
             Component(c => c.DeployLocation, m =>
             {
@@ -23,11 +24,11 @@ namespace XDeploy.Data.Mapping
                 m.Property(x => x.UserName, x => x.Column("DeployLocation_UserName"));
                 m.Property(x => x.Password, x => x.Column("DeployLocation_Password"));
             });
-            Component(c => c.BackupLocation, m =>
+            Component(c => c.BackupRootLocation, m =>
             {
-                m.Property(x => x.Uri, x => x.Column("BackupLocation_Uri"));
-                m.Property(x => x.UserName, x => x.Column("BackupLocation_UserName"));
-                m.Property(x => x.Password, x => x.Column("BackupLocation_Password"));
+                m.Property(x => x.Uri, x => x.Column("BackupRootLocation_Uri"));
+                m.Property(x => x.UserName, x => x.Column("BackupRootLocation_UserName"));
+                m.Property(x => x.Password, x => x.Column("BackupRootLocation_Password"));
             });
         }
     }

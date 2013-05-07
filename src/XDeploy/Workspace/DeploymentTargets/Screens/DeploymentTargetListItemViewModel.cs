@@ -111,7 +111,7 @@ namespace XDeploy.Workspace.DeploymentTargets.Screens
             Id = target.Id;
             Name = target.Name;
             DeployLocationUri = target.DeployLocation.Uri;
-            BackupLocationUri = target.BackupLocation == null ? null : target.BackupLocation.Uri;
+            BackupLocationUri = target.BackupRootLocation == null ? null : target.BackupRootLocation.Uri;
             LastDeployedAt = target.LastDeployedAtUtc == null ? null : (DateTime?)target.LastDeployedAtUtc.Value.ToLocalTime();
             LastBackuppedAt = target.LastBackuppedAtUtc == null ? null : (DateTime?)target.LastBackuppedAtUtc.Value.ToLocalTime();
             CreatedAt = target.CreatedAtUtc.ToLocalTime();

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace XDeploy.Storage
+namespace XDeploy.IO
 {
     public interface IFile
     {
@@ -30,10 +30,6 @@ namespace XDeploy.Storage
         Stream OpenRead();
 
         Stream OpenWrite();
-
-        void OverwriteWith(Stream stream);
-
-        void OverwriteWith(IFile file);
 
         void Rename(string newFileName);
     }

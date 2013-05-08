@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using XDeploy.Storage;
+using XDeploy.IO;
 using XDeploy.Text;
 using XDeploy.Utils;
 using XDeploy.Workspace.Shared;

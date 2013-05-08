@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using XDeploy.Utils;
 
-namespace XDeploy.Storage.Local
+namespace XDeploy.IO.Local
 {
     public class LocalFile : IFile
     {
@@ -87,25 +87,6 @@ namespace XDeploy.Storage.Local
         {
             Require.NotNullOrEmpty(newFileName, "newFileName");
             WrappedFile.MoveTo(Path.Combine(Path.GetDirectoryName(Uri), newFileName));
-        }
-
-        public void OverwriteWith(Stream stream)
-        {
-            CreateDirectory();
-
-            using (var thisStream = OpenWrite())
-            {
-                stream.WriteTo(thisStream);
-                thisStream.Flush();
-            }
-        }
-
-        public void OverwriteWith(IFile file)
-        {
-            using (var stream = file.OpenRead())
-            {
-                OverwriteWith(stream);
-            }
         }
     }
 }

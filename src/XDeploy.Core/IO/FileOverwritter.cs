@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using XDeploy.Storage;
 
-namespace XDeploy
+namespace XDeploy.IO
 {
     public static class FileOverwritter
     {
@@ -30,7 +29,11 @@ namespace XDeploy
                 tempFile.Delete();
             }
 
-            tempFile.OverwriteWith(newFile);
+            using (var tempFileStream = tempFile.OpenWrite())
+            using (var newFileStream = newFile.OpenRead())
+            {
+                newFileStream.WriteTo(tempFileStream);
+            }
 
             return tempFile;
         }

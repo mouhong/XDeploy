@@ -4,10 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using XDeploy.Storage.Ftp;
-using XDeploy.Storage.Local;
+using XDeploy.IO.Ftp;
+using XDeploy.IO.Local;
 
-namespace XDeploy.Storage
+namespace XDeploy.IO
 {
     public static class Directories
     {

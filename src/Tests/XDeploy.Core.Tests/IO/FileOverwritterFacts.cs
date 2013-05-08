@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using XDeploy.Storage.Local;
+using XDeploy.IO;
+using XDeploy.IO.Local;
 using Xunit;
 
-namespace XDeploy.Core.Tests
+namespace XDeploy.Core.Tests.IO
 {
     public class FileOverwritterFacts
     {

@@ -7,7 +7,7 @@ using System.Net.FtpClient;
 using XDeploy.Utils;
 using System.IO;
 
-namespace XDeploy.Storage.Ftp
+namespace XDeploy.IO.Ftp
 {
     public class FtpDirectory : IDirectory
     {

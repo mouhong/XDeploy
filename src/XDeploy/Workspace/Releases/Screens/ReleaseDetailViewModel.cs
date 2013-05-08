@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
-using XDeploy.Storage;
+using XDeploy.IO;
 using XDeploy.Workspace.Shell;
 
 namespace XDeploy.Workspace.Releases.Screens
@@ -142,41 +142,6 @@ namespace XDeploy.Workspace.Releases.Screens
             var listViewModel = _releaseListViewModel();
             this.GetWorkspace().ActivateItem(listViewModel);
             listViewModel.LoadAsync(0);
-        }
-
-        public IEnumerable<IResult> Backup(AvailableTargetViewModel item)
-        {
-            if (Shell.MessageBox.Confirm("Are you sure to make this backup?", null) != System.Windows.MessageBoxResult.Yes)
-            {
-                yield break;
-            }
-
-            Shell.Busy.Processing();
-
-            yield return new AsyncActionResult(context =>
-            {
-                DeploymentTarget target = null;
-
-                var workContext = _workContextAccessor.GetCurrentWorkContext();
-
-                using (var session = workContext.OpenSession())
-                {
-                    target = session.Get<DeploymentTarget>(item.TargetId);
-                }
-
-                var deployDirectory = target.DeployLocation.GetDirectory();
-                var backupDirectory = target.BackupRootLocation.GetDirectory();
-
-                var backuper = new ReleaseBackuper();
-                backuper.Backup(
-                    Paths.Release(workContext.ProjectDirectory, ReleaseName),
-                    deployDirectory,
-                    backupDirectory);
-            });
-
-            Shell.Busy.Hide();
-
-            Shell.MessageBox.Success("Backup succeeded!", "Success");
         }
 
         public void Deploy(AvailableTargetViewModel item)

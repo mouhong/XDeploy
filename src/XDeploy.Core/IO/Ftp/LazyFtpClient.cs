@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.FtpClient;
 using System.Text;
 
-namespace XDeploy.Storage.Ftp
+namespace XDeploy.IO.Ftp
 {
     public class LazyFtpClient : IDisposable
     {

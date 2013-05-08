@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace XDeploy.Storage
+namespace XDeploy.IO
 {
     public interface IDirectory : IDisposable
     {

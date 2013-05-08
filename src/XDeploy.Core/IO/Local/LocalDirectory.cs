@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using XDeploy.Utils;
 
-namespace XDeploy.Storage.Local
+namespace XDeploy.IO.Local
 {
     public class LocalDirectory : IDirectory
     {

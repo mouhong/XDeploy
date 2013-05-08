@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using XDeploy.Utils;
 
-namespace XDeploy.Storage.Ftp
+namespace XDeploy.IO.Ftp
 {
     public class FtpFile : IFile
     {
@@ -100,25 +100,6 @@ namespace XDeploy.Storage.Ftp
         {
             EnsureConnected();
             return FtpClient.OpenWrite(AbsolutePathInFtp);
-        }
-
-        public void OverwriteWith(Stream stream)
-        {
-            CreateDirectory();
-
-            using (var thisStream = OpenWrite())
-            {
-                stream.WriteTo(thisStream);
-                thisStream.Flush();
-            }
-        }
-
-        public void OverwriteWith(IFile file)
-        {
-            using (var stream = file.OpenRead())
-            {
-                OverwriteWith(stream);
-            }
         }
 
         public void Rename(string newFileName)

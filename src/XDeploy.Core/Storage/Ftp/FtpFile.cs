@@ -25,12 +25,14 @@ namespace XDeploy.Storage.Ftp
             }
         }
 
+        public string Name { get; private set; }
+
         public string Uri { get; private set; }
 
         public string VirtualPath { get; private set; }
 
         public string AbsolutePathInFtp { get; private set; }
-
+        
         public LazyFtpClient FtpClient { get; private set; }
 
         public bool Exists
@@ -50,6 +52,7 @@ namespace XDeploy.Storage.Ftp
         {
             VirtualPath = virtualPath;
             Uri = uri.ToString();
+            Name = Path.GetFileName(Uri);
             AbsolutePathInFtp = uri.AbsolutePath;
             FtpClient = ftpClient;
         }
@@ -72,6 +75,10 @@ namespace XDeploy.Storage.Ftp
             {
                 EnsureConnected();
                 FtpClient.DeleteFile(AbsolutePathInFtp);
+                if (_cache != null)
+                {
+                    _cache.Exists = false;
+                }
             }
         }
 
@@ -104,6 +111,27 @@ namespace XDeploy.Storage.Ftp
             {
                 OverwriteWith(stream);
             }
+        }
+
+        public void Rename(string newFileName)
+        {
+            Require.NotNullOrEmpty(newFileName, "newFileName");
+
+            if (newFileName.Equals(Name))
+            {
+                return;
+            }
+
+            EnsureConnected();
+
+            var newAbsolutePathInFtp = VirtualPathUtil.Combine(VirtualPathUtil.GetDirectory(AbsolutePathInFtp), newFileName);
+
+            FtpClient.Rename(AbsolutePathInFtp, newAbsolutePathInFtp);
+
+            Name = newFileName;
+            AbsolutePathInFtp = newAbsolutePathInFtp;
+            VirtualPath = VirtualPathUtil.Combine(VirtualPathUtil.GetDirectory(VirtualPath), newFileName);
+            Uri = VirtualPathUtil.Combine(VirtualPathUtil.GetDirectory(Uri), newFileName);
         }
 
         public void Refresh()

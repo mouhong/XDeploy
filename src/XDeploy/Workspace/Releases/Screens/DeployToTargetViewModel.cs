@@ -360,7 +360,7 @@ namespace XDeploy.Workspace.Releases.Screens
 
                         try
                         {
-                            backupFile.OverwriteWith(sourceFile);
+                            FileOverwritter.Overwrite(backupFile, sourceFile);
                             file.BackupStatus = ProcessingStatus.Succeeded;
                         }
                         catch (Exception ex)
@@ -403,7 +403,7 @@ namespace XDeploy.Workspace.Releases.Screens
 
                 try
                 {
-                    targetFile.OverwriteWith(sourceFile);
+                    FileOverwritter.Overwrite(targetFile, sourceFile);
                     file.DeployStatus = ProcessingStatus.Succeeded;
                 }
                 catch (Exception ex)

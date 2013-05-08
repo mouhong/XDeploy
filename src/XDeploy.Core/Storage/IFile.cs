@@ -9,6 +9,8 @@ namespace XDeploy.Storage
 {
     public interface IFile
     {
+        string Name { get; }
+
         string Uri { get; }
 
         string VirtualPath { get; }
@@ -30,5 +32,7 @@ namespace XDeploy.Storage
         void OverwriteWith(Stream stream);
 
         void OverwriteWith(IFile file);
+
+        void Rename(string newFileName);
     }
 }

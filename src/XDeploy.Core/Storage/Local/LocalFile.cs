@@ -9,6 +9,14 @@ namespace XDeploy.Storage.Local
 {
     public class LocalFile : IFile
     {
+        public string Name
+        {
+            get
+            {
+                return WrappedFile.Name;
+            }
+        }
+
         public string Uri
         {
             get
@@ -65,6 +73,12 @@ namespace XDeploy.Storage.Local
         public Stream OpenWrite()
         {
             return WrappedFile.OpenWrite();
+        }
+
+        public void Rename(string newFileName)
+        {
+            Require.NotNullOrEmpty(newFileName, "newFileName");
+            WrappedFile.MoveTo(Path.Combine(Path.GetDirectoryName(Uri), newFileName));
         }
 
         public void OverwriteWith(Stream stream)

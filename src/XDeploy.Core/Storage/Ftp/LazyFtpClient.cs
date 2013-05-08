@@ -87,6 +87,11 @@ namespace XDeploy.Storage.Ftp
             return Value.OpenWrite(path);
         }
 
+        public void Rename(string path, string dest)
+        {
+            Value.Rename(path, dest);
+        }
+
         public void Dispose()
         {
             if (_value != null)

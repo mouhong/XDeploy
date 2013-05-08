@@ -76,6 +76,7 @@
     <Compile Include="Extensions\QueryableExtensions.cs" />
     <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="FileOverwritter.cs" />
     <Compile Include="IIgnorantRulesTemplate.cs" />
     <Compile Include="PagedQueryable.cs" />
     <Compile Include="Paths.cs" />

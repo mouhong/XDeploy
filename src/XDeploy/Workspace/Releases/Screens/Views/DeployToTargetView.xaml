@@ -42,6 +42,13 @@
                       ScrollViewer.CanContentScroll="True" Height="230">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Path" Width="*" Binding="{Binding VirtualPath}" CanUserSort="False" />
+                        <DataGridTemplateColumn Header="Size" Width="120" CanUserSort="False">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock TextAlignment="Right" Text="{Binding FriendlySizeText}" Foreground="DarkGray" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Backup" Width="120" CanUserSort="False">
                             <DataGridTemplateColumn.HeaderStyle>
                                 <Style TargetType="DataGridColumnHeader">

@@ -17,6 +17,8 @@ namespace XDeploy.Storage
 
         bool Exists { get; }
 
+        long Length { get; }
+
         void Delete();
 
         void Refresh();

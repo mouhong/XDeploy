@@ -220,6 +220,7 @@ namespace XDeploy.Workspace.Releases.Screens
                     var fileViewModel = new FileViewModel
                     {
                         VirtualPath = VirtualPathUtil.GetVirtualPath(file, directory),
+                        Length = file.Length,
                         IsBackupEnabled = DeploymentTarget.HasSetBackupLocation
                     };
                     Files.Add(fileViewModel);

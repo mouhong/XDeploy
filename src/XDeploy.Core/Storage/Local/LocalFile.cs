@@ -37,6 +37,14 @@ namespace XDeploy.Storage.Local
             }
         }
 
+        public long Length
+        {
+            get
+            {
+                return WrappedFile.Length;
+            }
+        }
+
         public LocalFile(string virtualPath, FileInfo file)
         {
             VirtualPath = virtualPath;

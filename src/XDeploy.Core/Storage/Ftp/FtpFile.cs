@@ -43,6 +43,14 @@ namespace XDeploy.Storage.Ftp
             }
         }
 
+        public long Length
+        {
+            get
+            {
+                return Cache.Length;
+            }
+        }
+
         public FtpFile(string virtualPath, Uri uri, NetworkCredential credential)
             : this(virtualPath, uri, new LazyFtpClient(uri.Host, credential, uri.Port))
         {
@@ -140,6 +148,7 @@ namespace XDeploy.Storage.Ftp
 
             var cache = new FtpFileCache();
             cache.Exists = FtpClient.FileExists(AbsolutePathInFtp);
+            cache.Length = FtpClient.Value.GetFileSize(AbsolutePathInFtp);
 
             _cache = cache;
         }
@@ -155,6 +164,8 @@ namespace XDeploy.Storage.Ftp
         class FtpFileCache
         {
             public bool Exists = false;
+
+            public long Length = -1;
         }
     }
 }

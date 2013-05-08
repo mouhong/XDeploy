@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Media;
+using XDeploy.Utils;
 using XDeploy.Wpf;
 
 namespace XDeploy.Workspace.Releases.Screens
@@ -25,6 +26,33 @@ namespace XDeploy.Workspace.Releases.Screens
                     _virtualPath = value;
                     NotifyOfPropertyChange(() => VirtualPath);
                 }
+            }
+        }
+
+        private long _length;
+
+        public long Length
+        {
+            get
+            {
+                return _length;
+            }
+            set
+            {
+                if (_length != value)
+                {
+                    _length = value;
+                    NotifyOfPropertyChange(() => Length);
+                    NotifyOfPropertyChange(() => FriendlySizeText);
+                }
+            }
+        }
+
+        public string FriendlySizeText
+        {
+            get
+            {
+                return SizeUtil.GetFriendlyDisplay(Length);
             }
         }
 

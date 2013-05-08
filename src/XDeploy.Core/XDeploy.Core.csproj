@@ -111,6 +111,7 @@
     <Compile Include="Text\TemplateModelMeta.cs" />
     <Compile Include="Text\TemplateModelMetaCache.cs" />
     <Compile Include="Text\TemplateModelPropertyMeta.cs" />
+    <Compile Include="Utils\SizeUtil.cs" />
     <Compile Include="Utils\VirtualPathUtil.cs" />
     <Compile Include="WorkContext.cs" />
   </ItemGroup>

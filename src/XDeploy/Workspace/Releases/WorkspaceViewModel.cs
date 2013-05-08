@@ -53,13 +53,12 @@ namespace XDeploy.Workspace.Releases
         {
             var listViewModel = _releaseListViewModel();
             ActivateItem(listViewModel);
-            listViewModel.LoadAsync(0);
         }
 
-        protected override void OnViewLoaded(object view)
+        protected override void OnActivate()
         {
             ShowReleaseList();
-            base.OnViewLoaded(view);
+            base.OnActivate();
         }
     }
 }

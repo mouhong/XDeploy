@@ -57,10 +57,10 @@ namespace XDeploy.Workspace.DeploymentTargets
             ActivateItem(listViewModel);
         }
 
-        protected override void OnViewLoaded(object view)
+        protected override void OnActivate()
         {
             ShowTargetList();
-            base.OnViewLoaded(view);
+            base.OnActivate();
         }
     }
 }

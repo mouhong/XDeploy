@@ -17,7 +17,6 @@ namespace XDeploy.Workspace.Releases.Screens
     {
         private IProjectWorkContextAccessor _workContextAccessor;
         private Func<CreateReleaseViewModel> _createReleaseViewModel;
-        private Func<NoReleaseViewModel> _noReleaseViewModel;
         private Func<ReleaseDetailViewModel> _releaseDetailViewModel;
 
         public ShellViewModel Shell
@@ -46,32 +45,71 @@ namespace XDeploy.Workspace.Releases.Screens
             }
         }
 
+        private bool _isLoaded;
+
+        public bool IsLoaded
+        {
+            get
+            {
+                return _isLoaded;
+            }
+            set
+            {
+                if (_isLoaded != value)
+                {
+                    _isLoaded = value;
+                    NotifyOfPropertyChange(() => IsLoaded);
+                }
+            }
+        }
+
+        private bool _hasReleases;
+
+        public bool HasReleases
+        {
+            get
+            {
+                return _hasReleases;
+            }
+            set
+            {
+                if (_hasReleases != value)
+                {
+                    _hasReleases = value;
+                    NotifyOfPropertyChange(() => HasReleases);
+                }
+            }
+        }
+
         public BindableCollection<ReleaseListItemViewModel> ReleasesInThisPage { get; private set; }
 
         [ImportingConstructor]
         public ReleaseListViewModel(
             IProjectWorkContextAccessor workContextAccessor,
             Func<CreateReleaseViewModel> createReleaseViewModelFactory,
-            Func<NoReleaseViewModel> noReleaseViewModelFactory,
             Func<ReleaseDetailViewModel> releaseDetailViewModelFactory)
         {
             _workContextAccessor = workContextAccessor;
             _createReleaseViewModel = createReleaseViewModelFactory;
-            _noReleaseViewModel = noReleaseViewModelFactory;
             _releaseDetailViewModel = releaseDetailViewModelFactory;
             ReleasesInThisPage = new BindableCollection<ReleaseListItemViewModel>();
-            Pager = new PagerViewModel(this, 6);
+            Pager = new PagerViewModel(6);
+            Pager.PageIndexChanged += Pager_PageIndexChanged;
         }
 
-        public void Update(PagedQueryable<Release> query, int pageIndex)
+        private void Pager_PageIndexChanged(object sender, PageIndexChangeEventArgs e)
         {
-            Pager.Update(query, pageIndex);
+            LoadAsync(e.NewPageIndex);
+        }
 
-            ReleasesInThisPage = new BindableCollection<ReleaseListItemViewModel>(
-                query.Page(pageIndex).Select(x => new ReleaseListItemViewModel(x)));
-
-            NotifyOfPropertyChange(() => ReleasesInThisPage);
-            NotifyOfPropertyChange(() => Pager);
+        protected override void OnActivate()
+        {
+            LoadAsync(0, (sender, args) =>
+            {
+                HasReleases = ReleasesInThisPage.Count > 0;
+                IsLoaded = true;
+            });
+            base.OnActivate();
         }
 
         public void CreateNewRelease()
@@ -79,9 +117,9 @@ namespace XDeploy.Workspace.Releases.Screens
             Workspace.ActivateItem(_createReleaseViewModel());
         }
 
-        public void LoadAsync(int pageIndex)
+        public void LoadAsync(int pageIndex, EventHandler<ResultCompletionEventArgs> callback = null)
         {
-            Caliburn.Micro.Action.Invoke(this, "LoadPage", (DependencyObject)GetView(), parameters: new object[] { pageIndex });
+            Coroutine.BeginExecute(LoadPage(pageIndex).GetEnumerator(), null, callback);
         }
 
         public IEnumerable<IResult> LoadPage(int pageIndex)
@@ -98,15 +136,11 @@ namespace XDeploy.Workspace.Releases.Screens
                                           .OrderByDescending(x => x.Id)
                                           .Paging(Pager.PageSize);
 
-                    if (releases.Count > 0)
-                    {
-                        Update(releases, pageIndex);
-                        Workspace.ActivateItem(this);
-                    }
-                    else
-                    {
-                        Workspace.ActivateItem(_noReleaseViewModel());
-                    }
+                    ReleasesInThisPage = new BindableCollection<ReleaseListItemViewModel>(
+                        releases.Page(pageIndex).Select(x => new ReleaseListItemViewModel(x)));
+                    Pager.Bind(releases, pageIndex);
+
+                    NotifyOfPropertyChange(() => ReleasesInThisPage);
                 }
             });
 

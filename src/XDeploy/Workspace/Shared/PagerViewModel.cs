@@ -7,8 +7,23 @@ using System.Windows;
 
 namespace XDeploy.Workspace.Shared
 {
+    public class PageIndexChangeEventArgs : EventArgs
+    {
+        public int OldPageIndex { get; private set; }
+
+        public int NewPageIndex { get; private set; }
+
+        public PageIndexChangeEventArgs(int oldPageIndex, int newPageIndex)
+        {
+            OldPageIndex = oldPageIndex;
+            NewPageIndex = newPageIndex;
+        }
+    }
+
     public class PagerViewModel : PropertyChangedBase
     {
+        public event EventHandler<PageIndexChangeEventArgs> PageIndexChanged;
+
         private int _pageSize;
 
         public int PageSize
@@ -44,10 +59,14 @@ namespace XDeploy.Workspace.Shared
             {
                 if (_pageIndex != value)
                 {
+                    var oldPageIndex = _pageIndex;
+
                     _pageIndex = value;
                     NotifyOfPropertyChange(() => PageIndex);
                     NotifyOfPropertyChange(() => HasPrev);
                     NotifyOfPropertyChange(() => HasNext);
+
+                    OnPageIndexChanged(oldPageIndex, _pageIndex);
                 }
             }
         }
@@ -110,15 +129,12 @@ namespace XDeploy.Workspace.Shared
             }
         }
 
-        public IPagerHost Host { get; private set; }
-
-        public PagerViewModel(IPagerHost host, int pageSize)
+        public PagerViewModel(int pageSize)
         {
-            Host = host;
             PageSize = pageSize;
         }
 
-        public void Update<T>(PagedQueryable<T> query, int pageIndex)
+        public void Bind<T>(PagedQueryable<T> query, int pageIndex)
         {
             TotalRecords = query.Count;
             PageIndex = pageIndex;
@@ -130,14 +146,22 @@ namespace XDeploy.Workspace.Shared
             NotifyOfPropertyChange(() => Visibility);
         }
 
-        protected IEnumerable<IResult> Prev()
+        public void Prev()
         {
-            return Host.LoadPage(PageIndex - 1);
+            PageIndex = PageIndex - 1;
         }
 
-        protected IEnumerable<IResult> Next()
+        public void Next()
         {
-            return Host.LoadPage(PageIndex + 1);
+            PageIndex = PageIndex + 1;
+        }
+
+        private void OnPageIndexChanged(int oldPageIndex, int newPageIndex)
+        {
+            if (PageIndexChanged != null)
+            {
+                PageIndexChanged(this, new PageIndexChangeEventArgs(oldPageIndex, newPageIndex));
+            }
         }
     }
 }

@@ -38,7 +38,6 @@ namespace XDeploy
             batch.AddExportedValue<Func<ProjectSummaryViewModel>>(() => container.GetExportedValue<ProjectSummaryViewModel>());
 
             // Releases Tab
-            batch.AddExportedValue<Func<NoReleaseViewModel>>(() => container.GetExportedValue<NoReleaseViewModel>());
             batch.AddExportedValue<Func<CreateReleaseViewModel>>(() => container.GetExportedValue<CreateReleaseViewModel>());
             batch.AddExportedValue<Func<ReleaseListViewModel>>(() => container.GetExportedValue<ReleaseListViewModel>());
             batch.AddExportedValue<Func<ReleaseDetailViewModel>>(() => container.GetExportedValue<ReleaseDetailViewModel>());

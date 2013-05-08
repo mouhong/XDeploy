@@ -119,10 +119,10 @@ namespace XDeploy.Workspace.DeploymentTargets.Screens
             Shell.Busy.Hide();
         }
 
-        protected override void OnViewLoaded(object view)
+        protected override void OnActivate()
         {
-            Caliburn.Micro.Action.Invoke(this, "LoadTargets", (DependencyObject)view);
-            base.OnViewLoaded(view);
+            Coroutine.BeginExecute(LoadTargets().GetEnumerator());
+            base.OnActivate();
         }
     }
 }

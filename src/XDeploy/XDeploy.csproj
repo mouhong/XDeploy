@@ -147,7 +147,6 @@
     <Compile Include="Workspace\Releases\Screens\FileViewModel.cs" />
     <Compile Include="Workspace\Releases\Screens\DeployToTargetViewModel.cs" />
     <Compile Include="Workspace\Releases\Screens\AvailableTargetViewModel.cs" />
-    <Compile Include="Workspace\Releases\Screens\NoReleaseViewModel.cs" />
     <Compile Include="Workspace\Releases\Screens\ReleaseDetailViewModel.cs" />
     <Compile Include="Workspace\Releases\Screens\ReleaseListItemViewModel.cs" />
     <Compile Include="Workspace\Releases\Screens\ReleaseListViewModel.cs" />
@@ -156,9 +155,6 @@
     </Compile>
     <Compile Include="Workspace\Releases\Screens\Views\DeployToTargetView.xaml.cs">
       <DependentUpon>DeployToTargetView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Workspace\Releases\Screens\Views\NoReleaseView.xaml.cs">
-      <DependentUpon>NoReleaseView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workspace\Releases\Screens\Views\ReleaseDetailView.xaml.cs">
       <DependentUpon>ReleaseDetailView.xaml</DependentUpon>
@@ -236,6 +232,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Theme\Messages.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Workspace\DeploymentTargets\Screens\Views\CreateDeploymentTargetView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -265,10 +265,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Workspace\Releases\Screens\Views\DeployToTargetView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Workspace\Releases\Screens\Views\NoReleaseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

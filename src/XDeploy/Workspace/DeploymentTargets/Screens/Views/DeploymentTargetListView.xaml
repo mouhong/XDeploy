@@ -63,10 +63,10 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </StackPanel>
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding HasTargets, Converter={StaticResource InvertableBooleanToVisibilityConverter}, ConverterParameter=Inverted}">
-                <Border Style="{StaticResource MessageInfo}">
+            <StackPanel Style="{StaticResource NoResult}" Visibility="{Binding HasTargets, Converter={StaticResource InvertableBooleanToVisibilityConverter}, ConverterParameter=Inverted}">
+                <Border Style="{StaticResource NoResultMessage}">
                     <TextBlock>
-                        There's no deploy target right now.
+                        There's no deploy target right now
                     </TextBlock>
                 </Border>
                 <Button Content="Create New Target" Style="{MultiStyle Btn BtnPrimary BtnLarge}" cal:Message.Attach="[Event Click] = [Action CreateNewTarget]" />

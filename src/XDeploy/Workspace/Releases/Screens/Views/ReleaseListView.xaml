@@ -18,19 +18,21 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="150" />
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                        <Button cal:Message.Attach="[Event Click] = [Action ShowDetail($dataContext)]" Content="{Binding ItemTitle}" Style="{StaticResource ListItemLinkTitle}" />
-                                    </StackPanel>
-                                    <TextBlock Grid.Column="1" Text="{Binding CreatedAt}" HorizontalAlignment="Right" />
-                                </Grid>
+                                <Border Style="{StaticResource ListItemHeader}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="150" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                            <Button cal:Message.Attach="[Event Click] = [Action ShowDetail($dataContext)]" Content="{Binding ItemTitle}" Style="{StaticResource ListItemLinkTitle}" />
+                                        </StackPanel>
+                                        <TextBlock Grid.Column="1" Text="{Binding CreatedAt}" HorizontalAlignment="Right" />
+                                    </Grid>
+                                </Border>
                                 <Border Style="{StaticResource ListItemDesc}">
                                     <StackPanel>
-                                        <TextBlock Text="{Binding ReleaseNotes}" Visibility="{Binding HasReleaseNotes, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
+                                        <TextBlock Text="{Binding ReleaseNotes, Converter={StaticResource ShortTextConverter}, ConverterParameter=100}" ToolTip="{Binding ReleaseNotes}" Visibility="{Binding HasReleaseNotes, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
                                         <TextBlock Text="No Release Notes" Visibility="{Binding HasReleaseNotes, Converter={StaticResource InvertableBooleanToVisibilityConverter}, ConverterParameter=Inverted}" />
                                     </StackPanel>
                                 </Border>

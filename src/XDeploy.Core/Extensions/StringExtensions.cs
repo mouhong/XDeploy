@@ -16,5 +16,15 @@ namespace XDeploy
         {
             return open + str + close;
         }
+
+        public static string Shorten(this string str, int maxchars, string more = "...")
+        {
+            if (String.IsNullOrEmpty(str) || str.Length <= maxchars)
+            {
+                return str;
+            }
+
+            return str.Substring(0, maxchars) + more;
+        }
     }
 }

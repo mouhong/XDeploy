@@ -10,7 +10,12 @@
         <Grid Style="{StaticResource GridPageActionedLayout}">
             <StackPanel Grid.Row="0">
                 <Border Style="{StaticResource TextSection}">
-                    <TextBlock Text="{Binding ReleaseNotes}" />
+                    <ScrollViewer MaxHeight="100">
+                        <StackPanel>
+                            <TextBlock TextWrapping="Wrap" MaxWidth="750" Text="{Binding ReleaseNotes}" Visibility="{Binding HasReleaseNotes, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
+                            <TextBlock Text="No Release Notes" Visibility="{Binding HasReleaseNotes, Converter={StaticResource InvertableBooleanToVisibilityConverter}, ConverterParameter=Inverted}" />
+                        </StackPanel>
+                    </ScrollViewer>
                 </Border>
                 <Border Style="{StaticResource SectionTitle}">
                     <TextBlock>Deployment Targets</TextBlock>

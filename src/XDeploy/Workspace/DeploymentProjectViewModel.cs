@@ -119,7 +119,7 @@ namespace XDeploy.Workspace
             Name = project.Name;
             SourceDirectory = project.SourceDirectory;
             TotalReleases = project.TotalReleases;
-            LastReleaseCreatedAt = project.LastReleaseCreatedAtUtc;
+            LastReleaseCreatedAt = project.LastReleaseCreatedAtUtc == null ? null : (DateTime?)project.LastReleaseCreatedAtUtc.Value.ToLocalTime();
             TotalDeployTargets = project.TotalDeployTargets;
         }
     }

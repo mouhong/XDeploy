@@ -55,10 +55,10 @@ namespace XDeploy.Workspace.Releases
             ActivateItem(listViewModel);
         }
 
-        protected override void OnActivate()
+        protected override void OnViewLoaded(object view)
         {
             ShowReleaseList();
-            base.OnActivate();
+            base.OnViewLoaded(view);
         }
     }
 }

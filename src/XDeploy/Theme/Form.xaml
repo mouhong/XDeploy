@@ -40,7 +40,6 @@
             <Style TargetType="Label">
                 <Setter Property="Width" Value="180" />
                 <Setter Property="FontSize" Value="13" />
-                <Setter Property="FontWeight" Value="Bold" />
                 <Setter Property="HorizontalContentAlignment" Value="Right" />
                 <Setter Property="Margin" Value="0,0,5,5" />
             </Style>

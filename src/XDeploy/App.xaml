@@ -9,6 +9,7 @@
                     <local:AppBootstrapper x:Key="Bootstrapper" />
                     <HasErrorsToBrushConverter x:Key="HasErrorsToBrushConverter" />
                     <InvertableBooleanToVisibilityConverter x:Key="InvertableBooleanToVisibilityConverter" />
+                    <ShortTextConverter x:Key="ShortTextConverter" />
                     <ProcessingStatusToBrushConverter x:Key="ProcessingStatusToBrushConverter" />
                 </ResourceDictionary>
                 <ResourceDictionary Source="Theme/Common.xaml" />

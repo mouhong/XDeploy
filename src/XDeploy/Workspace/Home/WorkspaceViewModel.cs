@@ -97,7 +97,7 @@ namespace XDeploy.Workspace.Home
         {
             if (!String.IsNullOrEmpty(_startupArguments.Path))
             {
-                Caliburn.Micro.Action.Invoke(this, "OpenProject", (DependencyObject)view, parameters: new object[] { _startupArguments.Path });
+                Coroutine.BeginExecute(OpenProject(_startupArguments.Path).GetEnumerator());
             }
             else
             {

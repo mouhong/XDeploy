@@ -38,7 +38,7 @@
                         <TextBlock>
                         <Run Text="{Binding Project.TotalReleases}" />
                         <TextBlock Visibility="{Binding Project.HasRelease, Converter={StaticResource InvertableBooleanToVisibilityConverter}}">
-                            <Run Text="( Last release: " />
+                            <Run Text="( Last released at: " />
                             <Run Text="{Binding Project.LastReleaseCreatedAt}" />
                             <Run Text=" )" />
                         </TextBlock>

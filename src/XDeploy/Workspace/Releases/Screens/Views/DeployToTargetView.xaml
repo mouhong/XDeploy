@@ -8,26 +8,28 @@
     <HeaderedContentControl Header="{Binding DisplayName}" Style="{StaticResource PageBody}">
         <Grid Style="{StaticResource GridPageActionedLayout}">
             <StackPanel Grid.Row="0">
-                <Border Style="{StaticResource TextSection}" Margin="0,-10,0,0">
-                    <StackPanel>
-                        <TextBlock Text="{Binding ReleaseDetail.ReleaseNotes}" Visibility="{Binding RelealseDetail.HasReleaseNotes, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
-                        <TextBlock Text="No Release Notes" Visibility="{Binding ReleaseDetail.HasReleaseNotes, Converter={StaticResource InvertableBooleanToVisibilityConverter}, ConverterParameter=Inverted}" />
-                    </StackPanel>
+                <Border Style="{StaticResource TextSection}">
+                    <ScrollViewer MaxHeight="70">
+                        <StackPanel>
+                            <TextBlock TextWrapping="Wrap" MaxWidth="750" Text="{Binding ReleaseDetail.ReleaseNotes}" ToolTip="{Binding ReleaseDetail.ReleaseNotes}" Visibility="{Binding RelealseDetail.HasReleaseNotes, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
+                            <TextBlock Text="No Release Notes" Visibility="{Binding ReleaseDetail.HasReleaseNotes, Converter={StaticResource InvertableBooleanToVisibilityConverter}, ConverterParameter=Inverted}" />
+                        </StackPanel>
+                    </ScrollViewer>
                 </Border>
                 <Border Style="{StaticResource TextSection}">
                     <StackPanel>
-                        <Border Style="{StaticResource AttrListItem}">
+                        <Border Style="{MultiStyle SmallAttrListItem}">
                             <StackPanel>
                                 <Label Content="Deploy Location:" Width="130" />
-                                <Border Style="{StaticResource AttrListItemValue}">
+                                <Border Style="{MultiStyle SmallAttrListItemValue}">
                                     <TextBlock Text="{Binding DeploymentTarget.DeployLocationUri}" />
                                 </Border>
                             </StackPanel>
                         </Border>
-                        <Border Style="{StaticResource AttrListItem}">
+                        <Border Style="{MultiStyle SmallAttrListItem}">
                             <StackPanel>
                                 <Label Content="Backup Location:" Width="130" />
-                                <Border Style="{StaticResource AttrListItemValue}">
+                                <Border Style="{MultiStyle SmallAttrListItemValue}">
                                     <StackPanel>
                                         <TextBlock Text="{Binding BackupLocationUri}" Visibility="{Binding DeploymentTarget.HasSetBackupLocation, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
                                         <TextBlock Text="Not set" Visibility="{Binding DeploymentTarget.HasSetBackupLocation,Converter={StaticResource InvertableBooleanToVisibilityConverter},ConverterParameter=Inverted}" />

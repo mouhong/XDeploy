@@ -23,10 +23,9 @@
         </Style.Resources>
     </Style>
     <Style x:Key="ListItemTitle" TargetType="TextBlock">
-        <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="16" />
         <Setter Property="Foreground" Value="#333333" />
-        <Setter Property="Margin" Value="0,5" />
+        <Setter Property="Margin" Value="0,2,0,5" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Cursor" Value="Hand" />
@@ -38,7 +37,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <TextBlock x:Name="Text" FontWeight="Bold" FontSize="14" Foreground="#333333" Margin="0,5">
+                    <TextBlock x:Name="Text" FontSize="16" Foreground="#333333" Margin="0,2,0,5">
                         <ContentPresenter />
                     </TextBlock>
                     <ControlTemplate.Triggers>
@@ -53,20 +52,22 @@
     </Style>
     <Style x:Key="ListItemTitleRemark" TargetType="TextBlock">
         <Setter Property="Foreground" Value="Gray" />
-        <Setter Property="FontSize" Value="11" />
-        <Setter Property="Margin" Value="10,7,0,0" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Margin" Value="10,5,0,0" />
     </Style>
     <Style x:Key="ListItemDesc" TargetType="Border">
-        <Setter Property="Padding" Value="5" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="Margin" Value="0,5" />
+        <Setter Property="Background" Value="#F3F3F3" />
+        <Setter Property="CornerRadius" Value="5" />
         <Style.Resources>
             <Style TargetType="TextBlock">
-                <Setter Property="FontStyle" Value="Italic" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+                <Setter Property="MaxWidth" Value="720" />
             </Style>
         </Style.Resources>
     </Style>
     <Style x:Key="ListItemAttr" TargetType="Border">
-        <Setter Property="BorderBrush" Value="#EEEEEE" />
-        <Setter Property="BorderThickness" Value="0,0,0,1" />
         <Style.Resources>
             <Style TargetType="StackPanel">
                 <Setter Property="Orientation" Value="Horizontal" />
@@ -76,14 +77,16 @@
                         <Setter Property="Height" Value="22" />
                         <Setter Property="Margin" Value="0,0,5,0" />
                         <Setter Property="Padding" Value="0,5,0,2" />
+                        <Setter Property="FontSize" Value="12" />
                         <Setter Property="Foreground" Value="#666666" />
-                        <Setter Property="FontSize" Value="11" />
+                        <Setter Property="HorizontalContentAlignment" Value="Right" />
                     </Style>
                     <Style TargetType="TextBlock">
                         <Setter Property="Height" Value="22" />
                         <Setter Property="Margin" Value="0" />
                         <Setter Property="Padding" Value="0,5,0,2" />
-                        <Setter Property="FontSize" Value="11" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="FontFamily" Value="Segoe UI" />
                         <Setter Property="HorizontalAlignment" Value="Left" />
                         <Setter Property="VerticalAlignment" Value="Center" />
                     </Style>
@@ -93,8 +96,7 @@
     </Style>
     <Style x:Key="ListItemFooter" TargetType="Border">
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="5,5,5,0" />
-        <Setter Property="Margin" Value="0,5,0,0" />
+        <Setter Property="Padding" Value="5" />
         <Style.Resources>
             <Style TargetType="StackPanel">
                 <Setter Property="Orientation" Value="Horizontal" />
@@ -117,7 +119,6 @@
                         <Setter Property="Padding" Value="0,10" />
                         <Setter Property="Margin" Value="0,0,10,0" />
                         <Setter Property="FontSize" Value="13" />
-                        <Setter Property="FontWeight" Value="Bold" />
                         <Setter Property="HorizontalContentAlignment" Value="Right" />
                     </Style>
                 </Style.Resources>
@@ -129,10 +130,29 @@
         <Style.Resources>
             <Style TargetType="TextBlock">
                 <Setter Property="FontSize" Value="13" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
             </Style>
         </Style.Resources>
     </Style>
-    
+    <Style x:Key="SmallAttrListItem" TargetType="Border">
+        <Style.Resources>
+            <Style TargetType="StackPanel">
+                <Setter Property="Orientation" Value="Horizontal" />
+                <Style.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="Width" Value="200" />
+                        <Setter Property="Padding" Value="0,5" />
+                        <Setter Property="Margin" Value="0,0,10,0" />
+                        <Setter Property="HorizontalContentAlignment" Value="Right" />
+                    </Style>
+                </Style.Resources>
+            </Style>
+        </Style.Resources>
+    </Style>
+    <Style x:Key="SmallAttrListItemValue" TargetType="Border">
+        <Setter Property="Padding" Value="0,5" />
+    </Style>
+
     <Style x:Key="Grid" TargetType="DataGrid">
         <Setter Property="HorizontalGridLinesBrush" Value="#CCCCCC" />
         <Setter Property="VerticalGridLinesBrush" Value="#CCCCCC" />

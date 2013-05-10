@@ -24,6 +24,13 @@ namespace XDeploy.Changes
             LastUpdatedAtUtc = DateTime.UtcNow;
         }
 
+        public FileChecksum(string virtualPath, string checksum)
+            : this(virtualPath)
+        {
+            Require.NotNullOrEmpty(checksum, "checksum");
+            Checksum = checksum;
+        }
+
         public void UpdateFrom(FileChecksum state)
         {
             Require.NotNull(state, "state");

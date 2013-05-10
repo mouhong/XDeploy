@@ -9,7 +9,7 @@ namespace XDeploy.IO.InMemory
 {
     public class InMemoryFile : IFile
     {
-        public Stream Stream { get; private set; }
+        public byte[] Data { get; set; }
 
         public string Name { get; private set; }
 
@@ -41,7 +41,7 @@ namespace XDeploy.IO.InMemory
         {
             get
             {
-                return Stream != null;
+                return Data != null;
             }
         }
 
@@ -49,29 +49,25 @@ namespace XDeploy.IO.InMemory
         {
             get
             {
-                return Stream.Length;
+                return Data == null ? 0 : Data.Length;
             }
         }
 
         public InMemoryDirectory Directory { get; private set; }
 
-        public InMemoryFile(string fileName, InMemoryDirectory directory, Stream contents = null)
+        public InMemoryFile(string fileName, InMemoryDirectory directory, byte[] data = null)
         {
             Require.NotNullOrEmpty(fileName, "fileName");
             Require.NotNull(directory, "directory");
 
             Name = fileName;
             Directory = directory;
-            Stream = contents;
+            Data = data;
         }
 
         public void Delete()
         {
-            if (Stream != null)
-            {
-                Stream.Dispose();
-                Stream = null;
-            }
+            Data = null;
         }
 
         public IDirectory GetDirectory()
@@ -87,26 +83,28 @@ namespace XDeploy.IO.InMemory
 
         public System.IO.Stream OpenRead()
         {
-            if (Stream == null)
+            if (Data == null)
                 throw new IOException("File not exists.");
 
-            Stream.Position = 0;
-            return Stream;
+            var stream = new MemoryStream();
+            stream.Write(Data, 0, Data.Length);
+            stream.Position = 0;
+
+            return stream;
         }
 
         public System.IO.Stream OpenWrite()
         {
-            EnsureCreated();
-            Stream.Position = 0;
-            return Stream;
+            var stream = new MemoryStream();
+            stream.Write(Data, 0, Data.Length);
+            stream.Position = 0;
+
+            return stream;
         }
 
         public void WriteAllTexts(string text, Encoding encoding)
         {
-            Stream = new MemoryStream();
-            var bytes = encoding.GetBytes(text);
-            Stream.Write(bytes, 0, bytes.Length);
-            Stream.Position = 0;
+            Data = encoding.GetBytes(text);
         }
 
         public void Rename(string newFileName)
@@ -118,12 +116,9 @@ namespace XDeploy.IO.InMemory
         {
         }
 
-        private void EnsureCreated()
+        public override string ToString()
         {
-            if (Stream == null)
-            {
-                Stream = new MemoryStream();
-            }
+            return Uri;
         }
     }
 }

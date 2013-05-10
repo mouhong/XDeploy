@@ -37,18 +37,18 @@ namespace XDeploy.Core.Tests.IO.InMemory
         public class TheDeleteMethod
         {
             [Fact]
-            public void WillClearStreamAndMakeExistsPropertyToReturnFalse()
+            public void WillClearFileContentAndMakeExistsPropertyToReturnFalse()
             {
                 var directory = new InMemoryDirectory("/Root", "D:\\Root", null);
                 var file = new InMemoryFile("file1.txt", directory);
                 file.WriteAllTexts("Hello", Encoding.UTF8);
 
-                Assert.NotNull(file.Stream);
+                Assert.NotNull(file.Data);
                 Assert.True(file.Exists);
 
                 file.Delete();
 
-                Assert.Null(file.Stream);
+                Assert.Null(file.Data);
                 Assert.False(file.Exists);
             }
         }

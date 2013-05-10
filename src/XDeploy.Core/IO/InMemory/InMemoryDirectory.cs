@@ -78,13 +78,13 @@ namespace XDeploy.IO.InMemory
             stream.Write(bytes, 0, bytes.Length);
             stream.Position = 0;
 
-            return CreateFile(fileName, stream);
+            return CreateFile(fileName, encoding.GetBytes(contents));
         }
 
-        public InMemoryFile CreateFile(string fileName, Stream contents)
+        public InMemoryFile CreateFile(string fileName, byte[] data)
         {
             Create();
-            var file = new InMemoryFile(fileName, this, contents);
+            var file = new InMemoryFile(fileName, this, data);
             _fileSystemInfos.Add(file);
             return file;
         }
@@ -152,6 +152,11 @@ namespace XDeploy.IO.InMemory
 
         public void Dispose()
         {
+        }
+
+        public override string ToString()
+        {
+            return Uri;
         }
     }
 }

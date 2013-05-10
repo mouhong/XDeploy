@@ -42,6 +42,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Changes\FileChangeCollectorFacts.cs" />
     <Compile Include="ChecksumComputerFacts.cs" />
     <Compile Include="IO\FileOverwritterFacts.cs" />
     <Compile Include="IO\InMemory\InMemoryDirectoryFacts.cs" />

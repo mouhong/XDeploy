@@ -137,6 +137,11 @@ namespace XDeploy.IO.Ftp
             FtpClient.Dispose();
         }
 
+        public override string ToString()
+        {
+            return Uri;
+        }
+
         class FtpDirectoryCache
         {
             public bool Exists = false;

@@ -142,6 +142,11 @@ namespace XDeploy.IO.Ftp
             _cache = cache;
         }
 
+        public override string ToString()
+        {
+            return Uri;
+        }
+
         private void EnsureConnected()
         {
             if (!FtpClient.IsConnected)

@@ -30,6 +30,18 @@ namespace XDeploy
             }
         }
 
+        public static string Compute(string input, Encoding encoding)
+        {
+            using (var stream = new MemoryStream())
+            {
+                var bytes = encoding.GetBytes(input);
+                stream.Write(bytes, 0, bytes.Length);
+                stream.Position = 0;
+
+                return Compute(stream);
+            }
+        }
+
         public static string Compute(Stream stream)
         {
             Require.NotNull(stream, "stream");

@@ -12,22 +12,24 @@ namespace XDeploy.Changes
 
         public IEnumerable<AbstractIgnorantRule> IgnorantRules { get; private set; }
 
-        public IEnumerable<FileChecksum> CurrentFileStates { get; private set; }
+        public IEnumerable<FileChecksum> CurrentFileChecksums { get; private set; }
 
         public FileChangeCollectionContext(
             IDirectory sourceDirectory,
-            IEnumerable<FileChecksum> currentFileStates,
+            IEnumerable<FileChecksum> currentFileChecksums,
             IEnumerable<AbstractIgnorantRule> ignorantRules)
         {
+            Require.NotNull(sourceDirectory, "sourceDirectory");
+
             SourceDirectory = sourceDirectory;
-            CurrentFileStates = currentFileStates;
-            IgnorantRules = ignorantRules;
+            CurrentFileChecksums = currentFileChecksums ?? Enumerable.Empty<FileChecksum>();
+            IgnorantRules = ignorantRules ?? Enumerable.Empty<AbstractIgnorantRule>();
         }
 
         public FileChecksum GetCurrentFileChecksum(string fileVirtualPath)
         {
             Require.NotNullOrEmpty(fileVirtualPath, "fileVirtualPath");
-            return CurrentFileStates.FirstOrDefault(x => x.VirtualPath.Equals(fileVirtualPath, StringComparison.OrdinalIgnoreCase));
+            return CurrentFileChecksums.FirstOrDefault(x => x.VirtualPath.Equals(fileVirtualPath, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

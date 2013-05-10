@@ -124,5 +124,10 @@ namespace XDeploy.IO.Local
         public void Dispose()
         {
         }
+
+        public override string ToString()
+        {
+            return Uri;
+        }
     }
 }

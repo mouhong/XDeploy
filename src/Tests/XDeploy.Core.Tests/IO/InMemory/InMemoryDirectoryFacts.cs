@@ -55,8 +55,7 @@ namespace XDeploy.Core.Tests.IO.InMemory
                 Assert.Equal("/Root/myfile.txt", file.VirtualPath);
                 Assert.Equal("D:\\Root\\myfile.txt", file.Uri);
 
-                var reader = new StreamReader(file.Stream, Encoding.UTF8);
-                Assert.Equal("Hello", reader.ReadToEnd());
+                Assert.Equal("Hello", Encoding.UTF8.GetString(file.Data));
             }
         }
 

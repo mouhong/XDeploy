@@ -96,5 +96,10 @@ namespace XDeploy.IO.Local
             Require.NotNullOrEmpty(newFileName, "newFileName");
             WrappedFile.MoveTo(Path.Combine(Path.GetDirectoryName(Uri), newFileName));
         }
+
+        public override string ToString()
+        {
+            return Uri;
+        }
     }
 }

@@ -27,6 +27,14 @@ namespace XDeploy.IO.Ftp
 
         public LazyFtpClient FtpClient { get; private set; }
 
+        public string Name
+        {
+            get
+            {
+                return Path.GetFileName(VirtualPath);
+            }
+        }
+
         public string VirtualPath { get; private set; }
 
         public string Uri { get; private set; }
@@ -46,6 +54,14 @@ namespace XDeploy.IO.Ftp
             get
             {
                 return Cache.Exists;
+            }
+        }
+
+        public string Extension
+        {
+            get
+            {
+                return Path.GetExtension(VirtualPath);
             }
         }
 
@@ -72,6 +88,21 @@ namespace XDeploy.IO.Ftp
         {
             var fullVirtualPath = VirtualPathUtil.Combine(VirtualPath, relativeVirtualPath);
             return new FtpDirectory(fullVirtualPath, new Uri(VirtualPathUtil.Combine(Uri, relativeVirtualPath)), FtpClient);
+        }
+
+        public IEnumerable<IFile> GetFiles()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IDirectory> GetDirectories()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IFileSystemInfo> GetFileSystemInfos()
+        {
+            throw new NotImplementedException();
         }
 
         public void Create()

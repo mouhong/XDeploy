@@ -7,22 +7,20 @@ using System.Text;
 
 namespace XDeploy.IO
 {
-    public interface IDirectory : IDisposable
+    public interface IDirectory : IFileSystemInfo, IDisposable
     {
-        string Uri { get; }
-
-        string VirtualPath { get; }
-
-        bool Exists { get; }
-
         bool IsRoot { get; }
-
-        void Refresh();
 
         void Create();
 
         IFile GetFile(string relativeVirtualPath);
 
         IDirectory GetDirectory(string relativeVirtualPath);
+
+        IEnumerable<IFile> GetFiles();
+
+        IEnumerable<IDirectory> GetDirectories();
+
+        IEnumerable<IFileSystemInfo> GetFileSystemInfos();
     }
 }

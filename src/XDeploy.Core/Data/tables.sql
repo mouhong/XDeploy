@@ -55,6 +55,15 @@ create table DeploymentLog
 	constraint FK_DeployLog_ReleaseId foreign key (ReleaseId) references Release(Id) on delete cascade
 );
 
+create table FileChecksum
+(
+	VirtualPath nvarchar(300) not null,
+	[Checksum] varchar(32) not null,
+	LastUpdatedAtUtc datetime not null,
+
+	constraint PK_FileState primary key (VirtualPath)
+);
+
 insert into HiValue values ('DeploymentTarget', 0);
 insert into HiValue values ('Release', 0);
 insert into HiValue values ('DeploymentLog', 0);

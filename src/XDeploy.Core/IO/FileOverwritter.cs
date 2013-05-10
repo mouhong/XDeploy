@@ -10,19 +10,22 @@ namespace XDeploy.IO
         public static readonly string TempFileExtension = ".xdtemp";
 
         /// <summary>
-        /// Overwrite the content of 'oldFile' with that of 'newFile'.
+        /// Overwrite 'destFile' with 'srcFile'.
         /// </summary>
-        public static void Overwrite(IFile oldFile, IFile newFile)
+        public static void Overwrite(IFile destFile, IFile srcFile)
         {
-            var tempFile = CreateTempFile(oldFile, newFile);
-            oldFile.Delete();
-            tempFile.Rename(oldFile.Name);
+            Require.NotNull(destFile, "destFile");
+            Require.NotNull(srcFile, "srcFile");
+
+            var tempFile = CreateTempFile(destFile, srcFile);
+            destFile.Delete();
+            tempFile.Rename(destFile.Name);
         }
 
-        static IFile CreateTempFile(IFile oldFile, IFile newFile)
+        static IFile CreateTempFile(IFile destFile, IFile srcFile)
         {
-            var directory = oldFile.GetDirectory();
-            var tempFile = directory.GetFile(oldFile.Name + TempFileExtension);
+            var directory = destFile.GetDirectory();
+            var tempFile = directory.GetFile(destFile.Name + TempFileExtension);
 
             if (tempFile.Exists)
             {
@@ -30,7 +33,7 @@ namespace XDeploy.IO
             }
 
             using (var tempFileStream = tempFile.OpenWrite())
-            using (var newFileStream = newFile.OpenRead())
+            using (var newFileStream = srcFile.OpenRead())
             {
                 newFileStream.WriteTo(tempFileStream);
             }

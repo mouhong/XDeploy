@@ -61,8 +61,12 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BackupFolderNameTemplateModel.cs" />
+    <Compile Include="Changes\FileChange.cs" />
+    <Compile Include="Changes\FileChangeCollectionContext.cs" />
+    <Compile Include="Changes\FileChangeCollector.cs" />
     <Compile Include="Data\Mapping\DeploymentLogMap.cs" />
     <Compile Include="Data\Mapping\DeploymentTargetMap.cs" />
+    <Compile Include="Data\Mapping\FileChecksumMap.cs" />
     <Compile Include="Data\Mapping\ReleaseMap.cs" />
     <Compile Include="Data\Mapping\UserTypes\Blobbed.cs" />
     <Compile Include="Data\Database.cs" />
@@ -73,8 +77,11 @@
     <Compile Include="Extensions\QueryableExtensions.cs" />
     <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="ChecksumComputer.cs" />
+    <Compile Include="Changes\FileChecksum.cs" />
     <Compile Include="IO\FileOverwritter.cs" />
     <Compile Include="IIgnorantRulesTemplate.cs" />
+    <Compile Include="IO\IFileSystemInfo.cs" />
     <Compile Include="PagedQueryable.cs" />
     <Compile Include="Paths.cs" />
     <Compile Include="ProcessingStatus.cs" />
@@ -83,13 +90,9 @@
     <Compile Include="IgnorantRuleFactory.cs" />
     <Compile Include="PathIgnorantRule.cs" />
     <Compile Include="ReleaseDeploymentInfo.cs" />
-    <Compile Include="DeploymentManifest.cs" />
-    <Compile Include="DeploymentManifestBuilder.cs" />
-    <Compile Include="DeploymentSettings.cs" />
     <Compile Include="DeploymentProject.cs" />
     <Compile Include="Location.cs" />
-    <Compile Include="ReleasePackageBuilder.cs" />
-    <Compile Include="ReleaseCreator.cs" />
+    <Compile Include="ReleaseBuilder.cs" />
     <Compile Include="Safely.cs" />
     <Compile Include="IO\Directories.cs" />
     <Compile Include="IO\Local\LocalFile.cs" />

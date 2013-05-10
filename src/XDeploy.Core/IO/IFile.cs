@@ -7,21 +7,11 @@ using System.Text;
 
 namespace XDeploy.IO
 {
-    public interface IFile
+    public interface IFile : IFileSystemInfo
     {
-        string Name { get; }
-
-        string Uri { get; }
-
-        string VirtualPath { get; }
-
-        bool Exists { get; }
-
         long Length { get; }
 
         void Delete();
-
-        void Refresh();
 
         IDirectory GetDirectory();
 

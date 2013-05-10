@@ -125,8 +125,8 @@ namespace XDeploy.Workspace.Releases.Screens
                 yield return new AsyncActionResult(context =>
                 {
                     var workContext = _workContextAccessor.GetCurrentWorkContext();
-                    var creator = new ReleaseCreator(workContext.WorkContext);
-                    creator.CreateRelease(ReleaseName, ReleaseNotes);
+                    var creator = new ReleaseBuilder(workContext.WorkContext);
+                    creator.BuildRelease(ReleaseName, ReleaseNotes);
                 });
 
                 Shell.Busy.Hide();

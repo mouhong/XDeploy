@@ -355,13 +355,13 @@ namespace XDeploy.Workspace.Releases.Screens
 
                     if (sourceFile.Exists)
                     {
-                        var backupFile = backupDirectory.GetFile(file.VirtualPath);
+                        var destFile = backupDirectory.GetFile(file.VirtualPath);
 
                         file.BackupStatus = ProcessingStatus.InProgress;
 
                         try
                         {
-                            FileOverwritter.Overwrite(backupFile, sourceFile);
+                            FileOverwritter.Overwrite(destFile, sourceFile);
                             file.BackupStatus = ProcessingStatus.Succeeded;
                         }
                         catch (Exception ex)
@@ -398,13 +398,13 @@ namespace XDeploy.Workspace.Releases.Screens
             foreach (var file in files)
             {
                 var sourceFile = sourceDirectory.GetFile(file.VirtualPath);
-                var targetFile = deployDirectory.GetFile(file.VirtualPath);
+                var destFile = deployDirectory.GetFile(file.VirtualPath);
 
                 file.DeployStatus = ProcessingStatus.InProgress;
 
                 try
                 {
-                    FileOverwritter.Overwrite(targetFile, sourceFile);
+                    FileOverwritter.Overwrite(destFile, sourceFile);
                     file.DeployStatus = ProcessingStatus.Succeeded;
                 }
                 catch (Exception ex)

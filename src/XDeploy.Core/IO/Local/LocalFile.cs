@@ -37,6 +37,14 @@ namespace XDeploy.IO.Local
             }
         }
 
+        public string Extension
+        {
+            get
+            {
+                return WrappedFile.Extension;
+            }
+        }
+
         public long Length
         {
             get

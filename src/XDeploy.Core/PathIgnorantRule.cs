@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using XDeploy.Changes;
+using XDeploy.IO;
 
 namespace XDeploy
 {
@@ -30,11 +32,7 @@ namespace XDeploy
             }
         }
 
-        public PathIgnorantRule()
-        {
-        }
-
-        public override bool ShouldIgnore(FileSystemInfo info, DirectoryInfo rootDirectory)
+        public override bool ShouldIgnore(IFileSystemInfo info, FileChangeCollectionContext context)
         {
             if (_ignoredPathList == null || _ignoredPathList.Count == 0)
             {
@@ -52,15 +50,7 @@ namespace XDeploy
                 }
                 else if (path.StartsWith("/"))
                 {
-                    var filePath = info.FullName.Substring(rootDirectory.FullName.Length).Replace('\\', '/');
-                    if (!filePath.StartsWith("/"))
-                    {
-                        filePath = "/" + filePath;
-                    }
-
-                    filePath.TrimEnd('/');
-
-                    if (path.TrimEnd('/').Equals(filePath, StringComparison.OrdinalIgnoreCase))
+                    if (path.TrimEnd('/').Equals(info.VirtualPath, StringComparison.OrdinalIgnoreCase))
                     {
                         return true;
                     }

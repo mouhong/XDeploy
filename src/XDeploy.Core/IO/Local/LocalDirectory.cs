@@ -12,6 +12,14 @@ namespace XDeploy.IO.Local
     {
         public DirectoryInfo WrappedDirectory { get; private set; }
 
+        public string Name
+        {
+            get
+            {
+                return WrappedDirectory.Name;
+            }
+        }
+
         public string Uri
         {
             get
@@ -21,6 +29,14 @@ namespace XDeploy.IO.Local
         }
 
         public string VirtualPath { get; private set; }
+
+        public string Extension
+        {
+            get
+            {
+                return WrappedDirectory.Extension;
+            }
+        }
 
         public bool IsRoot
         {
@@ -47,6 +63,37 @@ namespace XDeploy.IO.Local
         public IDirectory GetDirectory(string relativeVirtualPath)
         {
             return new LocalDirectory(GetFullVirtualPath(relativeVirtualPath), new DirectoryInfo(GetPhysicalPath(relativeVirtualPath)));
+        }
+
+        public IEnumerable<IFile> GetFiles()
+        {
+            foreach (var file in WrappedDirectory.EnumerateFiles())
+            {
+                yield return new LocalFile(GetFullVirtualPath(file.Name), file);
+            }
+        }
+
+        public IEnumerable<IDirectory> GetDirectories()
+        {
+            foreach (var dir in WrappedDirectory.EnumerateDirectories())
+            {
+                yield return new LocalDirectory(GetFullVirtualPath(dir.Name), dir);
+            }
+        }
+
+        public IEnumerable<IFileSystemInfo> GetFileSystemInfos()
+        {
+            foreach (var each in WrappedDirectory.GetFileSystemInfos())
+            {
+                if (each is FileInfo)
+                {
+                    yield return new LocalFile(GetFullVirtualPath(each.Name), (FileInfo)each);
+                }
+                else
+                {
+                    yield return new LocalDirectory(GetFullVirtualPath(each.Name), (DirectoryInfo)each);
+                }
+            }
         }
 
         public void Create()

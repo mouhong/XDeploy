@@ -51,6 +51,14 @@ namespace XDeploy.IO.Ftp
             }
         }
 
+        public string Extension
+        {
+            get
+            {
+                return Path.GetExtension(VirtualPath);
+            }
+        }
+
         public FtpFile(string virtualPath, Uri uri, NetworkCredential credential)
             : this(virtualPath, uri, new LazyFtpClient(uri.Host, credential, uri.Port))
         {

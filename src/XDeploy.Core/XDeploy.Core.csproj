@@ -82,6 +82,8 @@
     <Compile Include="IO\FileOverwritter.cs" />
     <Compile Include="IIgnorantRulesTemplate.cs" />
     <Compile Include="IO\IFileSystemInfo.cs" />
+    <Compile Include="IO\InMemory\InMemoryDirectory.cs" />
+    <Compile Include="IO\InMemory\InMemoryFile.cs" />
     <Compile Include="PagedQueryable.cs" />
     <Compile Include="Paths.cs" />
     <Compile Include="ProcessingStatus.cs" />

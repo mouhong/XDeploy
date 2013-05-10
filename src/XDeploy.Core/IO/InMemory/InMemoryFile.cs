@@ -93,7 +93,7 @@ namespace XDeploy.IO.InMemory
             return stream;
         }
 
-        public System.IO.Stream OpenWrite()
+        public System.IO.Stream CreateOrOpenWrite()
         {
             var stream = new MemoryStream();
             stream.Write(Data, 0, Data.Length);

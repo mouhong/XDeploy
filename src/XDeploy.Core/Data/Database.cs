@@ -128,6 +128,8 @@ namespace XDeploy.Data
 
         public static void InitializeDatabase(string dbFilePath)
         {
+            Require.NotNullOrEmpty(dbFilePath, "dbFilePath");
+
             if (File.Exists(dbFilePath))
             {
                 return;

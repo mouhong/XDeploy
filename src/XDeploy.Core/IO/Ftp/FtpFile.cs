@@ -84,7 +84,7 @@ namespace XDeploy.IO.Ftp
             directory.Create();
             return directory;
         }
-
+        
         public void Delete()
         {
             if (Exists)
@@ -104,7 +104,7 @@ namespace XDeploy.IO.Ftp
             return FtpClient.OpenRead(AbsolutePathInFtp);
         }
 
-        public Stream OpenWrite()
+        public Stream CreateOrOpenWrite()
         {
             EnsureConnected();
             return FtpClient.OpenWrite(AbsolutePathInFtp);

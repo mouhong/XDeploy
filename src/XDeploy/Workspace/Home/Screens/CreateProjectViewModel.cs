@@ -74,14 +74,14 @@ namespace XDeploy.Workspace.Home.Screens
             }
         }
 
-        private string _savingDirectory;
+        private string _savingLocation;
 
         [Required]
-        public string SavingDirectory
+        public string SavingLocation
         {
             get
             {
-                return _savingDirectory;
+                return _savingLocation;
             }
             set
             {
@@ -90,10 +90,10 @@ namespace XDeploy.Workspace.Home.Screens
                     value = value.Trim();
                 }
 
-                if (_savingDirectory != value)
+                if (_savingLocation != value)
                 {
-                    _savingDirectory = value;
-                    NotifyOfPropertyChange(() => SavingDirectory);
+                    _savingLocation = value;
+                    NotifyOfPropertyChange(() => SavingLocation);
                     NotifyOfPropertyChange(() => CanCreate);
                 }
             }
@@ -140,7 +140,15 @@ namespace XDeploy.Workspace.Home.Screens
 
         public IEnumerable<IResult> Create()
         {
-            var projectFilePath = Path.Combine(SavingDirectory, ProjectName.Trim() + ".xd");
+            var projectDirectory = new DirectoryInfo(Path.Combine(SavingLocation, ProjectName.Trim()));
+
+            if (projectDirectory.Exists && projectDirectory.EnumerateFileSystemInfos().Any())
+            {
+                Shell.MessageBox.Error("This project cannot be created because the folder \"" + projectDirectory.FullName + "\" already exists and is not empty.");
+                yield break;
+            }
+
+            var projectFilePath = Path.Combine(projectDirectory.FullName, ProjectName.Trim() + ".xd");
 
             Shell.Busy.Show("Creating project...");
 
@@ -161,8 +169,7 @@ namespace XDeploy.Workspace.Home.Screens
                 }
 
                 project.Save(projectFilePath);
-
-                Database.InitializeDatabase(Paths.DbFile(SavingDirectory));
+                project.InitializeDatabase();
             });
 
             foreach (var result in Workspace.OpenProject(projectFilePath))
@@ -189,24 +196,10 @@ namespace XDeploy.Workspace.Home.Screens
             }
         }
 
-        public void BrowseSavingDirectory()
+        public void BrowseSavingLocation()
         {
             using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
-            {               
-                var defaultPath = Path.Combine(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory), "Projects");
-
-                if (!String.IsNullOrWhiteSpace(ProjectName))
-                {
-                    defaultPath = Path.Combine(defaultPath, ProjectName.Trim());
-                }
-
-                if (!Directory.Exists(defaultPath))
-                {
-                    Directory.CreateDirectory(defaultPath);
-                }
-
-                dialog.SelectedPath = defaultPath;
-
+            {
                 while (true)
                 {
                     var result = dialog.ShowDialog();
@@ -216,17 +209,8 @@ namespace XDeploy.Workspace.Home.Screens
                         break;
                     }
 
-                    var path = dialog.SelectedPath;
-
-                    if (!Directory.EnumerateFileSystemEntries(path).Any())
-                    {
-                        SavingDirectory = path;
-                        break;
-                    }
-                    else
-                    {
-                        Shell.MessageBox.Error("Please select an empty folder", null);
-                    }
+                    SavingLocation = dialog.SelectedPath;
+                    break;
                 };
             }
         }

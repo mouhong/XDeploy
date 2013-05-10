@@ -26,7 +26,7 @@ namespace XDeploy
 
             var project = _workContext.Project;
 
-            if (ignorantRules != null)
+            if (ignorantRules == null)
             {
                 ignorantRules = project.IgnorantRules;
             }

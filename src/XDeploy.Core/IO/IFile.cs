@@ -19,7 +19,7 @@ namespace XDeploy.IO
 
         Stream OpenRead();
 
-        Stream OpenWrite();
+        Stream CreateOrOpenWrite();
 
         void Rename(string newFileName);
     }

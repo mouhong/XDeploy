@@ -31,7 +31,7 @@ namespace XDeploy.Changes
             Checksum = checksum;
         }
 
-        public void UpdateFrom(FileChecksum state)
+        public virtual void UpdateFrom(FileChecksum state)
         {
             Require.NotNull(state, "state");
             Checksum = state.Checksum;

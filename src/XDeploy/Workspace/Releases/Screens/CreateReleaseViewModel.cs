@@ -49,7 +49,16 @@ namespace XDeploy.Workspace.Releases.Screens
                 {
                     _releaseName = value;
                     NotifyOfPropertyChange(() => ReleaseName);
-                    ReleaseDirectory = Paths.Release(ProjectDirectory, ReleaseName ?? String.Empty);
+
+                    if (!String.IsNullOrWhiteSpace(ReleaseName))
+                    {
+                        ReleaseDirectory = Paths.Release(ProjectDirectory, ReleaseName);
+                    }
+                    else
+                    {
+                        ReleaseDirectory = Paths.Releases(ProjectDirectory);
+                    }
+
                     NotifyOfPropertyChange(() => CanCreate);
                 }
             }
@@ -111,7 +120,7 @@ namespace XDeploy.Workspace.Releases.Screens
             var workContext = _workContextAccessor.GetCurrentWorkContext();
             ProjectDirectory = workContext.ProjectDirectory;
             SourceDirectory = workContext.Project.SourceDirectory;
-            ReleaseDirectory = Paths.Release(ProjectDirectory, String.Empty);
+            ReleaseDirectory = Paths.Releases(ProjectDirectory);
         }
         
         public IEnumerable<IResult> Create()

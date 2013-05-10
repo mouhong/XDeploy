@@ -32,7 +32,7 @@ namespace XDeploy.IO
                 tempFile.Delete();
             }
 
-            using (var tempFileStream = tempFile.OpenWrite())
+            using (var tempFileStream = tempFile.CreateOrOpenWrite())
             using (var newFileStream = srcFile.OpenRead())
             {
                 newFileStream.WriteTo(tempFileStream);

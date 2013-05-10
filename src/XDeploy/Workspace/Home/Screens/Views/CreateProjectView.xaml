@@ -16,10 +16,10 @@
                 <TextBox x:Name="ProjectName" />
             </StackPanel>
             <StackPanel Style="{StaticResource FormField}">
-                <Label Content="Saving Directory:" />
-                <TextBox x:Name="SavingDirectory" Width="400" />
+                <Label Content="Saving Location:" />
+                <TextBox x:Name="SavingLocation" Width="400" />
                 <TextBlock Text=" " />
-                <Button x:Name="BrowseSavingDirectory" Content="Browse..." />
+                <Button x:Name="BrowseSavingLocation" Content="Browse..." />
             </StackPanel>
             <Border Style="{StaticResource SectionTitle}">
                 <TextBlock>Deployment Settings</TextBlock>

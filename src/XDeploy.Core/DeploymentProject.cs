@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using XDeploy.Data;
 using XDeploy.IO;
 
 namespace XDeploy
@@ -27,6 +28,15 @@ namespace XDeploy
             }
         }
 
+        [XmlIgnore]
+        public string DbFilePath
+        {
+            get
+            {
+                return Paths.DbFile(ProjectDirectory);
+            }
+        }
+
         public DateTime? LastReleaseCreatedAtUtc { get; set; }
 
         public int TotalReleases { get; set; }
@@ -39,6 +49,11 @@ namespace XDeploy
         public DeploymentProject()
         {
             IgnorantRules = new List<AbstractIgnorantRule>();
+        }
+
+        public void InitializeDatabase()
+        {
+            Database.InitializeDatabase(DbFilePath);
         }
 
         public void Save()
@@ -61,6 +76,8 @@ namespace XDeploy
             {
                 Save(writer);
             }
+
+            Path = path;
         }
 
         private void Save(TextWriter writer)

@@ -67,7 +67,11 @@ namespace XDeploy.IO.Local
         public IDirectory CreateDirectory()
         {
             var directory = GetDirectory();
-            directory.Create();
+            if (!directory.Exists)
+            {
+                directory.Create();
+            }
+
             return directory;
         }
 
@@ -86,8 +90,14 @@ namespace XDeploy.IO.Local
             return WrappedFile.OpenRead();
         }
 
-        public Stream OpenWrite()
+        public Stream CreateOrOpenWrite()
         {
+            if (!WrappedFile.Exists)
+            {
+                CreateDirectory();
+                return WrappedFile.Create();
+            }
+
             return WrappedFile.OpenWrite();
         }
 

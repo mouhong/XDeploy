@@ -32,7 +32,7 @@ namespace XDeploy.IO.Ftp
         public string VirtualPath { get; private set; }
 
         public string AbsolutePathInFtp { get; private set; }
-        
+
         public LazyFtpClient FtpClient { get; private set; }
 
         public bool Exists
@@ -81,10 +81,14 @@ namespace XDeploy.IO.Ftp
         public IDirectory CreateDirectory()
         {
             var directory = GetDirectory();
-            directory.Create();
+            if (!directory.Exists)
+            {
+                directory.Create();
+            }
+
             return directory;
         }
-        
+
         public void Delete()
         {
             if (Exists)
@@ -107,6 +111,7 @@ namespace XDeploy.IO.Ftp
         public Stream CreateOrOpenWrite()
         {
             EnsureConnected();
+            CreateDirectory();
             return FtpClient.OpenWrite(AbsolutePathInFtp);
         }
 

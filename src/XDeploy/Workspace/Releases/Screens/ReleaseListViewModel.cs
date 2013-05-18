@@ -93,7 +93,7 @@ namespace XDeploy.Workspace.Releases.Screens
             _createReleaseViewModel = createReleaseViewModelFactory;
             _releaseDetailViewModel = releaseDetailViewModelFactory;
             ReleasesInThisPage = new BindableCollection<ReleaseListItemViewModel>();
-            Pager = new PagerViewModel(6);
+            Pager = new PagerViewModel(5);
             Pager.PageIndexChanged += Pager_PageIndexChanged;
         }
 
@@ -133,11 +133,11 @@ namespace XDeploy.Workspace.Releases.Screens
                 using (var session = workContext.OpenSession())
                 {
                     var releases = session.Query<Release>()
-                                          .OrderByDescending(x => x.Id)
+                                          .OrderByDescending(x => x.CreatedAtUtc)
                                           .Paging(Pager.PageSize);
 
                     ReleasesInThisPage = new BindableCollection<ReleaseListItemViewModel>(
-                        releases.Page(pageIndex).Select(x => new ReleaseListItemViewModel(x)));
+                        releases.Page(pageIndex).ToList().Select(x => new ReleaseListItemViewModel(x)));
                     Pager.Bind(releases, pageIndex);
 
                     NotifyOfPropertyChange(() => ReleasesInThisPage);

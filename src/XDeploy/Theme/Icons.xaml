@@ -7,4 +7,7 @@
     <Style x:Key="IconError" TargetType="Image" BasedOn="{StaticResource IconBase}">
         <Setter Property="Source" Value="pack://application:,,,/Resources/Images/error.png" />
     </Style>
+    <Style x:Key="IconSuccess" TargetType="Image" BasedOn="{StaticResource IconBase}">
+        <Setter Property="Source" Value="pack://application:,,,/Resources/Images/success.png" />
+    </Style>
 </ResourceDictionary>

@@ -95,7 +95,40 @@ namespace XDeploy.Workspace.Releases.Screens
                 {
                     _isDeployed = value;
                     NotifyOfPropertyChange(() => IsDeployed);
+                    NotifyOfPropertyChange(() => DeployedTooltip);
                 }
+            }
+        }
+
+        private DateTime? _deployedAt;
+
+        public DateTime? DeployedAt
+        {
+            get
+            {
+                return _deployedAt;
+            }
+            set
+            {
+                if (_deployedAt != value)
+                {
+                    _deployedAt = value;
+                    NotifyOfPropertyChange(() => DeployedAt);
+                    NotifyOfPropertyChange(() => DeployedTooltip);
+                }
+            }
+        }
+
+        public string DeployedTooltip
+        {
+            get
+            {
+                if (IsDeployed)
+                {
+                    return "Deployed at " + DeployedAt;
+                }
+
+                return null;
             }
         }
 
@@ -131,23 +164,6 @@ namespace XDeploy.Workspace.Releases.Screens
                 {
                     _backupFolderNameTemplate = value;
                     NotifyOfPropertyChange(() => BackupFolderNameTemplate);
-                }
-            }
-        }
-
-        private DateTime? _deployedAt;
-
-        public DateTime? DeployedAt
-        {
-            get
-            {
-                return _deployedAt;
-            }
-            set
-            {
-                if (_deployedAt != value)
-                {
-                    _deployedAt = value;
                 }
             }
         }

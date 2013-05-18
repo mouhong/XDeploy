@@ -28,6 +28,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding TargetName}" Style="{StaticResource ListItemTitle}" />
                                         <TextBlock Text="{Binding DeployLocationUri}" Style="{StaticResource ListItemTitleRemark}" />
+                                        <Image Style="{StaticResource IconSuccess}" Margin="5,0,0,0" ToolTip="{Binding DeployedTooltip}"  Visibility="{Binding IsDeployed, Converter={StaticResource InvertableBooleanToVisibilityConverter}}" />
                                     </StackPanel>
                                 </Border>
                                 <Border Style="{StaticResource ListItemFooter}">

@@ -25,7 +25,8 @@
                                             <ColumnDefinition Width="150" />
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                            <Button cal:Message.Attach="[Event Click] = [Action ShowDetail($dataContext)]" Content="{Binding ItemTitle}" Style="{StaticResource ListItemLinkTitle}" />
+                                            <Image Style="{StaticResource IconPackage}" />
+                                            <Button Margin="5,0,0,0" cal:Message.Attach="ShowDetail($dataContext)" Content="{Binding ItemTitle}" Style="{StaticResource ListItemLinkTitle}" />
                                         </StackPanel>
                                         <TextBlock Grid.Column="1" Text="{Binding CreatedAt}" HorizontalAlignment="Right" />
                                     </Grid>

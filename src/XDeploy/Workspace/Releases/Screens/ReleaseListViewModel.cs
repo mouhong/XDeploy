@@ -147,28 +147,11 @@ namespace XDeploy.Workspace.Releases.Screens
             Shell.Busy.Hide();
         }
 
-        public IEnumerable<IResult> ShowDetail(ReleaseListItemViewModel item)
+        public void ShowDetail(ReleaseListItemViewModel item)
         {
-            Shell.Busy.Loading();
-
-            yield return new AsyncActionResult(context =>
-            {
-                var workContext = _workContextAccessor.GetCurrentWorkContext();
-
-                using (var session = workContext.OpenSession())
-                {
-                    var release = session.Get<Release>(item.Id);
-                    var targets = session.Query<DeploymentTarget>()
-                                         .OrderBy(x => x.Id)
-                                         .ToList();
-
-                    var detailViewModel = _releaseDetailViewModel();
-                    detailViewModel.UpdateFrom(release, targets);
-                    Workspace.ActivateItem(detailViewModel);
-                }
-            });
-
-            Shell.Busy.Hide();
+            var detailViewModel = _releaseDetailViewModel();
+            detailViewModel.ReleaseId = item.Id;
+            Workspace.ActivateItem(detailViewModel);
         }
     }
 }

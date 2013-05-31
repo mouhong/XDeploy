@@ -33,7 +33,7 @@
                                 </Border>
                                 <Border Style="{StaticResource ListItemFooter}">
                                     <StackPanel>
-                                        <Button cal:Message.Attach="[Event Click] = [Action Deploy($dataContext)]" Content="Deploy to This Target..." Style="{MultiStyle Btn BtnPrimary BtnListItemAction}" />
+                                        <Button cal:Message.Attach="[Event Click] = [Action Deploy($dataContext)]" Content="Deploy..." Style="{MultiStyle Btn BtnListItemAction}" />
                                     </StackPanel>
                                 </Border>
                             </StackPanel>

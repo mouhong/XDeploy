@@ -316,6 +316,8 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Images\package.png" />
+    <Resource Include="Resources\Images\delete.png" />
     <Resource Include="Resources\Images\success.png" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>

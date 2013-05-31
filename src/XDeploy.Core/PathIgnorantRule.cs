@@ -32,6 +32,18 @@ namespace XDeploy
             }
         }
 
+        public void AddIgnorePath(string path)
+        {
+            Require.NotNullOrEmpty(path, "path");
+
+            var paths = _ignoredPathList ?? new List<string>();
+            if (!paths.Any(x => x.Equals(path, StringComparison.OrdinalIgnoreCase)))
+            {
+                paths.Add(path);
+                IgnoredPaths = String.Join(", ", paths);
+            }
+        }
+
         public override bool ShouldIgnore(IFileSystemInfo info, FileChangeCollectionContext context)
         {
             if (_ignoredPathList == null || _ignoredPathList.Count == 0)

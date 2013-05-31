@@ -178,4 +178,11 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="DataGridRowStyleBase" TargetType="DataGridRow">
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#EEEEEE" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

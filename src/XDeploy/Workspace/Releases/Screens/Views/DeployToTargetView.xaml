@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
+             xmlns:cal="http://www.caliburnproject.org"
+             x:Name="Root"
+             mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <HeaderedContentControl Header="{Binding DisplayName}" Style="{StaticResource PageBody}">
         <Grid Style="{StaticResource GridPageActionedLayout}">
@@ -85,6 +87,31 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow" BasedOn="{StaticResource DataGridRowStyleBase}">
+                            <Setter Property="Tag" Value="{Binding DataContext, ElementName=Root}" />
+                            <Setter Property="ContextMenu">
+                                <Setter.Value>
+                                    <ContextMenu>
+                                        <MenuItem Header="Delete" 
+                                                  cal:Message.Attach="DeleteFile($dataContext)" 
+                                                  cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource IconDelete}" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Delete and add to ignore list" 
+                                                  cal:Message.Attach="DeleteFileAndAddToIgnoreList($dataContext)"
+                                                  cal:Action.TargetWithoutContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
+                                            <MenuItem.Icon>
+                                                <Image Style="{StaticResource IconDelete}" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.RowStyle>
                 </DataGrid>
             </StackPanel>
             <Border Grid.Row="1" Style="{StaticResource PageActions}">

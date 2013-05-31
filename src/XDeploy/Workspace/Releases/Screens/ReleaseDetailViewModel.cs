@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
+using NHibernate.Linq;
 using XDeploy.IO;
 using XDeploy.Workspace.Shell;
 
@@ -102,39 +103,61 @@ namespace XDeploy.Workspace.Releases.Screens
             AvailableTargets = new BindableCollection<AvailableTargetViewModel>();
         }
 
-        public void UpdateFrom(Release release, IEnumerable<DeploymentTarget> allTargets)
+        protected override void OnActivate()
         {
-            ReleaseId = release.Id;
-            ReleaseName = release.Name;
-            ReleaseNotes = release.ReleaseNotes;
-            DisplayName = "Release Detail - " + ReleaseName;
+            base.OnActivate();
+            Caliburn.Micro.Coroutine.BeginExecute(Load().GetEnumerator());
+        }
+        
+        public IEnumerable<IResult> Load()
+        {
+            Shell.Busy.Loading();
 
-            var viewModels = new List<AvailableTargetViewModel>();
-
-            foreach (var target in allTargets)
+            yield return new AsyncActionResult(context =>
             {
-                var targetDeploymentInfo = new AvailableTargetViewModel
-                {
-                    TargetId = target.Id,
-                    TargetName = target.Name,
-                    DeployLocationUri = target.DeployLocation.Uri,
-                    BackupLocationUri = target.BackupRootLocation == null ? null : target.BackupRootLocation.Uri,
-                    BackupFolderNameTemplate = target.BackupFolderNameTemplate,
-                    HasSetBackupLocation = target.BackupRootLocation != null && !target.BackupRootLocation.IsEmpty()
-                };
+                var workContext = _workContextAccessor.GetCurrentWorkContext();
 
-                var releaseDeploymentInfo = release.DeploymentInfos.FirstOrDefault(x => x.TargetId == target.Id);
-                if (releaseDeploymentInfo != null)
+                using (var session = workContext.OpenSession())
                 {
-                    targetDeploymentInfo.IsDeployed = true;
-                    targetDeploymentInfo.DeployedAt = releaseDeploymentInfo.DeployedAtUtc.ToLocalTime();
+                    var release = session.Get<Release>(ReleaseId);
+                    var targets = session.Query<DeploymentTarget>()
+                                         .OrderBy(x => x.Id)
+                                         .ToList();
+
+                    ReleaseName = release.Name;
+                    ReleaseNotes = release.ReleaseNotes;
+                    DisplayName = "Release Detail - " + ReleaseName;
+
+                    var viewModels = new List<AvailableTargetViewModel>();
+
+                    foreach (var target in targets)
+                    {
+                        var targetDeploymentInfo = new AvailableTargetViewModel
+                        {
+                            TargetId = target.Id,
+                            TargetName = target.Name,
+                            DeployLocationUri = target.DeployLocation.Uri,
+                            BackupLocationUri = target.BackupRootLocation == null ? null : target.BackupRootLocation.Uri,
+                            BackupFolderNameTemplate = target.BackupFolderNameTemplate,
+                            HasSetBackupLocation = target.BackupRootLocation != null && !target.BackupRootLocation.IsEmpty()
+                        };
+
+                        var releaseDeploymentInfo = release.DeploymentInfos.FirstOrDefault(x => x.TargetId == target.Id);
+                        if (releaseDeploymentInfo != null)
+                        {
+                            targetDeploymentInfo.IsDeployed = true;
+                            targetDeploymentInfo.DeployedAt = releaseDeploymentInfo.DeployedAtUtc.ToLocalTime();
+                        }
+
+                        viewModels.Add(targetDeploymentInfo);
+                    }
+
+                    AvailableTargets = new BindableCollection<AvailableTargetViewModel>(viewModels);
+                    NotifyOfPropertyChange(() => AvailableTargets);
                 }
+            });
 
-                viewModels.Add(targetDeploymentInfo);
-            }
-
-            AvailableTargets = new BindableCollection<AvailableTargetViewModel>(viewModels);
-            NotifyOfPropertyChange(() => AvailableTargets);
+            Shell.Busy.Hide();
         }
 
         public void Back()

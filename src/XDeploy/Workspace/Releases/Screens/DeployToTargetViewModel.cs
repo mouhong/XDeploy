@@ -230,6 +230,48 @@ namespace XDeploy.Workspace.Releases.Screens
             });
         }
 
+        public void DeleteFile(FileViewModel file)
+        {
+            if (IsProcessing) return;
+
+            var result = Shell.MessageBox.Confirm("Are you sure to delete file \"" + file.VirtualPath + "\"?", null, MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                DoDeleteFile(file);
+            }
+        }
+
+        public void DeleteFileAndAddToIgnoreList(FileViewModel file)
+        {
+            if (IsProcessing) return;
+
+            var result = Shell.MessageBox.Confirm("Are you sure to delete file \"" + file.VirtualPath + "\" and add it to ignore list?", null, MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                // TODO: Use a git-ignore like file instead
+                var rule = WorkContext.WorkContext.Project.IgnorantRules.FirstOrDefault() as PathIgnorantRule;
+                if (rule == null)
+                {
+                    rule = new PathIgnorantRule();
+                    WorkContext.WorkContext.Project.IgnorantRules.Add(rule);
+                }
+
+                rule.AddIgnorePath(file.VirtualPath);
+                WorkContext.WorkContext.Project.Save();
+
+                DoDeleteFile(file);
+            }
+        }
+
+        private void DoDeleteFile(FileViewModel file)
+        {
+            var directory = Directories.GetDirectory(Paths.ReleaseFiles(WorkContext.ProjectDirectory, ReleaseDetail.ReleaseName));
+            var virtualFile = directory.GetFile(file.VirtualPath);
+            virtualFile.Delete();
+            Files.Remove(file);
+        }
+
         public bool CanStartDeployment
         {
             get

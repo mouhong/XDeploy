@@ -10,4 +10,10 @@
     <Style x:Key="IconSuccess" TargetType="Image" BasedOn="{StaticResource IconBase}">
         <Setter Property="Source" Value="pack://application:,,,/Resources/Images/success.png" />
     </Style>
+    <Style x:Key="IconDelete" TargetType="Image" BasedOn="{StaticResource IconBase}">
+        <Setter Property="Source" Value="pack://application:,,,/Resources/Images/delete.png" />
+    </Style>
+    <Style x:Key="IconPackage" TargetType="Image" BasedOn="{StaticResource IconBase}">
+        <Setter Property="Source" Value="pack://application:,,,/Resources/Images/package.png" />
+    </Style>
 </ResourceDictionary>
